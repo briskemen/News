@@ -9,9 +9,9 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/android-viewpagerindicator-master" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/slidingmenu" />
+            <option value="$PROJECT_DIR$/viewpagerindicator" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

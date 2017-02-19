@@ -3,9 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Zhbj.iml" filepath="$PROJECT_DIR$/Zhbj.iml" />
-      <module fileurl="file://$PROJECT_DIR$/android-viewpagerindicator-master/android-viewpagerindicator-master.iml" filepath="$PROJECT_DIR$/android-viewpagerindicator-master/android-viewpagerindicator-master.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/slidingmenu/slidingmenu.iml" filepath="$PROJECT_DIR$/slidingmenu/slidingmenu.iml" />
+      <module fileurl="file://$PROJECT_DIR$/viewpagerindicator/viewpagerindicator.iml" filepath="$PROJECT_DIR$/viewpagerindicator/viewpagerindicator.iml" />
     </modules>
   </component>
 </project>
