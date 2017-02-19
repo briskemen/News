@@ -1,7 +1,5 @@
 package com.itheima.zhbj52.fragment;
 
-import java.util.ArrayList;
-
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -19,6 +17,8 @@ import com.itheima.zhbj52.base.impl.SettingPager;
 import com.itheima.zhbj52.base.impl.SmartServicePager;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+
+import java.util.ArrayList;
 
 /**
  * 主页内容

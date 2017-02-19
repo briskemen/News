@@ -1,7 +1,5 @@
 package com.itheima.zhbj52;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +17,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.itheima.zhbj52.utils.PrefUtils;
+
+import java.util.ArrayList;
 
 /**
  * 新手引导

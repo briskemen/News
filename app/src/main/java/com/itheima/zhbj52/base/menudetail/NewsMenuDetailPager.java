@@ -1,7 +1,5 @@
 package com.itheima.zhbj52.base.menudetail;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -18,6 +16,8 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.viewpagerindicator.TabPageIndicator;
+
+import java.util.ArrayList;
 
 /**
  * 菜单详情页-新闻

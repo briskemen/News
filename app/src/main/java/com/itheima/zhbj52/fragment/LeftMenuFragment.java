@@ -1,7 +1,5 @@
 package com.itheima.zhbj52.fragment;
 
-import java.util.ArrayList;
-
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -18,6 +16,8 @@ import com.itheima.zhbj52.domain.NewsData.NewsMenuData;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+
+import java.util.ArrayList;
 
 /**
  * 侧边栏
