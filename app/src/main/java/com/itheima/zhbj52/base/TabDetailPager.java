@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
-import android.os.Message;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.TextUtils;
 import android.view.MotionEvent;
@@ -27,9 +25,11 @@ import com.itheima.zhbj52.domain.TabData;
 import com.itheima.zhbj52.domain.TabData.TabNewsData;
 import com.itheima.zhbj52.domain.TabData.TopNewsData;
 import com.itheima.zhbj52.global.GlobalContants;
+import com.itheima.zhbj52.utils.CacheUtils;
 import com.itheima.zhbj52.utils.PrefUtils;
 import com.itheima.zhbj52.utils.ToastUtils;
 import com.itheima.zhbj52.view.RefreshListView;
+import com.itheima.zhbj52.view.TopNewsViewPager;
 import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.ViewUtils;
@@ -52,7 +52,7 @@ public class TabDetailPager extends BaseMenuDetailPager implements
     private TextView    tvText;
 
     @ViewInject(R.id.vp_news)
-    private ViewPager mViewPager;
+    private TopNewsViewPager mViewPager;
 
     @ViewInject(R.id.tv_title)
     private TextView tvTitle;// 头条新闻的标题
@@ -147,6 +147,11 @@ public class TabDetailPager extends BaseMenuDetailPager implements
 
     @Override
     public void initData() {
+        String cache = CacheUtils.getCache(mUrl, mActivity);
+        if (!TextUtils.isEmpty(cache)) {
+            parseData(cache, false);
+        }
+
         getDataFromServer();
     }
 
@@ -163,6 +168,8 @@ public class TabDetailPager extends BaseMenuDetailPager implements
                 // System.out.println("页签详情页返回结果:" + result);
 
                 parseData(result, false);
+                // 设置缓存
+                CacheUtils.SetCache(mUrl, result, mActivity);
             }
 
             @Override
@@ -240,21 +247,24 @@ public class TabDetailPager extends BaseMenuDetailPager implements
             // 自动轮播条显示
             if (mHandler == null) {
                 mHandler = new Handler() {
-                    @Override
-                    public void handleMessage(Message msg) {
+                    public void handleMessage(android.os.Message msg) {
                         int currentItem = mViewPager.getCurrentItem();
+
                         if (currentItem < mTopNewsList.size() - 1) {
                             currentItem++;
                         } else {
                             currentItem = 0;
                         }
 
-                        mViewPager.setCurrentItem(currentItem);// 切换下一个页面
-                        mHandler.sendEmptyMessageDelayed(0, 2000);// 继续延时3秒发消息,形成循环
+                        mViewPager.setCurrentItem(currentItem);// 切换到下一个页面
+                        mHandler.sendEmptyMessageDelayed(0, 3000);// 继续延时3秒发消息,
+                        // 形成循环
                     }
+
+                    ;
                 };
 
-                mHandler.sendEmptyMessageDelayed(0, 2000);
+                mHandler.sendEmptyMessageDelayed(0, 3000);// 延时3秒后发消息
             }
         } else {// 如果是加载下一页，需要将数据加入到原来的集合
             ArrayList<TabNewsData> news = mTabDetailData.data.news;
