@@ -7,7 +7,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/title_red_bg">
+        android:background="@mipmap/title_red_bg">
 
         <TextView
             android:id="@+id/tv_title"
@@ -26,7 +26,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
             android:background="@null"
-            android:src="@drawable/img_menu"/>
+            android:src="@mipmap/img_menu"/>
 
         <ImageButton
             android:id="@+id/btn_photo"

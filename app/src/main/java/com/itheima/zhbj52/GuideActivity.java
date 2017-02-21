@@ -28,8 +28,8 @@ import java.util.ArrayList;
  */
 public class GuideActivity extends Activity {
 
-	private static final int[] mImageIds = new int[] { R.drawable.guide_1,
-			R.drawable.guide_2, R.drawable.guide_3 };
+	private static final int[] mImageIds = new int[] { R.mipmap.guide_1,
+			R.mipmap.guide_2, R.mipmap.guide_3 };
 
 	private ViewPager vpGuide;
 	private ArrayList<ImageView> mImageViewList;

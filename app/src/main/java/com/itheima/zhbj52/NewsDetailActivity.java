@@ -119,7 +119,7 @@ public class NewsDetailActivity extends Activity implements View.OnClickListener
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
                 super.onProgressChanged(view, newProgress);
-                pbProgress.setVisibility(View.VISIBLE);
+                pbProgress.setVisibility(View.INVISIBLE);
             }
 
             /**

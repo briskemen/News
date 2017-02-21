@@ -71,8 +71,9 @@ public class TabDetailPager extends BaseMenuDetailPager implements
     private String  mUrl;
     private TabData mTabDetailData;
 
-    private String  mMoreUrl;// 更多页面地址
-    private Handler mHandler;
+    private String         mMoreUrl;// 更多页面地址
+    private Handler        mHandler;
+    private TopNewsAdapter mTopNewsAdapter;
 
     public TabDetailPager(Activity activity, NewsTabData newsTabData) {
         super(activity);
@@ -229,7 +230,8 @@ public class TabDetailPager extends BaseMenuDetailPager implements
             mNewsList = mTabDetailData.data.news;
 
             if (mTopNewsList != null) {
-                mViewPager.setAdapter(new TopNewsAdapter());
+                mTopNewsAdapter = new TopNewsAdapter();
+                mViewPager.setAdapter(mTopNewsAdapter);
                 mIndicator.setViewPager(mViewPager);
                 mIndicator.setSnap(true);// 支持快照显示
                 mIndicator.setOnPageChangeListener(this);
@@ -270,6 +272,7 @@ public class TabDetailPager extends BaseMenuDetailPager implements
             ArrayList<TabNewsData> news = mTabDetailData.data.news;
             mNewsList.addAll(news);
             mNewsAdapter.notifyDataSetChanged();
+            mTopNewsAdapter.notifyDataSetChanged();
         }
     }
 
@@ -305,7 +308,7 @@ public class TabDetailPager extends BaseMenuDetailPager implements
 
         public TopNewsAdapter() {
             utils = new BitmapUtils(mActivity);
-            utils.configDefaultLoadingImage(R.drawable.topnews_item_default);// 设置默认图片
+            utils.configDefaultLoadingImage(R.mipmap.topnews_item_default);// 设置默认图片
         }
 
         @Override
@@ -345,10 +348,13 @@ public class TabDetailPager extends BaseMenuDetailPager implements
     class NewsAdapter extends BaseAdapter {
 
         private BitmapUtils utils;
+        //private MyBitmapUtils utils;
 
         public NewsAdapter() {
             utils = new BitmapUtils(mActivity);
-            utils.configDefaultLoadingImage(R.drawable.pic_item_list_default);
+            utils.configDefaultLoadingImage(R.mipmap.pic_item_list_default);
+            //utils = new MyBitmapUtils();
+            //utils.configDefaultLoadingImage(R.mipmap.pic_item_list_default);
         }
 
         @Override

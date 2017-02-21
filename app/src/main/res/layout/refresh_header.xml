@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@drawable/common_listview_headview_red_arrow"/>
+            android:src="@mipmap/common_listview_headview_red_arrow"/>
 
         <ProgressBar
             android:id="@+id/pb_progress"

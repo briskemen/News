@@ -14,7 +14,7 @@
         android:background="#afff"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:src="@drawable/image_demo" />
+        android:src="@mipmap/image_demo" />
 
     <TextView
         android:id="@+id/tv_title"
