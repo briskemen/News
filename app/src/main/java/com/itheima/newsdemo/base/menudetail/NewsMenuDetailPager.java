@@ -10,12 +10,13 @@ import android.view.ViewGroup;
 import com.hello.zhbj52.R;
 import com.itheima.newsdemo.base.BaseMenuDetailPager;
 import com.itheima.newsdemo.base.TabDetailPager;
-import com.itheima.newsdemo.domain.NewsData;
+import com.itheima.newsdemo.domain.WYNewsData;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.viewpagerindicator.TabPageIndicator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 菜单详情页-新闻
@@ -25,17 +26,18 @@ public class NewsMenuDetailPager extends BaseMenuDetailPager implements
 
     private ViewPager mViewPager;
 
+    private String[] titles = new String[]{"hot"};
+
     private ArrayList<TabDetailPager> mPagerList;
 
-    private ArrayList<NewsData.NewsTabData> mNewsTabData;// 页签网络数据
+    private ArrayList<WYNewsData.AdsData> mWYNewsData;// 页签网络数据
 
     private TabPageIndicator mIndicator;
 
-    public NewsMenuDetailPager(Activity activity,
-                               ArrayList<NewsData.NewsTabData> children) {
-        super(activity);
+    List<WYNewsData.TopNews> mData;
 
-        mNewsTabData = children;
+    public NewsMenuDetailPager(Activity activity) {
+        super(activity);
     }
 
     @Override
@@ -59,10 +61,13 @@ public class NewsMenuDetailPager extends BaseMenuDetailPager implements
         mPagerList = new ArrayList();
 
         // 初始化页签数据
-        for (int i = 0; i < mNewsTabData.size(); i++) {
-            TabDetailPager pager = new TabDetailPager(mActivity, mNewsTabData.get(i));
+        /*for (int i = 0; i < mWYNewsData.size(); i++) {
+            TabDetailPager pager = new TabDetailPager(mActivity, mWYNewsData.get(i));
             mPagerList.add(pager);
-        }
+        }*/
+
+        TabDetailPager pager = new TabDetailPager(mActivity);
+        mPagerList.add(pager);
 
         mViewPager.setAdapter(new MenuDetailAdapter());
         mIndicator.setViewPager(mViewPager);// 将viewpager和mIndicator关联起来,必须在viewpager设置完adapter后才能调用
@@ -82,7 +87,7 @@ public class NewsMenuDetailPager extends BaseMenuDetailPager implements
          */
         @Override
         public CharSequence getPageTitle(int position) {
-            return mNewsTabData.get(position).title;
+            return titles[position];
         }
 
         @Override

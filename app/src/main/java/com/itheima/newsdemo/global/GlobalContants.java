@@ -11,4 +11,7 @@ public class GlobalContants {
     public static final String CATEGORIES_URL = SERVER_URL + "/categories.json";// 获取分类信息的接口
 
     public static final String PHOTOS_URL = SERVER_URL + "/photos/photos_1.json";// 获取组图信息的接口
+
+    public static final String WYTOPNEWS_URL = "http://c.m.163" +
+            ".com/nc/article/headline/T1348647909107/0-20.html";// 网易头条新闻地址
 }

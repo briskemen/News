@@ -1,17 +1,12 @@
 package com.itheima.newsdemo.base.impl;
 
 import android.app.Activity;
-import android.view.View;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.itheima.newsdemo.MainActivity;
 import com.itheima.newsdemo.base.BaseMenuDetailPager;
 import com.itheima.newsdemo.base.BasePager;
-import com.itheima.newsdemo.base.menudetail.InteractMenuDetailPager;
-import com.itheima.newsdemo.base.menudetail.NewsMenuDetailPager;
-import com.itheima.newsdemo.base.menudetail.PhotoMenuDetailPager;
-import com.itheima.newsdemo.base.menudetail.TopicMenuDetailPager;
 import com.itheima.newsdemo.domain.NewsData;
 import com.itheima.newsdemo.domain.WYNewsData;
 import com.itheima.newsdemo.global.GlobalContants;
@@ -90,13 +85,10 @@ public class WYNewsPager extends BasePager {
 
         // 准备4个菜单详情页
         mPagers = new ArrayList();
-        mPagers.add(new NewsMenuDetailPager(mActivity, mNewsData.data.get(0).children));
+       // mPagers.add(new NewsMenuDetailPager(mActivity, mNewsData.data.get(0).children));
 
        // mPagers.add(new NewsMenuDetailPager(mActivity, mWYNewsData.T1348647909107));
 
-        mPagers.add(new TopicMenuDetailPager(mActivity));
-        mPagers.add(new PhotoMenuDetailPager(mActivity, btnPhoto));// 在这里添加btnPhoto按钮
-        mPagers.add(new InteractMenuDetailPager(mActivity));
         setCurrentMenuDetailPager(0);// 设置菜单详情页-新闻为默认当前页
     }
 
@@ -113,11 +105,5 @@ public class WYNewsPager extends BasePager {
         tvTitle.setText(menuData.title);
 
         pager.initData();// 初始化当前页面的数据
-
-        if (pager instanceof PhotoMenuDetailPager) {
-            btnPhoto.setVisibility(View.VISIBLE);
-        } else {
-            btnPhoto.setVisibility(View.GONE);
-        }
     }
 }

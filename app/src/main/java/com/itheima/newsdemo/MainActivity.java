@@ -10,10 +10,10 @@ import android.widget.RadioGroup;
 
 import com.hello.zhbj52.R;
 import com.itheima.newsdemo.base.BasePager;
-import com.itheima.newsdemo.base.impl.HomePager;
+import com.itheima.newsdemo.base.impl.ZBPager;
 import com.itheima.newsdemo.base.impl.NewsCenterPager;
 import com.itheima.newsdemo.base.impl.SettingPager;
-import com.itheima.newsdemo.base.impl.SmartServicePager;
+import com.itheima.newsdemo.base.impl.TopicPager;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
@@ -46,9 +46,9 @@ public class MainActivity extends AppCompatActivity {
 
         // 初始化4个子页面
         mPagerList = new ArrayList();
-        mPagerList.add(new HomePager(this));
         mPagerList.add(new NewsCenterPager(this));
-        mPagerList.add(new SmartServicePager(this));
+        mPagerList.add(new ZBPager(this));
+        mPagerList.add(new TopicPager(this));
         mPagerList.add(new SettingPager(this));
 
         mViewPager.setAdapter(new ContentAdapter());
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.rb_news:
-                        mViewPager.setCurrentItem(0);// 设置当前页面
+                        //mViewPager.setCurrentItem(0);// 设置当前页面
                         mViewPager.setCurrentItem(0, false);// 去掉切换页面的动画
                         break;
                     case R.id.rb_zb:

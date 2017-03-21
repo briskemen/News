@@ -3,7 +3,6 @@ package com.itheima.newsdemo.base;
 import android.app.Activity;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.hello.zhbj52.R;
@@ -20,7 +19,6 @@ public class BasePager {
 
     public FrameLayout flContent;// 内容
 
-    public ImageButton btnPhoto;// 组图切换按钮
 
     public BasePager(Activity activity) {
         mActivity = activity;
@@ -35,7 +33,6 @@ public class BasePager {
 
         tvTitle = (TextView) mRootView.findViewById(R.id.tv_title);
         flContent = (FrameLayout) mRootView.findViewById(R.id.fl_content);
-        btnPhoto = (ImageButton) mRootView.findViewById(R.id.btn_photo);
     }
 
 

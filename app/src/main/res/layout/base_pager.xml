@@ -15,20 +15,10 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:text="智慧北京"
+            android:text="网易新闻"
             android:textColor="#fff"
             android:textSize="22sp"/>
 
-        <ImageButton
-            android:id="@+id/btn_photo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="5dp"
-            android:background="@null"
-            android:src="@mipmap/icon_pic_list_type"
-            />
     </RelativeLayout>
 
     <FrameLayout

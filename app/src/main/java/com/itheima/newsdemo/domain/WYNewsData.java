@@ -66,9 +66,29 @@ public class WYNewsData {
         public String tag;      //photoset
         public String title;    //看客：疲惫的中国人 "破烂王"睡瓶子上
         public String url;      //3R710001|2243723
+
+        @Override
+        public String toString() {
+            return "AdsData{" +
+                    "imgsrc='" + imgsrc + '\'' +
+                    ", skipID='" + skipID + '\'' +
+                    ", skipType='" + skipType + '\'' +
+                    ", subtitle='" + subtitle + '\'' +
+                    ", tag='" + tag + '\'' +
+                    ", title='" + title + '\'' +
+                    ", url='" + url + '\'' +
+                    '}';
+        }
     }
 
     public class ImgextraData {
         public String imgsrc;
+    }
+
+    @Override
+    public String toString() {
+        return "WYNewsData{" +
+                "T1348647909107=" + T1348647909107 +
+                '}';
     }
 }

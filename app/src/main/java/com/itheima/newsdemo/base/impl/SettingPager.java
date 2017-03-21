@@ -10,8 +10,6 @@ import com.itheima.newsdemo.base.BasePager;
 /**
  * 设置页面
  * 
- * @author Kevin
- * 
  */
 public class SettingPager extends BasePager {
 
@@ -23,7 +21,7 @@ public class SettingPager extends BasePager {
 	public void initData() {
 		//System.out.println("初始化设置数据....");
 		
-		tvTitle.setText("设置");
+		tvTitle.setText("我");
 
 		TextView text = new TextView(mActivity);
 		text.setText("设置");
