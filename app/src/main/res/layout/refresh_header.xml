@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="2015-03-10 17:07:07"
-            android:textColor="#afff"
+            android:textColor="#000"
             android:textSize="16sp"/>
     </LinearLayout>
 

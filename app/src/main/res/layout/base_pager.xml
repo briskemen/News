@@ -20,15 +20,6 @@
             android:textSize="22sp"/>
 
         <ImageButton
-            android:id="@+id/btn_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
-            android:background="@null"
-            android:src="@mipmap/img_menu"/>
-
-        <ImageButton
             android:id="@+id/btn_photo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -37,7 +28,7 @@
             android:layout_marginRight="5dp"
             android:background="@null"
             android:src="@mipmap/icon_pic_list_type"
-            android:visibility="gone"/>
+            />
     </RelativeLayout>
 
     <FrameLayout
