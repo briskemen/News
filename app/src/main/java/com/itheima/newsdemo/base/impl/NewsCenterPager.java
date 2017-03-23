@@ -7,8 +7,7 @@ import com.google.gson.Gson;
 import com.itheima.newsdemo.base.BaseMenuDetailPager;
 import com.itheima.newsdemo.base.BasePager;
 import com.itheima.newsdemo.base.menudetail.NewsMenuDetailPager;
-import com.itheima.newsdemo.domain.WYNewsData;
-import com.itheima.newsdemo.global.GlobalContants;
+import com.itheima.newsdemo.domain.WYTabListData;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.ResponseInfo;
@@ -22,7 +21,7 @@ import java.util.ArrayList;
  */
 public class NewsCenterPager extends BasePager {
 
-    private WYNewsData mWYNewsData;// 网易新闻头条数据
+    // private WYNewsData mWYNewsData;// 网易新闻头条数据
 
     public NewsCenterPager(Activity activity) {
         super(activity);
@@ -31,11 +30,16 @@ public class NewsCenterPager extends BasePager {
     @Override
     public void initData() {
         tvTitle.setText("新闻");
-        //getDataFromServer();
 
-        mPagers = new ArrayList<>();
-        mPagers.add(new NewsMenuDetailPager(mActivity));
-        setCurrentMenuDetailPager(0);
+        // http://192.168.0.100:8080/zhbj/categories.json
+       /* String cache = CacheUtils.getCache(GlobalContants.CATEGORIES_URL,
+                mActivity);
+
+        if (!TextUtils.isEmpty(cache)) {// 如果缓存存在,直接解析数据, 无需访问网路
+            parseData(cache);
+        }*/
+
+        getDataFromServer();// 不管有没有缓存, 都获取最新数据, 保证数据最新
     }
 
     /**
@@ -45,14 +49,15 @@ public class NewsCenterPager extends BasePager {
         HttpUtils utils = new HttpUtils();
 
         // 使用xutils发送请求
-        utils.send(HttpRequest.HttpMethod.GET, GlobalContants.WYTOPNEWS_URL,
+        utils.send(HttpRequest.HttpMethod.GET, "http://c.m.163" +
+                ".com/nc/topicset/android/subscribe/manage/listspecial.html",
                 new RequestCallBack<String>() {
 
                     // 访问成功, 在主线程运行
                     @Override
                     public void onSuccess(ResponseInfo responseInfo) {
                         String result = (String) responseInfo.result;
-                        System.out.println("返回结果:" + result);
+                        // System.out.println("返回结果:" + result);
 
                         parseData(result);
                     }
@@ -77,11 +82,12 @@ public class NewsCenterPager extends BasePager {
      */
     protected void parseData(String result) {
         Gson gson = new Gson();
-        mWYNewsData = gson.fromJson(result, WYNewsData.class);
-        System.out.println("解析结果:" + mWYNewsData);
+        WYTabListData mWYNewsData = gson.fromJson(result, WYTabListData.class);
+        //System.out.println("解析结果:" + mWYNewsData);
 
         mPagers = new ArrayList<>();
-        mPagers.add(new NewsMenuDetailPager(mActivity));
+        //ArrayList<WYTabListData.TListEntity> tList
+        mPagers.add(new NewsMenuDetailPager(mActivity, mWYNewsData.tList));
         setCurrentMenuDetailPager(0);
     }
 
@@ -95,7 +101,7 @@ public class NewsCenterPager extends BasePager {
 
         // 设置当前页的标题
         //WYNewsData.TopNews menuData = mWYNewsData.T1348647909107.get(position);
-        tvTitle.setText("title");
+        tvTitle.setText("新闻");
 
         pager.initData();// 初始化当前页面的数据
     }

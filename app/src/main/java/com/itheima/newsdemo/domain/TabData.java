@@ -4,8 +4,7 @@ import java.util.ArrayList;
 
 /**
  * 页签详情页数据
- *
- * @author Kevin
+ * URL:http://192.168.0.100:8080/zhbj//photos/photos_1.json
  */
 public class TabData {
 

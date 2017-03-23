@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.hello.zhbj52.R;
 
 /**
- * 主页下5个子页面的基类
+ * 主页下4个子页面的基类
  */
 public class BasePager {
 
@@ -40,5 +40,6 @@ public class BasePager {
      * 初始化数据
      */
     public void initData() {
+
     }
 }

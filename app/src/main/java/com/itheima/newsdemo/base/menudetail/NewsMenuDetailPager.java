@@ -11,6 +11,7 @@ import com.hello.zhbj52.R;
 import com.itheima.newsdemo.base.BaseMenuDetailPager;
 import com.itheima.newsdemo.base.TabDetailPager;
 import com.itheima.newsdemo.domain.WYNewsData;
+import com.itheima.newsdemo.domain.WYTabListData;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.viewpagerindicator.TabPageIndicator;
@@ -26,8 +27,6 @@ public class NewsMenuDetailPager extends BaseMenuDetailPager implements
 
     private ViewPager mViewPager;
 
-    private String[] titles = new String[]{"hot"};
-
     private ArrayList<TabDetailPager> mPagerList;
 
     private ArrayList<WYNewsData.AdsData> mWYNewsData;// 页签网络数据
@@ -36,8 +35,12 @@ public class NewsMenuDetailPager extends BaseMenuDetailPager implements
 
     List<WYNewsData.TopNews> mData;
 
-    public NewsMenuDetailPager(Activity activity) {
+    // 头条边栏
+    public List<WYTabListData.TListEntity> mTListEntity;
+
+    public NewsMenuDetailPager(Activity activity, List<WYTabListData.TListEntity> tList) {
         super(activity);
+        mTListEntity = tList;
     }
 
     @Override
@@ -61,13 +64,13 @@ public class NewsMenuDetailPager extends BaseMenuDetailPager implements
         mPagerList = new ArrayList();
 
         // 初始化页签数据
-        /*for (int i = 0; i < mWYNewsData.size(); i++) {
-            TabDetailPager pager = new TabDetailPager(mActivity, mWYNewsData.get(i));
+        for (int i = 0; i < mTListEntity.size(); i++) {
+            TabDetailPager pager = new TabDetailPager(mActivity, mTListEntity.get(i));
             mPagerList.add(pager);
-        }*/
+        }
 
-        TabDetailPager pager = new TabDetailPager(mActivity);
-        mPagerList.add(pager);
+        // TabDetailPager pager = new TabDetailPager(mActivity,);
+        // mPagerList.add(pager);
 
         mViewPager.setAdapter(new MenuDetailAdapter());
         mIndicator.setViewPager(mViewPager);// 将viewpager和mIndicator关联起来,必须在viewpager设置完adapter后才能调用
@@ -87,7 +90,7 @@ public class NewsMenuDetailPager extends BaseMenuDetailPager implements
          */
         @Override
         public CharSequence getPageTitle(int position) {
-            return titles[position];
+            return mTListEntity.get(position).tname;
         }
 
         @Override

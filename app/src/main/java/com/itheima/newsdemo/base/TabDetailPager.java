@@ -1,10 +1,12 @@
 package com.itheima.newsdemo.base;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +19,12 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.hello.zhbj52.R;
+import com.itheima.newsdemo.NewsDetailActivity;
 import com.itheima.newsdemo.domain.WYNewsData;
+import com.itheima.newsdemo.domain.WYTabListData;
 import com.itheima.newsdemo.global.GlobalContants;
 import com.itheima.newsdemo.utils.CacheUtils;
+import com.itheima.newsdemo.utils.PrefUtils;
 import com.itheima.newsdemo.utils.ToastUtils;
 import com.itheima.newsdemo.view.RefreshListView;
 import com.itheima.newsdemo.view.TopNewsViewPager;
@@ -33,6 +38,7 @@ import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.viewpagerindicator.CirclePageIndicator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,19 +47,11 @@ import java.util.List;
 public class TabDetailPager extends BaseMenuDetailPager implements
         OnPageChangeListener {
 
-    // private NewsTabData mTabData;
-
-    private WYNewsData.AdsData mTabData;
-
-    private TextView tvText;
-
     @ViewInject(R.id.vp_news)
     private TopNewsViewPager mViewPager;
 
     @ViewInject(R.id.tv_title)
     private TextView tvTitle;// 头条新闻的标题
-
-    //private ArrayList<TopNewsData> mTopNewsList;// 头条新闻数据集合
 
     @ViewInject(R.id.indicator)
     private CirclePageIndicator mIndicator;// 头条新闻位置指示器
@@ -61,31 +59,40 @@ public class TabDetailPager extends BaseMenuDetailPager implements
     @ViewInject(R.id.lv_list)
     private RefreshListView lvList;// 新闻列表
 
-    //private ArrayList<TabNewsData> mNewsList; // 新闻数据集合
-    private NewsAdapter            mNewsAdapter;
+    private ArrayList<WYNewsData.AdsData> mPhotoData = new ArrayList<>(); // 头条新闻图片新闻数据集合
 
-    private String  mUrl = GlobalContants.WYTOPNEWS_URL;
-    //private TabData mTabDetailData;
+    private List<WYNewsData.TopNews> mTopNewses = new ArrayList<>();// 头条新闻数据集合
 
-    private String         mMoreUrl;// 更多页面地址
-    private Handler        mHandler;
+    private TextView tvText;
+
+    //    private ArrayList<TabData.TopNewsData> mTopNewsList;// 头条新闻数据集合
+    //     private ArrayList<TabData.TabNewsData> mNewsList; // 新闻数据集合
+
+    private NewsAdapter    mNewsAdapter;
     private TopNewsAdapter mTopNewsAdapter;
 
-    List<WYNewsData.TopNews> mdata;
+    private int index = 0;
+    private String mUrl;// 新闻URL
+    //private TabData mTabDetailData;
+    private String mMoreUrl;// 更多页面地址
 
-    public TabDetailPager(Activity activity) {
+    private boolean isPullRefresh;// 是否下拉刷新
+
+    private Handler mHandler;
+
+    public WYTabListData.TListEntity mTabData;
+
+    public TabDetailPager(Activity activity, WYTabListData.TListEntity tListEntity) {
         super(activity);
-        // mUrl = GlobalContants.WYTOPNEWS_URL + mTabData.imgsrc;
-        // mUrl = mTabData.imgsrc;
-        System.out.println("地址：" + mUrl);
+        mTabData = tListEntity;
+        mUrl = GlobalContants.NewsUrl + mTabData.tid + index + GlobalContants.endUrl;
     }
 
     @Override
     public View initViews() {
         View view = View.inflate(mActivity, R.layout.tab_detail_pager, null);
         // 加载头布局
-        View headerView = View.inflate(mActivity, R.layout.list_header_topnews,
-                null);
+        View headerView = View.inflate(mActivity, R.layout.list_header_topnews, null);
 
         ViewUtils.inject(this, view);
         ViewUtils.inject(this, headerView);
@@ -97,11 +104,14 @@ public class TabDetailPager extends BaseMenuDetailPager implements
         lvList.SetOnRefreshListener(new RefreshListView.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                isPullRefresh = true;
                 getDataFromServer();
             }
 
             @Override
             public void onLoadMore() {
+                index += 20;
+                mMoreUrl = GlobalContants.NewsUrl + mTabData.tid + index + GlobalContants.endUrl;
                 if (mMoreUrl != null) {
                     getMoreDataFromServer();
                 } else {
@@ -116,22 +126,27 @@ public class TabDetailPager extends BaseMenuDetailPager implements
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // 在本地记录已读状态
-               /* String ids = PrefUtils.getString(mActivity, "read_ids", "");
-                String readIds = mNewsList.get(position).id;
+               String ids = PrefUtils.getString(mActivity, "read_ids", "");
+                /**
+                 * 这里修改了，不过这个id不确定
+                 */
+                String readIds = mTopNewses.get(position).cid;
                 if (!ids.contains(readIds)) {
                     ids = ids + readIds + ",";
                     PrefUtils.setString(mActivity, "read_ids", ids);
                 }
-
                 changeReadState(view);// 实现局部界面刷新, 这个view就是被点击的item布局对象
+
+                String docid = mTopNewses.get(position - 1).docid;
 
                 // 跳转新闻详情页面
                 Intent intent = new Intent();
                 intent.setClass(mActivity, NewsDetailActivity.class);
-                intent.putExtra("url", mNewsList.get(position).url);
-                mActivity.startActivity(intent);*/
+                intent.putExtra("url", "https://c.m.163.com/news/a/" + docid + ".html");
+                mActivity.startActivity(intent);
             }
         });
+
         return view;
     }
 
@@ -147,10 +162,10 @@ public class TabDetailPager extends BaseMenuDetailPager implements
 
     @Override
     public void initData() {
-        /*String cache = CacheUtils.getCache(mUrl, mActivity);
+        String cache = CacheUtils.getCache(mUrl, mActivity);
         if (!TextUtils.isEmpty(cache)) {
             parseData(cache, false);
-        }*/
+        }
 
         getDataFromServer();
     }
@@ -164,8 +179,8 @@ public class TabDetailPager extends BaseMenuDetailPager implements
 
             @Override
             public void onSuccess(ResponseInfo<String> responseInfo) {
-                String result = (String) responseInfo.result;
-                // System.out.println("页签详情页返回结果:" + result);
+                String result = responseInfo.result;
+                System.out.println("页签详情页返回结果:" + result);
                 parseData(result, false);
                 lvList.onRefreshComplete(true);
                 // 设置缓存
@@ -207,6 +222,7 @@ public class TabDetailPager extends BaseMenuDetailPager implements
 
     private WYNewsData mWYNewsData;// 网易新闻头条数据
 
+
     /**
      * 解析数据
      *
@@ -216,39 +232,30 @@ public class TabDetailPager extends BaseMenuDetailPager implements
     protected void parseData(String result, boolean isMore) {
 
         Gson gson = new Gson();
-        mWYNewsData = gson.fromJson(result, WYNewsData.class);
-
-       // Gson gson = new Gson();
-        //mTabDetailData = gson.fromJson(result, TabData.class);
-        //System.out.println("页签详情解析:" + mTabDetailData);
-
-       /* String more = mTabDetailData.data.more;// 处理下一页数据
-        if (!TextUtils.isEmpty(more)) {
-            mMoreUrl = GlobalContants.SERVER_URL + more;
-        } else {
-            mMoreUrl = null;
-        }*/
-
-        mMoreUrl = mUrl;
+        WYNewsData data = gson.fromJson(result, WYNewsData.class);
 
         if (!isMore) {
-            //mTopNewsList = mTabDetailData.data.topnews;
+            if (isPullRefresh) {
+                mTopNewses.clear();
+                mPhotoData.clear();
+            }
 
-            //mNewsList = mTabDetailData.data.news;
+            mTopNewses = data.T1348647909107;
+            mPhotoData = data.T1348647909107.get(0).ads;
 
-            if (mWYNewsData.T1348647909107.get(0).ads != null) {
+            if (mPhotoData != null) {
                 mTopNewsAdapter = new TopNewsAdapter();
                 mViewPager.setAdapter(mTopNewsAdapter);
+
                 mIndicator.setViewPager(mViewPager);
                 mIndicator.setSnap(true);// 支持快照显示
                 mIndicator.setOnPageChangeListener(this);
-
                 mIndicator.onPageSelected(0);// 让指示器重新定位到第一个点
 
-                tvTitle.setText(mWYNewsData.T1348647909107.get(0).ads.get(0).title);
+                tvTitle.setText(mPhotoData.get(0).title);
             }
 
-            if (mWYNewsData.T1348647909107 != null) {
+            if (mTopNewses != null) {
                 mNewsAdapter = new NewsAdapter();
                 lvList.setAdapter(mNewsAdapter);
             }
@@ -259,27 +266,25 @@ public class TabDetailPager extends BaseMenuDetailPager implements
                     public void handleMessage(android.os.Message msg) {
                         int currentItem = mViewPager.getCurrentItem();
 
-                        if (currentItem < mWYNewsData.T1348647909107.get(0).ads.size() - 1) {
+                        if (currentItem < mPhotoData.size() - 1) {
                             currentItem++;
                         } else {
                             currentItem = 0;
                         }
 
                         mViewPager.setCurrentItem(currentItem);// 切换到下一个页面
-                        mHandler.sendEmptyMessageDelayed(0, 3000);// 继续延时3秒发消息,
-                        // 形成循环
+                        mHandler.sendEmptyMessageDelayed(0, 3000);// 继续延时3秒发消息,形成循环
                     }
-
-
                 };
 
                 mHandler.sendEmptyMessageDelayed(0, 3000);// 延时3秒后发消息
             }
         } else {// 如果是加载下一页，需要将数据加入到原来的集合
-            //ArrayList<TabNewsData> news = mTabDetailData.data.news;
-            //mNewsList.addAll(news);
+           // ArrayList<TabData.TabNewsData> news = mTabDetailData.data.news;
+           // mNewsList.addAll(news);
+            // 这里应该加载的是新闻列表对象
+            mTopNewses.addAll(data.T1348647909107);
             mNewsAdapter.notifyDataSetChanged();
-            mTopNewsAdapter.notifyDataSetChanged();
         }
     }
 
@@ -320,7 +325,8 @@ public class TabDetailPager extends BaseMenuDetailPager implements
 
         @Override
         public int getCount() {
-            return mWYNewsData.T1348647909107.get(0).ads.size();
+            ArrayList<WYNewsData.AdsData> adsDatas = mTopNewses.get(0).ads;
+            return adsDatas.size();
         }
 
         @Override
@@ -333,12 +339,11 @@ public class TabDetailPager extends BaseMenuDetailPager implements
             ImageView image = new ImageView(mActivity);
             image.setScaleType(ScaleType.FIT_XY);// 基于控件大小填充图片
 
-            String url = mWYNewsData.T1348647909107.get(0).ads.get(position).imgsrc;
+            String url = mTopNewses.get(0).ads.get(position).imgsrc;
             utils.display(image, url);// 传递imagView对象和图片地址
 
             container.addView(image);
 
-            //System.out.println("instantiateItem....." + position);
             image.setOnTouchListener(new TopNewsTouchListener());// 设置触摸监听
             return image;
         }
@@ -366,12 +371,12 @@ public class TabDetailPager extends BaseMenuDetailPager implements
 
         @Override
         public int getCount() {
-            return mWYNewsData.T1348647909107.size();
+            return mTopNewses.size();
         }
 
         @Override
         public WYNewsData.TopNews getItem(int position) {
-            return mWYNewsData.T1348647909107.get(position);
+            return mTopNewses.get(position);
         }
 
         @Override
@@ -436,6 +441,6 @@ public class TabDetailPager extends BaseMenuDetailPager implements
     @Override
     public void onPageSelected(int pos) {
         //TopNewsData topNewsData = mTopNewsList.get(arg0);
-        tvTitle.setText(mWYNewsData.T1348647909107.get(0).ads.get(pos).title);
+        tvTitle.setText(mPhotoData.get(pos).title);
     }
 }

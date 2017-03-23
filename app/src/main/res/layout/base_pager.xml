@@ -6,7 +6,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:background="@mipmap/title_red_bg">
 
         <TextView
@@ -17,7 +17,7 @@
             android:layout_centerVertical="true"
             android:text="网易新闻"
             android:textColor="#fff"
-            android:textSize="22sp"/>
+            android:textSize="15sp"/>
 
     </RelativeLayout>
 

@@ -285,6 +285,5 @@ public class RefreshListView extends ListView implements AbsListView.OnScrollLis
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int
             totalItemCount) {
-
     }
 }
