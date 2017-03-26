@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.hello.zhbj52.R;
 import com.itheima.newsdemo.NewsDetailActivity;
 import com.itheima.newsdemo.domain.WYNewsData;
@@ -37,6 +38,9 @@ import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.viewpagerindicator.CirclePageIndicator;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,10 +86,13 @@ public class TabDetailPager extends BaseMenuDetailPager implements
 
     public WYTabListData.TListEntity mTabData;
 
-    public TabDetailPager(Activity activity, WYTabListData.TListEntity tListEntity) {
+    private String mtabid;
+
+    public TabDetailPager(Activity activity, WYTabListData.TListEntity tListEntity, String tabid) {
         super(activity);
         mTabData = tListEntity;
-        mUrl = GlobalContants.NewsUrl + mTabData.tid + index + GlobalContants.endUrl;
+        mUrl = GlobalContants.NewsUrl + mTabData.tid + "/" + index + GlobalContants.endUrl;
+        mtabid = tabid;
     }
 
     @Override
@@ -126,7 +133,7 @@ public class TabDetailPager extends BaseMenuDetailPager implements
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // 在本地记录已读状态
-               String ids = PrefUtils.getString(mActivity, "read_ids", "");
+                String ids = PrefUtils.getString(mActivity, "read_ids", "");
                 /**
                  * 这里修改了，不过这个id不确定
                  */
@@ -138,6 +145,8 @@ public class TabDetailPager extends BaseMenuDetailPager implements
                 changeReadState(view);// 实现局部界面刷新, 这个view就是被点击的item布局对象
 
                 String docid = mTopNewses.get(position - 1).docid;
+
+               // System.out.println("docid:"+docid);
 
                 // 跳转新闻详情页面
                 Intent intent = new Intent();
@@ -231,8 +240,26 @@ public class TabDetailPager extends BaseMenuDetailPager implements
      */
     protected void parseData(String result, boolean isMore) {
 
+        String s = null;
+        try {
+
+            // 解决方法1
+            JSONObject jsonObject = new JSONObject(result);
+            s = jsonObject.getString(mtabid);
+            // System.out.println("result: " + s);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         Gson gson = new Gson();
-        WYNewsData data = gson.fromJson(result, WYNewsData.class);
+        List<WYNewsData.TopNews> data = gson.fromJson(s, new TypeToken<List<WYNewsData.TopNews>>() {
+        }.getType());
+
+        // 解决方法2
+        // JsonArray jsonArray = new JsonParser().parse(result).getAsJsonObject().getAsJsonArray
+        // (mtabid);
+        // List<WYNewsData.TopNews> data = gson.fromJson(jsonArray, new TypeToken<List<WYNewsData
+        // .TopNews>>() {}.getType());
 
         if (!isMore) {
             if (isPullRefresh) {
@@ -240,8 +267,15 @@ public class TabDetailPager extends BaseMenuDetailPager implements
                 mPhotoData.clear();
             }
 
-            mTopNewses = data.T1348647909107;
-            mPhotoData = data.T1348647909107.get(0).ads;
+            mTopNewses = data;
+            if (data.get(0).ads == null) {
+                data.get(0).ads = new ArrayList<>();
+                WYNewsData.AdsData adsData = new WYNewsData.AdsData();
+                adsData.imgsrc = data.get(0).imgsrc;
+                adsData.title = data.get(0).title;
+                data.get(0).ads.add(adsData);
+            }
+            mPhotoData = data.get(0).ads;
 
             if (mPhotoData != null) {
                 mTopNewsAdapter = new TopNewsAdapter();
@@ -280,10 +314,10 @@ public class TabDetailPager extends BaseMenuDetailPager implements
                 mHandler.sendEmptyMessageDelayed(0, 3000);// 延时3秒后发消息
             }
         } else {// 如果是加载下一页，需要将数据加入到原来的集合
-           // ArrayList<TabData.TabNewsData> news = mTabDetailData.data.news;
-           // mNewsList.addAll(news);
+            // ArrayList<TabData.TabNewsData> news = mTabDetailData.data.news;
+            // mNewsList.addAll(news);
             // 这里应该加载的是新闻列表对象
-            mTopNewses.addAll(data.T1348647909107);
+            mTopNewses.addAll(data);
             mNewsAdapter.notifyDataSetChanged();
         }
     }

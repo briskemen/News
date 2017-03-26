@@ -65,7 +65,7 @@ public class NewsMenuDetailPager extends BaseMenuDetailPager implements
 
         // 初始化页签数据
         for (int i = 0; i < mTListEntity.size(); i++) {
-            TabDetailPager pager = new TabDetailPager(mActivity, mTListEntity.get(i));
+            TabDetailPager pager = new TabDetailPager(mActivity, mTListEntity.get(i), mTListEntity.get(i).tid);
             mPagerList.add(pager);
         }
 

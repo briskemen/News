@@ -65,7 +65,7 @@ public class WYNewsData {
         public String  tname;//	头条  这个很重要，相当于是标题分栏的名字。比如：头条，体育，财经等等
     }
 
-    public class AdsData {
+    public static class AdsData {
         public String imgsrc;
         public String skipID;   //3R710001|2243723
         public String skipType;     //photoset
