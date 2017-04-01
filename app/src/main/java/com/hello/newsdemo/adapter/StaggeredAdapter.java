@@ -7,7 +7,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.hello.newsdemo.domain.WomenBean;
+import com.hello.newsdemo.domain.Girl;
+import com.hello.newsdemo.utils.BitmapUtils;
+import com.hello.newsdemo.utils.UIUtils;
 import com.hello.zhbj52.R;
 
 import java.util.List;
@@ -31,9 +33,9 @@ import java.util.List;
  **/
 public class StaggeredAdapter extends RecyclerView.Adapter<StaggeredAdapter.MyHolder> {
     private Context         context;
-    private List<WomenBean> data;
+    private List<Girl.DataEntity> data;
 
-    public StaggeredAdapter(Context context, List<WomenBean> data) {
+    public StaggeredAdapter(Context context, List<Girl.DataEntity> data) {
         this.context = context;
         this.data = data;
     }
@@ -47,6 +49,12 @@ public class StaggeredAdapter extends RecyclerView.Adapter<StaggeredAdapter.MyHo
 
     @Override
     public void onBindViewHolder(MyHolder myHolder, int position) {//填充数据
+        if (position%2 == 0){
+            myHolder.mIvIcon.getLayoutParams().height = UIUtils.dip2px(context,200);
+        }else {
+            myHolder.mIvIcon.getLayoutParams().height = UIUtils.dip2px(context,250);
+        }
+
         myHolder.setDataAndRefreshUI(data.get(position));
     }
 
@@ -75,9 +83,9 @@ public class StaggeredAdapter extends RecyclerView.Adapter<StaggeredAdapter.MyHo
          *
          * @param dataBean
          */
-        public void setDataAndRefreshUI(WomenBean dataBean) {
-            mTvName.setText(dataBean.text);
-            mIvIcon.setImageResource(dataBean.iconId);
+        public void setDataAndRefreshUI(Girl.DataEntity dataBean) {
+            mTvName.setText(dataBean.date);
+            BitmapUtils.display(context,mIvIcon,dataBean.image_url);
         }
     }
 }

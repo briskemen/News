@@ -13,21 +13,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.hello.newsdemo.adapter.StaggeredAdapter;
-import com.hello.newsdemo.domain.WomenBean;
+import com.hello.newsdemo.domain.Girl;
 import com.hello.newsdemo.global.GlobalUrl;
+import com.hello.newsdemo.http.Callback;
+import com.hello.newsdemo.http.HttpUtils;
 import com.hello.newsdemo.utils.CacheUtils;
 import com.hello.newsdemo.utils.ShareUtils;
 import com.hello.newsdemo.utils.ToastUtils;
 import com.hello.zhbj52.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 美女相片
@@ -35,13 +34,13 @@ import java.util.ArrayList;
 public class PicActivity extends AppCompatActivity {
     private static final String TAG = "PicActivity";
 
-    private ArrayList<WomenBean> mStaggeredDataList = new ArrayList<>();
-
     private FloatingActionButton mFab;
     private SwipeRefreshLayout   mSwipeRefreshLayout;
     private RecyclerView         mRecyclerView;
 
-    private int[] mStaggeredIcons = new int[]{R.mipmap.p44};
+    StaggeredAdapter adapter;
+
+    private List<Girl.DataEntity> mdata = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +60,8 @@ public class PicActivity extends AppCompatActivity {
         });
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        initData();
-        initStaggeredGridAdapterV();
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id
-                .swipe_refresh);
         mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
         // 设置下拉刷新监听器
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -89,6 +85,8 @@ public class PicActivity extends AppCompatActivity {
                 }).start();
             }
         });
+
+        initData();
     }
 
     /**
@@ -127,18 +125,11 @@ public class PicActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
 
         //设置adapter
-        StaggeredAdapter adapter = new StaggeredAdapter(PicActivity.this, mStaggeredDataList);
+        adapter = new StaggeredAdapter(PicActivity.this, mdata);
         mRecyclerView.setAdapter(adapter);
     }
 
     private void initData() {
-        for (int i = 0; i < mStaggeredIcons.length; i++) {
-            int iconId = mStaggeredIcons[i];
-            WomenBean dataBean = new WomenBean();
-            dataBean.iconId = iconId;
-            dataBean.text = "我是第几" + i + "张";
-            mStaggeredDataList.add(dataBean);
-        }
 
         String cache = CacheUtils.getCache(GlobalUrl.womenPicUrl, PicActivity.this);
         if (!TextUtils.isEmpty(cache)) {// 如果缓存存在,直接解析数据, 无需访问网路
@@ -153,44 +144,29 @@ public class PicActivity extends AppCompatActivity {
      */
     private void getDataFromServer() {
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-
-        StringRequest request = new StringRequest(GlobalUrl.womenPicUrl, new Response
-                .Listener<String>() {
-
+        HttpUtils.get(getApplicationContext(), GlobalUrl.womenPicUrl, new Callback() {
             @Override
             public void onResponse(String response) {
                 parseData(response);
             }
-        }, new Response.ErrorListener() {
+
             @Override
             public void onErrorResponse(VolleyError error) {
                 ToastUtils.showToast(PicActivity.this, "网络出错，请稍后再试");
             }
         });
 
-        requestQueue.add(request);
     }
 
     /**
      * 解析网络数据
      *
-     * @param responseData
+     * @param result
      */
-    protected void parseData(String responseData) {
+    protected void parseData(String result) {
         Gson gson = new Gson();
-        /*String result = null;
-        try {
-            // 解决方法1
-            JSONObject jsonObject = new JSONObject(responseData);
-            result = jsonObject.getString();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        List<WomenPicJson.DataEntity> data = gson.fromJson(result, new TypeToken<List<WomenPicJson
-                .DataEntity>>() {
-        }.getType());*/
-
+        Girl data = gson.fromJson(result,Girl.class);
+        mdata = data.data;
+        initStaggeredGridAdapterV();
     }
 }
