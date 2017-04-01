@@ -11,17 +11,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.hello.newsdemo.global.GlobalUrl;
-import com.hello.newsdemo.utils.LogUtils;
 import com.hello.newsdemo.utils.ShareUtils;
 import com.hello.newsdemo.utils.ToastUtils;
 import com.hello.zhbj52.R;
-import com.lidroid.xutils.HttpUtils;
-import com.lidroid.xutils.exception.HttpException;
-import com.lidroid.xutils.http.ResponseInfo;
-import com.lidroid.xutils.http.callback.RequestCallBack;
-import com.lidroid.xutils.http.client.HttpRequest;
+
 
 public class RecommendActivity extends AppCompatActivity {
     private static final String TAG = "RecommendActivity";
@@ -113,24 +113,24 @@ public class RecommendActivity extends AppCompatActivity {
      * 从服务器获取数据
      */
     private void getDataFromServer() {
-        HttpUtils utils = new HttpUtils();
-        // 使用xUtils发送请求
-        utils.send(HttpRequest.HttpMethod.GET, mTopNewsUrl, new RequestCallBack<String>() {
-            // 访问成功, 在主线程运行
-            @Override
-            public void onSuccess(ResponseInfo responseInfo) {
-                String result = (String) responseInfo.result;
-                LogUtils.e(TAG, "result:" + result);
-                parseData(result);
-            }
 
-            // 访问失败, 在主线程运行
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        StringRequest request = new StringRequest(GlobalUrl.womenPicUrl, new Response
+                .Listener<String>() {
+
             @Override
-            public void onFailure(HttpException error, String msg) {
-                error.printStackTrace();
+            public void onResponse(String response) {
+                parseData(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
                 ToastUtils.showToast(RecommendActivity.this, "网络出错，请稍后再试");
             }
         });
+
+        requestQueue.add(request);
     }
 
     /**

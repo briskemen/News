@@ -16,12 +16,16 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hello.newsdemo.activity.NewsDetailActivity;
 import com.hello.newsdemo.global.GlobalUrl;
+import com.hello.newsdemo.http.Callback;
+import com.hello.newsdemo.http.HttpUtils;
 import com.hello.newsdemo.json.WYNewsJson;
 import com.hello.newsdemo.json.WYTabListJson;
+import com.hello.newsdemo.utils.BitmapUtils;
 import com.hello.newsdemo.utils.CacheUtils;
 import com.hello.newsdemo.utils.LogUtils;
 import com.hello.newsdemo.utils.PrefUtils;
@@ -29,14 +33,6 @@ import com.hello.newsdemo.utils.ToastUtils;
 import com.hello.newsdemo.view.RefreshListView;
 import com.hello.newsdemo.view.TopNewsViewPager;
 import com.hello.zhbj52.R;
-import com.lidroid.xutils.BitmapUtils;
-import com.lidroid.xutils.HttpUtils;
-import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.exception.HttpException;
-import com.lidroid.xutils.http.ResponseInfo;
-import com.lidroid.xutils.http.callback.RequestCallBack;
-import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
-import com.lidroid.xutils.view.annotation.ViewInject;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import org.json.JSONException;
@@ -53,16 +49,12 @@ public class TabDetailPager extends BaseMenuDetailPager implements
 
     private static final String TAG = "TabDetailPager";
 
-    @ViewInject(R.id.vp_news)
     private TopNewsViewPager mViewPager;
 
-    @ViewInject(R.id.tv_title)
     private TextView tvTitle;// 头条新闻的标题
 
-    @ViewInject(R.id.indicator)
     private CirclePageIndicator mIndicator;// 头条新闻位置指示器
 
-    @ViewInject(R.id.lv_list)
     private RefreshListView lvList;// 新闻列表
 
     private ArrayList<WYNewsJson.AdsData> mPhotoData = new ArrayList<>(); // 头条新闻图片新闻数据集合
@@ -98,8 +90,10 @@ public class TabDetailPager extends BaseMenuDetailPager implements
         // 加载头布局
         View headerView = View.inflate(mActivity, R.layout.list_header_topnews, null);
 
-        ViewUtils.inject(this, view);
-        ViewUtils.inject(this, headerView);
+        lvList = (RefreshListView) view.findViewById(R.id.lv_list);
+        mViewPager = (TopNewsViewPager) headerView.findViewById(R.id.vp_news);
+        tvTitle = (TextView) headerView.findViewById(R.id.tv_title);
+        mIndicator = (CirclePageIndicator) headerView.findViewById(R.id.indicator);
 
         // 将头条新闻以头布局的形式加给listView
         lvList.addHeaderView(headerView);
@@ -185,22 +179,19 @@ public class TabDetailPager extends BaseMenuDetailPager implements
      * 从服务器获取数据
      */
     private void getDataFromServer() {
-        HttpUtils utils = new HttpUtils();
-        utils.send(HttpMethod.GET, mUrl, new RequestCallBack<String>() {
 
+        HttpUtils.get(mActivity.getApplicationContext(), mUrl, new Callback() {
             @Override
-            public void onSuccess(ResponseInfo<String> responseInfo) {
-                String result = responseInfo.result;
-                parseData(result, false);
+            public void onResponse(String response) {
+                parseData(response, false);
                 // 设置缓存
-                CacheUtils.SetCache(mUrl, result, mActivity);
+                CacheUtils.SetCache(mUrl, response, mActivity);
             }
 
             @Override
-            public void onFailure(HttpException error, String msg) {
-                error.printStackTrace();
-                ToastUtils.showToast(mActivity, msg);
-                lvList.onRefreshComplete(false);
+            public void onErrorResponse(VolleyError error) {
+                ToastUtils.showToast(mActivity, error.getMessage());
+                lvList.onRefreshComplete(true);
             }
         });
     }
@@ -209,19 +200,17 @@ public class TabDetailPager extends BaseMenuDetailPager implements
      * 从服务器获取更多数据
      */
     private void getMoreDataFromServer() {
-        HttpUtils utils = new HttpUtils();
-        utils.send(HttpMethod.GET, mMoreUrl, new RequestCallBack<String>() {
+
+        HttpUtils.get(mActivity.getApplicationContext(), mMoreUrl, new Callback() {
             @Override
-            public void onSuccess(ResponseInfo<String> responseInfo) {
-                String result = responseInfo.result;
-                parseData(result, true);
+            public void onResponse(String response) {
+                parseData(response, true);
                 lvList.onRefreshComplete(true);// 收起下拉刷新控件
             }
 
             @Override
-            public void onFailure(HttpException e, String s) {
-                e.printStackTrace();// 捕捉错误信息
-                ToastUtils.showToast(mActivity, s);
+            public void onErrorResponse(VolleyError error) {
+                ToastUtils.showToast(mActivity, error.getMessage());
                 lvList.onRefreshComplete(false);
             }
         });
@@ -350,11 +339,7 @@ public class TabDetailPager extends BaseMenuDetailPager implements
      */
     class WYNewsAdapter extends PagerAdapter {
 
-        private BitmapUtils utils;
-
         public WYNewsAdapter() {
-            utils = new BitmapUtils(mActivity);
-            utils.configDefaultLoadingImage(R.mipmap.topnews_item_default);// 设置默认图片
         }
 
         @Override
@@ -374,7 +359,7 @@ public class TabDetailPager extends BaseMenuDetailPager implements
             image.setScaleType(ScaleType.FIT_XY);// 基于控件大小填充图片
 
             String url = mNewsList.get(0).ads.get(position).imgsrc;
-            utils.display(image, url);// 传递imageView对象和图片地址
+            BitmapUtils.display(mActivity,image,url);
 
             container.addView(image);
             image.setOnTouchListener(new TopNewsTouchListener());// 设置触摸监听
@@ -394,8 +379,6 @@ public class TabDetailPager extends BaseMenuDetailPager implements
         private BitmapUtils utils;
 
         public NewsAdapter() {
-            utils = new BitmapUtils(mActivity);
-            utils.configDefaultLoadingImage(R.mipmap.pic_item_list_default);
         }
 
         @Override
@@ -434,7 +417,7 @@ public class TabDetailPager extends BaseMenuDetailPager implements
             holder.tvDate.setText(item.ptime);
             holder.tvHeelStick.setText(item.replyCount + "跟贴");
 
-            utils.display(holder.ivPic, item.imgsrc);
+            BitmapUtils.display(mActivity,holder.ivPic, item.imgsrc);
 
             String ids = PrefUtils.getString(mActivity, "read_ids", "");
             /**

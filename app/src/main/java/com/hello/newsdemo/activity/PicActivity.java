@@ -13,20 +13,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.hello.newsdemo.adapter.StaggeredAdapter;
 import com.hello.newsdemo.domain.WomenBean;
 import com.hello.newsdemo.global.GlobalUrl;
 import com.hello.newsdemo.utils.CacheUtils;
-import com.hello.newsdemo.utils.LogUtils;
 import com.hello.newsdemo.utils.ShareUtils;
 import com.hello.newsdemo.utils.ToastUtils;
 import com.hello.zhbj52.R;
-import com.lidroid.xutils.HttpUtils;
-import com.lidroid.xutils.exception.HttpException;
-import com.lidroid.xutils.http.ResponseInfo;
-import com.lidroid.xutils.http.callback.RequestCallBack;
-import com.lidroid.xutils.http.client.HttpRequest;
 
 import java.util.ArrayList;
 
@@ -42,15 +41,7 @@ public class PicActivity extends AppCompatActivity {
     private SwipeRefreshLayout   mSwipeRefreshLayout;
     private RecyclerView         mRecyclerView;
 
-    private int[] mStaggeredIcons = new int[]{R.mipmap.p1, R.mipmap.p2, R.mipmap.p3, R
-            .mipmap.p4, R.mipmap.p5, R.mipmap.p6, R.mipmap.p7, R.mipmap.p8, R.mipmap.p9, R
-            .mipmap.p10, R.mipmap.p11, R.mipmap.p12, R.mipmap.p13, R.mipmap.p14, R.mipmap
-            .p15, R.mipmap.p16, R.mipmap.p17, R.mipmap.p18, R.mipmap.p19, R.mipmap.p20, R
-            .mipmap.p21, R.mipmap.p22, R.mipmap.p23, R.mipmap.p24, R.mipmap.p25, R.mipmap
-            .p26, R.mipmap.p27, R.mipmap.p28, R.mipmap.p29, R.mipmap.p30, R.mipmap.p31, R
-            .mipmap.p32, R.mipmap.p33, R.mipmap.p34, R.mipmap.p35, R.mipmap.p36, R.mipmap
-            .p37, R.mipmap.p38, R.mipmap.p39, R.mipmap.p40, R.mipmap.p41, R.mipmap.p42, R
-            .mipmap.p43, R.mipmap.p44};
+    private int[] mStaggeredIcons = new int[]{R.mipmap.p44};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,26 +152,24 @@ public class PicActivity extends AppCompatActivity {
      * 从服务器获取数据
      */
     private void getDataFromServer() {
-        HttpUtils utils = new HttpUtils();
-        // 使用xUtils发送请求
-        utils.send(HttpRequest.HttpMethod.GET, GlobalUrl.womenPicUrl,
-                new RequestCallBack<String>() {
 
-                    // 访问成功, 在主线程运行
-                    @Override
-                    public void onSuccess(ResponseInfo responseInfo) {
-                        String result = (String) responseInfo.result;
-                        LogUtils.e(TAG, "result:" + result);
-                        parseData(result);
-                    }
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
 
-                    // 访问失败, 在主线程运行
-                    @Override
-                    public void onFailure(HttpException error, String msg) {
-                        error.printStackTrace();
-                        ToastUtils.showToast(PicActivity.this, "网络出错，请稍后再试");
-                    }
-                });
+        StringRequest request = new StringRequest(GlobalUrl.womenPicUrl, new Response
+                .Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                parseData(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ToastUtils.showToast(PicActivity.this, "网络出错，请稍后再试");
+            }
+        });
+
+        requestQueue.add(request);
     }
 
     /**

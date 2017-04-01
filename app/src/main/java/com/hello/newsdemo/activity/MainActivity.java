@@ -15,22 +15,23 @@ import com.hello.newsdemo.base.impl.RecommendPager;
 import com.hello.newsdemo.base.impl.SettingPager;
 import com.hello.newsdemo.base.impl.TopicPager;
 import com.hello.zhbj52.R;
-import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * 主页面
  */
 public class MainActivity extends AppCompatActivity {
 
-    @ViewInject(R.id.rg_group)
-    private RadioGroup rgGroup;
+    @BindView(R.id.rg_group)
+    public RadioGroup rgGroup;
 
-    @ViewInject(R.id.vp_content)
-    private ViewPager mViewPager;
+    @BindView(R.id.vp_content)
+    public ViewPager mViewPager;
 
     private List<BasePager> mPagerList;
 
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ViewUtils.inject(this); // 注入view和事件
+        ButterKnife.bind(this); // 注入view和事件
         initData();
     }
 

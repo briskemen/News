@@ -3,19 +3,17 @@ package com.hello.newsdemo.base.impl;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
+import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.hello.newsdemo.base.BaseMenuDetailPager;
 import com.hello.newsdemo.base.BasePager;
 import com.hello.newsdemo.base.menudetail.NewsMenuDetailPager;
 import com.hello.newsdemo.global.GlobalUrl;
+import com.hello.newsdemo.http.Callback;
+import com.hello.newsdemo.http.HttpUtils;
 import com.hello.newsdemo.json.WYTabListJson;
 import com.hello.newsdemo.utils.CacheUtils;
 import com.hello.newsdemo.utils.ToastUtils;
-import com.lidroid.xutils.HttpUtils;
-import com.lidroid.xutils.exception.HttpException;
-import com.lidroid.xutils.http.ResponseInfo;
-import com.lidroid.xutils.http.callback.RequestCallBack;
-import com.lidroid.xutils.http.client.HttpRequest;
 
 import java.util.ArrayList;
 
@@ -43,25 +41,19 @@ public class NewsCenterPager extends BasePager {
      * 从服务器获取数据
      */
     private void getDataFromServer() {
-        HttpUtils utils = new HttpUtils();
-        // 使用xUtils发送请求
-        utils.send(HttpRequest.HttpMethod.GET, GlobalUrl.tListUrl,
-                new RequestCallBack<String>() {
 
-                    // 访问成功, 在主线程运行
-                    @Override
-                    public void onSuccess(ResponseInfo responseInfo) {
-                        String result = (String) responseInfo.result;
-                        parseData(result);
-                    }
+        HttpUtils.get(mActivity.getApplicationContext(), GlobalUrl.tListUrl, new Callback() {
+            @Override
+            public void onResponse(String response) {
+                parseData(response);
+            }
 
-                    // 访问失败, 在主线程运行
-                    @Override
-                    public void onFailure(HttpException error, String msg) {
-                        error.printStackTrace();
-                        ToastUtils.showToast(mActivity, "网络出错，请稍后再试");
-                    }
-                });
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ToastUtils.showToast(mActivity, "网络出错，请稍后再试");
+            }
+        });
+
     }
 
     /**
