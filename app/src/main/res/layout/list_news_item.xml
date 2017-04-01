@@ -20,13 +20,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="18dp"
         android:layout_toRightOf="@+id/iv_pic"
         android:ellipsize="end"
         android:maxLines="2"
         android:text="新闻标题新闻标题新闻标题新闻标题新闻标题新闻标题新闻标题新闻标题新闻标题新闻标题新闻标题新闻标题新闻标题新闻标题新闻标题新闻标题"
         android:textColor="#000"
-        android:textSize="20sp"/>
+        android:textSize="18sp"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -39,9 +39,9 @@
             android:id="@+id/tv_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2015-03-16 16:20"
+            android:text="2015-03-11"
             android:textColor="#7000"
-            android:textSize="16sp"/>
+            android:textSize="15sp"/>
 
         <TextView
             android:id="@+id/tv_heel_stick"
@@ -51,6 +51,6 @@
             android:layout_marginRight="3dp"
             android:text="222跟贴"
             android:textColor="#000"
-            android:textSize="16sp"/>
+            android:textSize="15sp"/>
     </RelativeLayout>
 </RelativeLayout>

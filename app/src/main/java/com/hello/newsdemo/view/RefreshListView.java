@@ -267,7 +267,6 @@ public class RefreshListView extends ListView implements AbsListView.OnScrollLis
     public void onScrollStateChanged(AbsListView view, int scrollState) {
         if (scrollState == SCROLL_STATE_IDLE || scrollState == SCROLL_STATE_FLING) {
             if (getLastVisiblePosition() == getCount() - 1 && !isLoadingMore) {// 加载到最后
-                // Log.e("refresh", "到底了");
                 mFooterView.setPadding(0, 0, 0, 0);// 显示
                 setSelection(getCount() - 1);//改变listView位置
                 isLoadingMore = true;

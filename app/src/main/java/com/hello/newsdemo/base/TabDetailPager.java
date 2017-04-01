@@ -422,7 +422,7 @@ public class TabDetailPager extends BaseMenuDetailPager implements
                 holder.ivPic = (ImageView) convertView.findViewById(R.id.iv_pic);
                 holder.tvTitle = (TextView) convertView.findViewById(R.id.tv_title);
                 holder.tvDate = (TextView) convertView.findViewById(R.id.tv_date);
-
+                holder.tvHeelStick = (TextView) convertView.findViewById(R.id.tv_heel_stick);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -432,6 +432,7 @@ public class TabDetailPager extends BaseMenuDetailPager implements
 
             holder.tvTitle.setText(item.title);
             holder.tvDate.setText(item.ptime);
+            holder.tvHeelStick.setText(item.replyCount);
 
             utils.display(holder.ivPic, item.imgsrc);
 
@@ -454,6 +455,7 @@ public class TabDetailPager extends BaseMenuDetailPager implements
     static class ViewHolder {
         public TextView  tvTitle;
         public TextView  tvDate;
+        public TextView  tvHeelStick;
         public ImageView ivPic;
     }
 
