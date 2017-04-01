@@ -432,7 +432,7 @@ public class TabDetailPager extends BaseMenuDetailPager implements
 
             holder.tvTitle.setText(item.title);
             holder.tvDate.setText(item.ptime);
-            holder.tvHeelStick.setText(item.replyCount);
+            holder.tvHeelStick.setText(item.replyCount + "跟贴");
 
             utils.display(holder.ivPic, item.imgsrc);
 
