@@ -134,21 +134,28 @@ public class TabDetailPager extends BaseMenuDetailPager implements
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // 在本地记录已读状态
                 String ids = PrefUtils.getString(mActivity, "read_ids", "");
-                LogUtils.i(TAG, "ids1:" + ids);
+                // LogUtils.i(TAG, "ids1:" + ids);
 
-                String readIds = mNewsList.get(position).postid;
-                LogUtils.i(TAG, "readIds:" + readIds);
-                LogUtils.i(TAG, "readIds:" + readIds);
-                if (!ids.contains(readIds)) {
-                    ids = ids + readIds + ",";
+                position = position - 2;
+
+                String docid = mNewsList.get(position).docid;
+                // LogUtils.i(TAG, "readIds:" + readIds);
+                // LogUtils.i(TAG, "readIds:" + readIds);
+                if (!ids.contains(docid)) {
+                    ids = ids + docid + ",";
                     PrefUtils.setString(mActivity, "read_ids", ids);
                 }
+
+                if (docid.contains("_")){
+                    String[] docids = docid.split("_");
+                    docid = docids[0];
+                }
+
                 changeReadState(view);// 实现局部界面刷新, 这个view就是被点击的item布局对象
-                String postId = mNewsList.get(position - 1).postid;
                 // 跳转新闻详情页面
                 Intent intent = new Intent();
                 intent.setClass(mActivity, NewsDetailActivity.class);
-                intent.putExtra("url", GlobalUrl.getNewsDetailUrl(postId));
+                intent.putExtra("url", GlobalUrl.getNewsDetailUrl(docid));
                 mActivity.startActivity(intent);
             }
         });

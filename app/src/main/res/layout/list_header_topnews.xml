@@ -30,7 +30,7 @@
             android:layout_alignParentRight="true"
             android:padding="10dip"
             app:fillColor="#f00"
-            app:pageColor="#431a1919"
+            app:pageColor="#fff"
             app:radius="3dp"
             app:strokeWidth="0dp"/>
     </RelativeLayout>
