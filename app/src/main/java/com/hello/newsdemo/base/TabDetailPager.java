@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
+import com.github.jdsjlzx.ItemDecoration.DividerDecoration;
 import com.github.jdsjlzx.interfaces.OnItemClickListener;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.interfaces.OnRefreshListener;
@@ -87,10 +88,24 @@ public class TabDetailPager extends BaseMenuDetailPager implements OnPageChangeL
         tvTitle = (TextView) headerView.findViewById(R.id.tv_title);
         mIndicator = (CirclePageIndicator) headerView.findViewById(R.id.indicator);
 
+        // 添加分割线
+        DividerDecoration divider = new DividerDecoration.Builder(mActivity)
+                .setHeight(R.dimen.default_divider_height)
+                .setPadding(R.dimen.default_divider_padding)
+                .setColorResource(R.color.split)
+                .build();
+        mRecyclerView.addItemDecoration(divider);
+        mRecyclerView.setHasFixedSize(true);
+
         mAdapter = new NewsAdapter(mActivity);
         mLAdapter = new LRecyclerViewAdapter(mAdapter);
         mRecyclerView.setAdapter(mLAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
+
+        //设置头部加载颜色
+        mRecyclerView.setHeaderViewColor(R.color.colorAccent, R.color.dark ,android.R.color.white);
+        //设置底部加载颜色
+        mRecyclerView.setFooterViewColor(R.color.colorAccent, R.color.dark ,android.R.color.white);
 
         // 将头条新闻以头布局的形式加给RecyclerView
         mLAdapter.addHeaderView(headerView);

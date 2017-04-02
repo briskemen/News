@@ -10,9 +10,7 @@
         android:layout_height="70dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:background="#afff"
-        android:padding="1dp"
-        android:scaleType="fitXY"/>
+        android:scaleType="centerCrop"/>
 
     <TextView
         android:id="@+id/tv_title"
@@ -23,8 +21,8 @@
         android:layout_toRightOf="@+id/iv_pic"
         android:ellipsize="end"
         android:maxLines="2"
-        android:textColor="#000"
-        android:textSize="18sp"/>
+        android:textColor="@color/color_text_1"
+        android:textSize="16sp"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -37,8 +35,8 @@
             android:id="@+id/tv_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#7000"
-            android:textSize="15sp"/>
+            android:textColor="@color/color_text_2"
+            android:textSize="14sp"/>
 
         <TextView
             android:id="@+id/tv_heel_stick"
@@ -46,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="3dp"
-            android:textColor="#000"
-            android:textSize="15sp"/>
+            android:textColor="@color/color_text_2"
+            android:textSize="14sp"/>
     </RelativeLayout>
 </RelativeLayout>
