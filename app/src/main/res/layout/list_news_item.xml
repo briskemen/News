@@ -12,8 +12,7 @@
         android:layout_alignParentTop="true"
         android:background="#afff"
         android:padding="1dp"
-        android:scaleType="fitXY"
-        android:src="@mipmap/image_demo"/>
+        android:scaleType="fitXY"/>
 
     <TextView
         android:id="@+id/tv_title"
@@ -24,7 +23,6 @@
         android:layout_toRightOf="@+id/iv_pic"
         android:ellipsize="end"
         android:maxLines="2"
-        android:text="新闻标题新闻标题新闻标题新闻标题新闻标题新闻标题新闻标题新闻标题新闻标题新闻标题新闻标题新闻标题新闻标题新闻标题新闻标题新闻标题"
         android:textColor="#000"
         android:textSize="18sp"/>
 
@@ -39,7 +37,6 @@
             android:id="@+id/tv_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2015-03-11"
             android:textColor="#7000"
             android:textSize="15sp"/>
 
@@ -49,7 +46,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="3dp"
-            android:text="222跟贴"
             android:textColor="#000"
             android:textSize="15sp"/>
     </RelativeLayout>

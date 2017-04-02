@@ -8,10 +8,10 @@ import com.google.gson.Gson;
 import com.hello.newsdemo.base.BaseMenuDetailPager;
 import com.hello.newsdemo.base.BasePager;
 import com.hello.newsdemo.base.menudetail.NewsMenuDetailPager;
+import com.hello.newsdemo.domain.TabData;
 import com.hello.newsdemo.global.GlobalUrl;
 import com.hello.newsdemo.http.Callback;
 import com.hello.newsdemo.http.HttpUtils;
-import com.hello.newsdemo.json.WYTabListJson;
 import com.hello.newsdemo.utils.CacheUtils;
 import com.hello.newsdemo.utils.ToastUtils;
 
@@ -63,10 +63,10 @@ public class NewsCenterPager extends BasePager {
      */
     protected void parseData(String result) {
         Gson gson = new Gson();
-        WYTabListJson mWYNewsData = gson.fromJson(result, WYTabListJson.class);
+        TabData tabData = gson.fromJson(result, TabData.class);
 
         mPagers = new ArrayList<>();
-        mPagers.add(new NewsMenuDetailPager(mActivity, mWYNewsData.tList));
+        mPagers.add(new NewsMenuDetailPager(mActivity, tabData.tList));
         setCurrentMenuDetailPager(0);
     }
 

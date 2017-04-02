@@ -2,9 +2,16 @@ package com.hello.newsdemo.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
@@ -14,6 +21,7 @@ import com.hello.newsdemo.base.impl.NewsCenterPager;
 import com.hello.newsdemo.base.impl.RecommendPager;
 import com.hello.newsdemo.base.impl.SettingPager;
 import com.hello.newsdemo.base.impl.TopicPager;
+import com.hello.newsdemo.utils.ToastUtils;
 import com.hello.zhbj52.R;
 
 import java.util.ArrayList;
@@ -33,14 +41,74 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.vp_content)
     public ViewPager mViewPager;
 
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+
+    @BindView(R.id.drawer_layout)
+    DrawerLayout   mDrawerLayout;
+    @BindView(R.id.nav_view)
+    NavigationView mNavigationMenu;
+
+    private ActionBarDrawerToggle mToggle;
+
     private List<BasePager> mPagerList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this); // 注入view和事件
+        initView();
+        initActionBarToggle();
+        initNavigationMenu();
         initData();
+    }
+
+    private void initView() {
+        setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+        mToolbar.setTitle("news");
+        setSupportActionBar(mToolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);// 让导航按钮显示
+            actionBar.setHomeAsUpIndicator(R.mipmap.img_menu);// 设置导航按钮图标
+        }
+    }
+
+    private void initActionBarToggle() {
+        mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.open, R.string.close);
+        mToggle.syncState();// 同步状态的方法
+        mDrawerLayout.addDrawerListener(mToggle); //设置mDrawerLayout拖动的监听
+    }
+
+    private void initNavigationMenu() {
+        mNavigationMenu.setCheckedItem(R.id.nav_news);// 将news设为默认选中
+        mNavigationMenu.setNavigationItemSelectedListener(new NavigationView
+                .OnNavigationItemSelectedListener() {
+
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.nav_news:
+                        mDrawerLayout.closeDrawers();
+                        break;
+                    case R.id.nav_recommend:
+                        ToastUtils.showToast(MainActivity.this, "推荐");
+                        mDrawerLayout.closeDrawers();
+                        break;
+                    case R.id.nav_women:
+                        ToastUtils.showToast(MainActivity.this, "美女");
+                        mDrawerLayout.closeDrawers();
+                        break;
+                    case R.id.nav_setting:
+                        ToastUtils.showToast(MainActivity.this, "设置");
+                        mDrawerLayout.closeDrawers();
+                        break;
+                    default:
+                        break;
+                }
+                return true;
+            }
+        });
     }
 
     public void initData() {
@@ -66,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
                         mViewPager.setCurrentItem(0, false);// 去掉切换页面的动画
                         break;
                     case R.id.rb_recommend:
-                         mViewPager.setCurrentItem(1, false);// 设置当前页面
+                        mViewPager.setCurrentItem(1, false);// 设置当前页面
                         break;
                     case R.id.rb_women:
                         //mViewPager.setCurrentItem(2, false);// 设置当前页面

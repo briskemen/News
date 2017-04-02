@@ -55,7 +55,6 @@ public class PicActivity extends AppCompatActivity {
     private LRecyclerViewAdapter mLAdapter;
     private int pn = 0;
     // private boolean isLoadMore;
-
     // private List<Girl.DataEntity> mdata = new ArrayList<>();
 
     @Override
@@ -104,6 +103,7 @@ public class PicActivity extends AppCompatActivity {
         adapter = new StaggeredAdapter(PicActivity.this);
         mLAdapter = new LRecyclerViewAdapter(adapter);
         mRecyclerView.setAdapter(mLAdapter);
+
         mRecyclerView.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
@@ -146,6 +146,7 @@ public class PicActivity extends AppCompatActivity {
         // mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

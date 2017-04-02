@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_height="wrap_content"
+    >
 
-    <com.hello.newsdemo.view.RefreshListView
+    <com.github.jdsjlzx.recyclerview.LRecyclerView
+        android:id="@+id/rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <!--<com.hello.newsdemo.view.RefreshListView
         android:id="@+id/lv_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:cacheColorHint="#fff"
-        android:layout_weight="1" >
-    </com.hello.newsdemo.view.RefreshListView>
+        android:layout_weight="1"
+        android:cacheColorHint="#fff">
+    </com.hello.newsdemo.view.RefreshListView>-->
 
-</LinearLayout>
+</RelativeLayout>

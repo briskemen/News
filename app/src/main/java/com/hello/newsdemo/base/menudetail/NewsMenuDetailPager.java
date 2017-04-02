@@ -1,6 +1,7 @@
 package com.hello.newsdemo.base.menudetail;
 
 import android.app.Activity;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -9,9 +10,8 @@ import android.view.ViewGroup;
 
 import com.hello.newsdemo.base.BaseMenuDetailPager;
 import com.hello.newsdemo.base.TabDetailPager;
-import com.hello.newsdemo.json.WYTabListJson;
+import com.hello.newsdemo.domain.TabData;
 import com.hello.zhbj52.R;
-import com.viewpagerindicator.TabPageIndicator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,25 +23,28 @@ public class NewsMenuDetailPager extends BaseMenuDetailPager implements
         OnPageChangeListener {
 
     private ViewPager mViewPager;
-    private TabPageIndicator mIndicator;
+    // private TabPageIndicator mIndicator;
+    private TabLayout mIndicator;
 
     private ArrayList<TabDetailPager> mPagerList;
     // 头条边栏
-    public List<WYTabListJson.TListEntity> mTListEntity;
+    public List<TabData.TabList> mTabData;
 
-    public NewsMenuDetailPager(Activity activity, List<WYTabListJson.TListEntity> tList) {
+    public NewsMenuDetailPager(Activity activity, List<TabData.TabList> tList) {
         super(activity);
-        mTListEntity = tList;
+        mTabData = tList;
     }
 
     @Override
     public View initViews() {
         View view = View.inflate(mActivity, R.layout.news_menu_detail, null);
         mViewPager = (ViewPager) view.findViewById(R.id.vp_menu_detail);
-        mIndicator = (TabPageIndicator) view.findViewById(R.id.indicator);
+        mViewPager.addOnPageChangeListener(this);
+
+        mIndicator = (TabLayout) view.findViewById(R.id.tab);
         // mViewPager.setOnPageChangeListener(this);注意:当viewpager和Indicator绑定时,
         // 滑动监听需要设置给Indicator而不是viewpager
-        mIndicator.setOnPageChangeListener(this);
+        // mIndicator.setOnPageChangeListener(this);
         return view;
     }
 
@@ -50,13 +53,14 @@ public class NewsMenuDetailPager extends BaseMenuDetailPager implements
         mPagerList = new ArrayList();
 
         // 初始化页签数据
-        for (int i = 0; i < mTListEntity.size(); i++) {
-            TabDetailPager pager = new TabDetailPager(mActivity, mTListEntity.get(i), mTListEntity.get(i).tid);
+        for (int i = 0; i < mTabData.size(); i++) {
+            TabDetailPager pager = new TabDetailPager(mActivity, mTabData.get(i));
             mPagerList.add(pager);
         }
 
         mViewPager.setAdapter(new MenuDetailAdapter());
-        mIndicator.setViewPager(mViewPager);// 将viewpager和mIndicator关联起来,必须在viewpager设置完adapter后才能调用
+        // 将viewpager和mIndicator关联起来,必须在viewpager设置完adapter后才能调用
+        mIndicator.setupWithViewPager(mViewPager);
     }
 
     class MenuDetailAdapter extends PagerAdapter {
@@ -66,7 +70,7 @@ public class NewsMenuDetailPager extends BaseMenuDetailPager implements
          */
         @Override
         public CharSequence getPageTitle(int position) {
-            return mTListEntity.get(position).tname;
+            return mTabData.get(position).tname;
         }
 
         @Override
