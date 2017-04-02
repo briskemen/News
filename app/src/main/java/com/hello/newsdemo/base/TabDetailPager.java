@@ -102,10 +102,16 @@ public class TabDetailPager extends BaseMenuDetailPager implements OnPageChangeL
         mRecyclerView.setAdapter(mLAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
 
+        // 设置下拉刷新和加载更多的样式
+        /*mRecyclerView.setRefreshProgressStyle(ProgressStyle.LineSpinFadeLoader);
+        mRecyclerView.setArrowImageView(R.drawable.ic_pulltorefresh_arrow);
+        mRecyclerView.setLoadingMoreProgressStyle(ProgressStyle.BallSpinFadeLoader);*/
+
         //设置头部加载颜色
         mRecyclerView.setHeaderViewColor(R.color.colorAccent, R.color.dark ,android.R.color.white);
         //设置底部加载颜色
         mRecyclerView.setFooterViewColor(R.color.colorAccent, R.color.dark ,android.R.color.white);
+        mRecyclerView.setFooterViewHint("拼命加载中","已经全部为你呈现了","网络不给力啊，点击再试一次吧");
 
         // 将头条新闻以头布局的形式加给RecyclerView
         mLAdapter.addHeaderView(headerView);

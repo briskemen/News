@@ -114,7 +114,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         public void setDataAndRefreshUI(int pos){
             TabNewsData data = mData.get(pos);
             tvTitle.setText(data.title);
-            tvDate.setText(data.ptime);
+            tvDate.setText(data.source);
             tvHeelStick.setText(data.replyCount + "跟贴");
             BitmapUtils.display(context,ivPic, data.imgsrc);
             String ids = PrefUtils.getString(context, "read_ids", "");
