@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
     private void initView() {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        mToolbar.setTitle("news");
+        mToolbar.setTitle(R.string.app_name);
         setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
