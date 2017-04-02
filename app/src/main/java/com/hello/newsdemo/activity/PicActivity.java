@@ -1,11 +1,9 @@
 package com.hello.newsdemo.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -14,6 +12,11 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.android.volley.VolleyError;
+import com.github.jdsjlzx.interfaces.OnItemClickListener;
+import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
+import com.github.jdsjlzx.interfaces.OnRefreshListener;
+import com.github.jdsjlzx.recyclerview.LRecyclerView;
+import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.google.gson.Gson;
 import com.hello.newsdemo.adapter.StaggeredAdapter;
 import com.hello.newsdemo.domain.Girl;
@@ -28,41 +31,43 @@ import com.hello.zhbj52.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * 美女相片
  */
 public class PicActivity extends AppCompatActivity {
     private static final String TAG = "PicActivity";
 
-    private FloatingActionButton mFab;
-    private SwipeRefreshLayout   mSwipeRefreshLayout;
-    private RecyclerView         mRecyclerView;
+    @BindView(R.id.fab)
+    FloatingActionButton mFab;
 
-    StaggeredAdapter adapter;
+    // SwipeRefreshLayout   mSwipeRefreshLayout;
 
-    private List<Girl.DataEntity> mdata = new ArrayList<>();
+    @BindView(R.id.recycler_view)
+    LRecyclerView mRecyclerView;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
+    private StaggeredAdapter     adapter;
+    private LRecyclerViewAdapter mLAdapter;
+    private int pn = 0;
+    // private boolean isLoadMore;
+
+    // private List<Girl.DataEntity> mdata = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_pic);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        mFab = (FloatingActionButton) findViewById(R.id.fab);
+        initView();
+        initRecyclerView();
+        initData();
 
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //finish();
-                ToastUtils.showToast(PicActivity.this, "点我点我");
-            }
-        });
-
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
-
-        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
+        /*mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
         // 设置下拉刷新监听器
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -84,9 +89,70 @@ public class PicActivity extends AppCompatActivity {
                     }
                 }).start();
             }
+        });*/
+    }
+
+    private void initRecyclerView() {
+        mRecyclerView = (LRecyclerView) findViewById(R.id.recycler_view);
+        // mRecyclerView.setPullRefreshEnabled(true);
+        //设置layoutManager
+        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2,
+                StaggeredGridLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
+
+        //设置adapter
+        adapter = new StaggeredAdapter(PicActivity.this);
+        mLAdapter = new LRecyclerViewAdapter(adapter);
+        mRecyclerView.setAdapter(mLAdapter);
+        mRecyclerView.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                pn++;
+                getDataFromServer();
+            }
         });
 
-        initData();
+        mRecyclerView.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                adapter.clear();
+                // mLAdapter.notifyDataSetChanged();
+                pn = 0;
+                getDataFromServer();
+            }
+        });
+
+        mLAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                enterImageScaleActivity(position);
+            }
+        });
+    }
+
+    private void enterImageScaleActivity(int position) {
+        Intent intent = new Intent(this,ImageActivity.class);
+        intent.putExtra("position", position);
+        ArrayList<String> data = new ArrayList<>();
+        for (int i = 0; i < adapter.getDataList().size(); i++) {
+            data.add(adapter.getDataList().get(i).image_url);
+        }
+        //传入一个集合
+        intent.putStringArrayListExtra("imageUrls", data);
+        startActivity(intent);
+    }
+
+    private void initView() {
+        // mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
+        ButterKnife.bind(this);
+        setSupportActionBar(toolbar);
+        mFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //finish();
+                ToastUtils.showToast(PicActivity.this, "点我点我");
+            }
+        });
     }
 
     /**
@@ -118,7 +184,7 @@ public class PicActivity extends AppCompatActivity {
     /**
      * 初始化纵向的瀑布流
      */
-    private void initStaggeredGridAdapterV() {
+    /*private void initAdapter() {
         //设置layoutManager
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2,
                 StaggeredGridLayoutManager.VERTICAL);
@@ -126,12 +192,12 @@ public class PicActivity extends AppCompatActivity {
 
         //设置adapter
         adapter = new StaggeredAdapter(PicActivity.this, mdata);
-        mRecyclerView.setAdapter(adapter);
-    }
-
+        mLAdapter = new LRecyclerViewAdapter(adapter);
+        mRecyclerView.setAdapter(mLAdapter);
+    }*/
     private void initData() {
 
-        String cache = CacheUtils.getCache(GlobalUrl.womenPicUrl, PicActivity.this);
+        String cache = CacheUtils.getCache(GlobalUrl.getGirlsData(pn), PicActivity.this);
         if (!TextUtils.isEmpty(cache)) {// 如果缓存存在,直接解析数据, 无需访问网路
             parseData(cache);
         }
@@ -144,7 +210,7 @@ public class PicActivity extends AppCompatActivity {
      */
     private void getDataFromServer() {
 
-        HttpUtils.get(getApplicationContext(), GlobalUrl.womenPicUrl, new Callback() {
+        HttpUtils.get(getApplicationContext(), GlobalUrl.getGirlsData(pn), new Callback() {
             @Override
             public void onResponse(String response) {
                 parseData(response);
@@ -165,8 +231,17 @@ public class PicActivity extends AppCompatActivity {
      */
     protected void parseData(String result) {
         Gson gson = new Gson();
-        Girl data = gson.fromJson(result,Girl.class);
-        mdata = data.data;
-        initStaggeredGridAdapterV();
+        Girl data = gson.fromJson(result, Girl.class);
+
+        addItems(data.data);
+        mRecyclerView.refreshComplete(20);
+    }
+
+    private void notifyDataSetChanged() {
+        mLAdapter.notifyDataSetChanged();
+    }
+
+    private void addItems(List<Girl.DataEntity> data) {
+        adapter.addAll(data);
     }
 }

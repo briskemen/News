@@ -44,6 +44,8 @@ dependencies {
     compile files('libs/ShareSDK-Wechat-Moments-2.8.0.jar')
     compile files('libs/ShareSDK-YouDao-2.8.0.jar')
     compile files('libs/mframework.jar')
+    compile project(':LRecyclerview')
+    compile 'com.github.chrisbanes:PhotoView:2.0.0'
     compile 'com.android.support:design:25.3.0'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.android.support:cardview-v7:25.3.0'

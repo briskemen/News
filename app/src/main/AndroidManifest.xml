@@ -61,8 +61,8 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.hello.newsdemo.activity.RecommendActivity">
-        </activity>
+        <activity android:name="com.hello.newsdemo.activity.RecommendActivity"/>
+        <activity android:name="com.hello.newsdemo.activity.ImageActivity"/>
     </application>
 
 </manifest>

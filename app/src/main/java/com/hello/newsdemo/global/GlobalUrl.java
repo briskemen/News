@@ -45,5 +45,9 @@ public class GlobalUrl {
         // https://c.m.163.com/news/a/CG3CUH650001875N.html
         return "https://c.m.163.com/news/a/" + postId + ".html";
     }
+
+    public static String getGirlsData(int pn){
+        return "http://image.baidu.com/channel/listjson?pn=" + pn + "&rn=20&tag1=美女&tag2=全部";
+    }
 }
 

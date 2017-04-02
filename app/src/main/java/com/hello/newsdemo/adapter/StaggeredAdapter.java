@@ -12,6 +12,7 @@ import com.hello.newsdemo.utils.BitmapUtils;
 import com.hello.newsdemo.utils.UIUtils;
 import com.hello.zhbj52.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,17 +33,16 @@ import java.util.List;
  * ============================================================
  **/
 public class StaggeredAdapter extends RecyclerView.Adapter<StaggeredAdapter.MyHolder> {
-    private Context         context;
-    private List<Girl.DataEntity> data;
 
-    public StaggeredAdapter(Context context, List<Girl.DataEntity> data) {
+    private Context         context;
+    private List<Girl.DataEntity> mData = new ArrayList<>();
+
+    public StaggeredAdapter(Context context) {
         this.context = context;
-        this.data = data;
     }
 
     @Override
     public MyHolder onCreateViewHolder(ViewGroup viewGroup, int i) {//决定根布局
-        // TextView tv = new TextView(context);//根布局
         View itemView = View.inflate(context, R.layout.item_stragger, null);
         return new MyHolder(itemView);
     }
@@ -55,15 +55,46 @@ public class StaggeredAdapter extends RecyclerView.Adapter<StaggeredAdapter.MyHo
             myHolder.mIvIcon.getLayoutParams().height = UIUtils.dip2px(context,250);
         }
 
-        myHolder.setDataAndRefreshUI(data.get(position));
+        myHolder.setDataAndRefreshUI(mData.get(position));
     }
 
     @Override
     public int getItemCount() {//条目总数
-        if (data != null) {
-            return data.size();
+        if (mData != null) {
+            return mData.size();
         }
         return 0;
+    }
+
+    public void setDataList(List<Girl.DataEntity> data) {
+        mData.clear();
+        mData.addAll(data);
+        notifyDataSetChanged();
+    }
+
+    public List<Girl.DataEntity> getDataList() {
+        return mData;
+    }
+
+    public void addAll(List<Girl.DataEntity> data) {
+        int lastIndex = mData.size();
+        if (mData.addAll(data)) {
+            notifyItemRangeInserted(lastIndex, data.size());
+        }
+    }
+
+    public void remove(int position) {
+        mData.remove(position);
+        notifyItemRemoved(position);
+
+        if(position != (mData.size())){ // 如果移除的是最后一个，忽略
+            notifyItemRangeChanged(position,mData.size()-position);
+        }
+    }
+
+    public void clear() {
+        mData.clear();
+        notifyDataSetChanged();
     }
 
     public class MyHolder extends RecyclerView.ViewHolder {
@@ -84,6 +115,10 @@ public class StaggeredAdapter extends RecyclerView.Adapter<StaggeredAdapter.MyHo
          * @param dataBean
          */
         public void setDataAndRefreshUI(Girl.DataEntity dataBean) {
+            if (dataBean.image_url == null){
+                dataBean.image_url = "http://a.hiphotos.baidu.com/image/pic/item/359b033b5bb5c9ea05f973e2d739b6003af3b3ac.jpg";
+            }
+
             mTvName.setText(dataBean.date);
             BitmapUtils.display(context,mIvIcon,dataBean.image_url);
         }
