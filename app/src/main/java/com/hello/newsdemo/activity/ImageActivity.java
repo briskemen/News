@@ -41,8 +41,8 @@ import butterknife.ButterKnife;
  */
 public class ImageActivity extends AppCompatActivity {
 
-    private List<String> mdata;
-    private int mPostion;
+    private List<String> mData;
+    private int          mPosition;
 
     @BindView(R.id.vp)
     ViewPager mViewPager;
@@ -61,22 +61,20 @@ public class ImageActivity extends AppCompatActivity {
 
     private void initData() {
         Intent intent = getIntent();
-        if(null != intent){
-            mdata = intent.getStringArrayListExtra("imageUrls");
-            // mPostion = intent.getStringExtra("position");
-            mPostion = intent.getIntExtra("position", 0);
+        if (null != intent) {
+            mData = intent.getStringArrayListExtra("imageUrls");
+            mPosition = intent.getIntExtra("position", 0);
         }
         mViewPager.setAdapter(new ImageAdapter());
-        //设置viewpager的位置
-        mViewPager.setCurrentItem(mPostion, false);
+        mViewPager.setCurrentItem(mPosition, false);//设置viewpager的位置
     }
 
 
-    private class ImageAdapter extends PagerAdapter{
+    private class ImageAdapter extends PagerAdapter {
 
         @Override
         public int getCount() {
-            return mdata.size();
+            return mData.size();
         }
 
         @Override
@@ -86,14 +84,14 @@ public class ImageActivity extends AppCompatActivity {
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-
             /*View view = View.inflate(ImageActivity.this,R.layout.image,null);
             ImageView iv = (ImageView) view.findViewById(R.id.iv);
             BitmapUtils.display(ImageActivity.this,iv,mdata.get(position).image_url);
             container.addView(view);*/
             PhotoView photoView = new PhotoView(container.getContext());
-            BitmapUtils.display(ImageActivity.this,photoView,mdata.get(position));
-            container.addView(photoView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            BitmapUtils.display(ImageActivity.this, photoView, mData.get(position));
+            container.addView(photoView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup
+                    .LayoutParams.MATCH_PARENT);
             return photoView;
         }
 
@@ -102,5 +100,4 @@ public class ImageActivity extends AppCompatActivity {
             container.removeView((View) object);
         }
     }
-
 }

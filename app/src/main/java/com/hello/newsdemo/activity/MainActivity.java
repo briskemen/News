@@ -18,8 +18,6 @@ import android.widget.RadioGroup;
 
 import com.hello.newsdemo.base.BasePager;
 import com.hello.newsdemo.base.impl.NewsCenterPager;
-import com.hello.newsdemo.base.impl.RecommendPager;
-import com.hello.newsdemo.base.impl.SettingPager;
 import com.hello.newsdemo.base.impl.TopicPager;
 import com.hello.newsdemo.utils.ToastUtils;
 import com.hello.zhbj52.R;
@@ -75,7 +73,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initActionBarToggle() {
-        mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.open, R.string.close);
+        mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.open, R
+                .string.close);
         mToggle.syncState();// 同步状态的方法
         mDrawerLayout.addDrawerListener(mToggle); //设置mDrawerLayout拖动的监听
     }
@@ -92,11 +91,13 @@ public class MainActivity extends AppCompatActivity {
                         mDrawerLayout.closeDrawers();
                         break;
                     case R.id.nav_recommend:
-                        ToastUtils.showToast(MainActivity.this, "推荐");
+                        Intent intent = new Intent(MainActivity.this, RecommendActivity.class);
+                        startActivity(intent);
                         mDrawerLayout.closeDrawers();
                         break;
                     case R.id.nav_women:
-                        ToastUtils.showToast(MainActivity.this, "美女");
+                        Intent intent1 = new Intent(MainActivity.this, PicActivity.class);
+                        startActivity(intent1);
                         mDrawerLayout.closeDrawers();
                         break;
                     case R.id.nav_setting:
@@ -117,9 +118,9 @@ public class MainActivity extends AppCompatActivity {
         // 初始化4个子页面
         mPagerList = new ArrayList();
         mPagerList.add(new NewsCenterPager(this));
-        mPagerList.add(new RecommendPager(this));
+        // mPagerList.add(new RecommendPager(this));
         mPagerList.add(new TopicPager(this));
-        mPagerList.add(new SettingPager(this));
+        // mPagerList.add(new SettingPager(this));
 
         mViewPager.setAdapter(new ContentAdapter());
 
@@ -134,7 +135,10 @@ public class MainActivity extends AppCompatActivity {
                         mViewPager.setCurrentItem(0, false);// 去掉切换页面的动画
                         break;
                     case R.id.rb_recommend:
-                        mViewPager.setCurrentItem(1, false);// 设置当前页面
+                        // mViewPager.setCurrentItem(1);// 设置当前页面
+                        // mViewPager.setCurrentItem(1, false);// 设置当前页面
+                        Intent intent1 = new Intent(MainActivity.this, RecommendActivity.class);
+                        startActivity(intent1);
                         break;
                     case R.id.rb_women:
                         //mViewPager.setCurrentItem(2, false);// 设置当前页面
@@ -142,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     case R.id.rb_setting:
-                        mViewPager.setCurrentItem(4, false);// 设置当前页面
+                        mViewPager.setCurrentItem(3, false);// 设置当前页面
                         break;
 
                     default:

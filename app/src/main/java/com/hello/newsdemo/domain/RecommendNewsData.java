@@ -1,4 +1,6 @@
-package com.hello.newsdemo.json;
+package com.hello.newsdemo.domain;
+
+import java.util.ArrayList;
 
 /**
  * ============================================================
@@ -7,9 +9,9 @@ package com.hello.newsdemo.json;
  * Email：    briskemen@163.com
  * GitHub：   https://github.com/briskemen
  * Project_Name：Zhbj
- * Package_Name：com.itheima.newsdemo.domain
+ * Package_Name：com.itheima.zhbj52.domain
  * Version：1.0
- * time：2017/3/21 15:51
+ * time：2017/2/21 22:22
  * des ：${TODO}
  * gitVersion：$Rev$
  * updateAuthor：$Author$
@@ -17,21 +19,14 @@ package com.hello.newsdemo.json;
  * updateDes：${TODO}
  * ============================================================
  **/
+public class RecommendNewsData {
+    public ArrayList<T1348647909107Entry> T1348647909107;
 
-import java.util.ArrayList;
-
-/**
- * 网易新闻内容数据
- * URL:http://c.m.163.com/nc/article/headline/T1348647909107/0-20.html
- */
-public class WYNewsJson {
-    public ArrayList<TopNews> T1348647909107;
-
-    public class TopNews {
+    public static class T1348647909107Entry {
         public ArrayList<AdsData>      ads;// 图片新闻
         public ArrayList<ImgextraData> imgextra;//	Array
 
-        public String alias;//Top RecommendNewsData
+        public String alias;//Top News
 
         public String  boardid;//photoview_bbs
         public String  cid;//C1348646712614

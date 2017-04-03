@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.hello.newsdemo.domain.TabNewsData;
+import com.hello.newsdemo.domain.RecommendNewsData;
 import com.hello.newsdemo.utils.BitmapUtils;
 import com.hello.newsdemo.utils.PrefUtils;
 import com.hello.zhbj52.R;
@@ -37,12 +37,12 @@ import java.util.List;
  * updateDes：${TODO}
  * ============================================================
  */
-public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
+public class RecommendNewsAdapter extends RecyclerView.Adapter<RecommendNewsAdapter.ViewHolder> {
 
     private Context context;
-    private List<TabNewsData> mData = new ArrayList<>();
+    private List<RecommendNewsData.T1348647909107Entry> mData = new ArrayList<>();
 
-    public NewsAdapter(Context context) {
+    public RecommendNewsAdapter(Context context) {
         this.context = context;
     }
 
@@ -66,17 +66,17 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         return 0;
     }
 
-    public void setDataList(List<TabNewsData> data) {
+    public void setDataList(List<RecommendNewsData.T1348647909107Entry> data) {
         mData.clear();
         mData.addAll(data);
         notifyDataSetChanged();
     }
 
-    public List<TabNewsData> getDataList() {
+    public List<RecommendNewsData.T1348647909107Entry> getDataList() {
         return mData;
     }
 
-    public void addAll(List<TabNewsData> data) {
+    public void addAll(List<RecommendNewsData.T1348647909107Entry> data) {
         int lastIndex = mData.size();
         if (mData.addAll(data)) {
             notifyItemRangeInserted(lastIndex, data.size());
@@ -87,8 +87,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         mData.remove(position);
         notifyItemRemoved(position);
 
-        if(position != (mData.size())){ // 如果移除的是最后一个，忽略
-            notifyItemRangeChanged(position,mData.size()-position);
+        if (position != (mData.size())) { // 如果移除的是最后一个，忽略
+            notifyItemRangeChanged(position, mData.size() - position);
         }
     }
 
@@ -97,7 +97,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView  tvTitle;
         public TextView  tvDate;
@@ -106,18 +106,18 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
         public ViewHolder(View itemView) {
             super(itemView);
-           ivPic = (ImageView) itemView.findViewById(R.id.iv_pic);
-           tvTitle = (TextView) itemView.findViewById(R.id.tv_title);
-           tvDate = (TextView) itemView.findViewById(R.id.tv_date);
-           tvHeelStick = (TextView) itemView.findViewById(R.id.tv_heel_stick);
+            ivPic = (ImageView) itemView.findViewById(R.id.iv_pic);
+            tvTitle = (TextView) itemView.findViewById(R.id.tv_title);
+            tvDate = (TextView) itemView.findViewById(R.id.tv_date);
+            tvHeelStick = (TextView) itemView.findViewById(R.id.tv_heel_stick);
         }
 
-        public void setDataAndRefreshUI(int pos){
-            TabNewsData data = mData.get(pos);
+        public void setDataAndRefreshUI(int pos) {
+            RecommendNewsData.T1348647909107Entry data = mData.get(pos);
             tvTitle.setText(data.title);
             tvDate.setText(data.source);
             tvHeelStick.setText(data.replyCount + "跟贴");
-            BitmapUtils.display(context,ivPic, data.imgsrc);
+            BitmapUtils.display(context, ivPic, data.imgsrc);
             String ids = PrefUtils.getString(context, "read_ids", "");
         }
     }

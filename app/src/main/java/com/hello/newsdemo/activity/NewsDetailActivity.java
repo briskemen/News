@@ -23,8 +23,8 @@ import com.hello.zhbj52.R;
  * Author：   卢俊霖
  * Email：    briskemen@163.com
  * GitHub：   https://github.com/briskemen
- * Project_Name：Zhbj
- * Package_Name：com.itheima.zhbj52
+ * Project_Name：RecommendNewsData
+ * Package_Name：com.hello.newsdemo
  * Version：1.0
  * time：2017/2/19 20:58
  * des ：${TODO}

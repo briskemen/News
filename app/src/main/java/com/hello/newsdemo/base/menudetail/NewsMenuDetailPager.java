@@ -23,12 +23,11 @@ public class NewsMenuDetailPager extends BaseMenuDetailPager implements
         OnPageChangeListener {
 
     private ViewPager mViewPager;
-    // private TabPageIndicator mIndicator;
     private TabLayout mIndicator;
 
     private ArrayList<TabDetailPager> mPagerList;
-    // 头条边栏
-    public List<TabData.TabList> mTabData;
+
+    public List<TabData.TabList> mTabData; //头条边栏
 
     public NewsMenuDetailPager(Activity activity, List<TabData.TabList> tList) {
         super(activity);

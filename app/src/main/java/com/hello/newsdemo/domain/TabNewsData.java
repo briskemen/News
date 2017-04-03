@@ -28,7 +28,7 @@ public class TabNewsData {
     public ArrayList<AdsData>      ads;// 图片新闻
     public ArrayList<ImgextraData> imgextra;//	Array
 
-    public String alias;//Top News
+    public String alias;//Top RecommendNewsData
 
     public String  boardid;//photoview_bbs
     public String  cid;//C1348646712614

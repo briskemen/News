@@ -5,14 +5,13 @@ package com.hello.newsdemo.global;
  */
 public class GlobalUrl {
     // 页签indication
-    public static final String tListUrl    = "http://c.m.163" +
-            ".com/nc/topicset/android/subscribe/manage/listspecial.html";
+    public static final String tListUrl    = "http://c.m.163.com/nc/topicset/android/subscribe/manage/listspecial.html";
     // 美女图片
     public static final String womenPicUrl = "http://image.baidu" +
             ".com/channel/listjson?pn=0&rn=30&tag1=美女&tag2=全部";
 
-    public static final String host         = "http://c.m.163.com/";
     // http://c.m.163.com/nc/article/headline/T1348647909107/0-20.html
+    public static final String host         = "http://c.m.163.com/";
     public static final String NewsUrl      = host + "nc/article/headline/";
     public static final String endUrl       = "-20.html";
 
@@ -38,12 +37,12 @@ public class GlobalUrl {
     /**
      * 网易新闻内容详情手机客户端URL
      *
-     * @param postId 新闻位置ID CGQQEDGG000187VI
+     * @param docId 新闻位置ID CGQQEDGG000187VI
      * @return
      */
-    public static String getNewsDetailUrl(String postId) {
+    public static String getNewsDetailUrl(String docId) {
         // https://c.m.163.com/news/a/CG3CUH650001875N.html
-        return "https://c.m.163.com/news/a/" + postId + ".html";
+        return "https://c.m.163.com/news/a/" + docId + ".html";
     }
 
     public static String getGirlsData(int pn){

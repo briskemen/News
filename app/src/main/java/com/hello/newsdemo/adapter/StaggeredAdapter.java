@@ -49,6 +49,9 @@ public class StaggeredAdapter extends RecyclerView.Adapter<StaggeredAdapter.MyHo
 
     @Override
     public void onBindViewHolder(MyHolder myHolder, int position) {//填充数据
+
+        // 150
+        // Math.random(2)
         if (position%2 == 0){
             myHolder.mIvIcon.getLayoutParams().height = UIUtils.dip2px(context,200);
         }else {

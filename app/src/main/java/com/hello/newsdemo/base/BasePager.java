@@ -13,8 +13,6 @@ public class BasePager {
     public  AppCompatActivity     mActivity;
     public  View                  mRootView;// 布局对象
     public  FrameLayout           flContent;// 内容
-    //private FloatingActionButton  mFab;
-    //private SwipeRefreshLayout    mSwipeRefreshLayout;
 
     public BasePager(AppCompatActivity activity) {
         mActivity = activity;
@@ -26,17 +24,7 @@ public class BasePager {
      */
     public void initViews() {
         mRootView = View.inflate(mActivity, R.layout.base_pager, null);
-        // tvTitle = (TextView) mRootView.findViewById(R.id.tv_title);
         flContent = (FrameLayout) mRootView.findViewById(R.id.fl_content);
-
-        //mFab = (FloatingActionButton)  mActivity.findViewById(R.id.fab);
-
-       /* mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });*/
     }
 
     /**

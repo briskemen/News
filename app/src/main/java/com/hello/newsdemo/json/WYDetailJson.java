@@ -76,7 +76,7 @@ public class WYDetailJson {
     }
 
     private class TopiclistNewsEntry {
-        public String alias;//Top News
+        public String alias;//Top RecommendNewsData
         public String cid;//C1348646712614
         public String ename;//androidnews
         public String hasCover;//false

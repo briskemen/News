@@ -9,7 +9,6 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +33,7 @@ import com.hello.newsdemo.http.Callback;
 import com.hello.newsdemo.http.HttpUtils;
 import com.hello.newsdemo.utils.BitmapUtils;
 import com.hello.newsdemo.utils.CacheUtils;
+import com.hello.newsdemo.utils.LogUtils;
 import com.hello.newsdemo.utils.PrefUtils;
 import com.hello.newsdemo.utils.ToastUtils;
 import com.hello.newsdemo.view.TopNewsViewPager;
@@ -50,27 +50,26 @@ import java.util.List;
  * 页签详情页
  */
 public class TabDetailPager extends BaseMenuDetailPager implements OnPageChangeListener {
-
     private static final String TAG = "TabDetailPager";
 
-    private TopNewsViewPager mViewPager;
-
-    private TextView tvTitle;// 头条新闻的标题
-
-    private CirclePageIndicator mIndicator;// 头条新闻位置指示器
-
+    private TopNewsViewPager     mViewPager;
+    private TextView             tvTitle;// 头条新闻的标题
     private LRecyclerView        mRecyclerView;
     private NewsAdapter          mAdapter;
     private LRecyclerViewAdapter mLAdapter;
     private TopNewsAdapter       mTopNewsAdapter;
+    private CirclePageIndicator  mIndicator;// 头条新闻位置指示器
+
     // 头条新闻图片新闻数据集合
     private ArrayList<TabNewsData.AdsData> mPhotoData = new ArrayList<>();
+
     public TabData.TabList mTabData;
 
     private int index = 0;
+
     private boolean isLoadMore;
 
-    private Handler                   mHandler;
+    private Handler mHandler;
 
     public TabDetailPager(Activity activity, TabData.TabList tabList) {
         super(activity);
@@ -79,8 +78,7 @@ public class TabDetailPager extends BaseMenuDetailPager implements OnPageChangeL
 
     @Override
     public View initViews() {
-        View view = View.inflate(mActivity, R.layout.tab_detail_pager, null);
-        // 加载头布局
+        View view = View.inflate(mActivity, R.layout.tab_detail_pager, null);// 加载头布局
         View headerView = View.inflate(mActivity, R.layout.list_header_topnews, null);
 
         mRecyclerView = (LRecyclerView) view.findViewById(R.id.rv);
@@ -108,10 +106,10 @@ public class TabDetailPager extends BaseMenuDetailPager implements OnPageChangeL
         mRecyclerView.setLoadingMoreProgressStyle(ProgressStyle.BallSpinFadeLoader);*/
 
         //设置头部加载颜色
-        mRecyclerView.setHeaderViewColor(R.color.colorAccent, R.color.dark ,android.R.color.white);
+        mRecyclerView.setHeaderViewColor(R.color.colorAccent, R.color.dark, android.R.color.white);
         //设置底部加载颜色
-        mRecyclerView.setFooterViewColor(R.color.colorAccent, R.color.dark ,android.R.color.white);
-        mRecyclerView.setFooterViewHint("拼命加载中","已经全部为你呈现了","网络不给力啊，点击再试一次吧");
+        mRecyclerView.setFooterViewColor(R.color.colorAccent, R.color.dark, android.R.color.white);
+        mRecyclerView.setFooterViewHint("拼命加载中", "已经全部为你呈现了", "网络不给力啊，点击再试一次吧");
 
         // 将头条新闻以头布局的形式加给RecyclerView
         mLAdapter.addHeaderView(headerView);
@@ -150,22 +148,22 @@ public class TabDetailPager extends BaseMenuDetailPager implements OnPageChangeL
             public void onItemClick(View view, int position) {
                 // 在本地记录已读状态
                 String ids = PrefUtils.getString(mActivity, "read_ids", "");
-                String docid = mAdapter.getDataList().get(position).docid;
-                if (!ids.contains(docid)) {
-                    ids = ids + docid + ",";
+                String docId = mAdapter.getDataList().get(position).docid;
+                if (!ids.contains(docId)) {
+                    ids = ids + docId + ",";
                     PrefUtils.setString(mActivity, "read_ids", ids);
                 }
 
-                if (docid.contains("_")) {
-                    String[] docids = docid.split("_");
-                    docid = docids[0];
+                if (docId.contains("_")) {
+                    String[] docIds = docId.split("_");
+                    docId = docIds[0];
                 }
 
                 changeReadState(view);// 实现局部界面刷新, 这个view就是被点击的item布局对象
                 // 跳转新闻详情页面
                 Intent intent = new Intent();
                 intent.setClass(mActivity, NewsDetailActivity.class);
-                intent.putExtra("url", GlobalUrl.getNewsDetailUrl(docid));
+                intent.putExtra("url", GlobalUrl.getNewsDetailUrl(docId));
                 mActivity.startActivity(intent);
             }
         });
@@ -194,24 +192,24 @@ public class TabDetailPager extends BaseMenuDetailPager implements OnPageChangeL
      * 从服务器获取数据
      */
     private void getDataFromServer() {
-
-        Log.e("url", "getDataFromServer");
-
-        HttpUtils.get(mActivity.getApplicationContext(), GlobalUrl.getNewsUrl(mTabData.tid, index), new
+        HttpUtils.get(mActivity.getApplicationContext(), GlobalUrl.getNewsUrl(mTabData.tid,
+                index), new
                 Callback() {
-            @Override
-            public void onResponse(String response) {
-                parseData(response);
-                // 设置缓存
-                CacheUtils.SetCache(GlobalUrl.getNewsUrl(mTabData.tid, index), response, mActivity);
-            }
+                    @Override
+                    public void onResponse(String response) {
+                        parseData(response);
+                        LogUtils.i(TAG,"response:"+response);
+                        // 设置缓存
+                        CacheUtils.SetCache(GlobalUrl.getNewsUrl(mTabData.tid, index), response,
+                                mActivity);
+                    }
 
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                ToastUtils.showToast(mActivity, error.getMessage());
-                // lvList.onRefreshComplete(true);
-            }
-        });
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        ToastUtils.showToast(mActivity, error.getMessage());
+                        // lvList.onRefreshComplete(true);
+                    }
+                });
     }
 
     /**
@@ -246,11 +244,14 @@ public class TabDetailPager extends BaseMenuDetailPager implements OnPageChangeL
             // 解决方法1
             JSONObject jsonObject = new JSONObject(responseData);
             result = jsonObject.getString(mTabData.tid);
+            LogUtils.i(TAG,"result:"+result);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        List<TabNewsData> data = gson.fromJson(result, new TypeToken<List<TabNewsData>>() {}.getType());
+        List<TabNewsData> data = gson.fromJson(result, new TypeToken<List<TabNewsData>>() {
+        }.getType());
+        LogUtils.i(TAG,"data:"+data);
         /**
          * data:[com.itheima.newsdemo.json.WYNewsJson$TopNews@3d56a9e8, com.itheima.newsdemo.json
          * .WYNewsJson$TopNews@171b3801,...]
@@ -274,7 +275,7 @@ public class TabDetailPager extends BaseMenuDetailPager implements OnPageChangeL
             mPhotoData = data.get(0).ads;
 
             if (mPhotoData != null) {
-                mTopNewsAdapter = new TopNewsAdapter(mActivity,mPhotoData);
+                mTopNewsAdapter = new TopNewsAdapter(mActivity, mPhotoData);
                 mViewPager.setAdapter(mTopNewsAdapter);
 
                 mIndicator.setViewPager(mViewPager);
@@ -331,7 +332,7 @@ public class TabDetailPager extends BaseMenuDetailPager implements OnPageChangeL
         tvTitle.setText(mPhotoData.get(pos).title);
     }
 
-    private class TopNewsAdapter extends PagerAdapter {
+    public class TopNewsAdapter extends PagerAdapter {
 
         private Context                   mContext;
         private List<TabNewsData.AdsData> mData;
@@ -377,7 +378,7 @@ public class TabDetailPager extends BaseMenuDetailPager implements OnPageChangeL
     /**
      * 头条新闻的触摸监听
      */
-    private  class TopNewsTouchListener implements View.OnTouchListener {
+    private class TopNewsTouchListener implements View.OnTouchListener {
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {

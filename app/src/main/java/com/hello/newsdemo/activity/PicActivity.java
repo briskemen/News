@@ -43,8 +43,6 @@ public class PicActivity extends AppCompatActivity {
     @BindView(R.id.fab)
     FloatingActionButton mFab;
 
-    // SwipeRefreshLayout   mSwipeRefreshLayout;
-
     @BindView(R.id.recycler_view)
     LRecyclerView mRecyclerView;
 
@@ -65,30 +63,6 @@ public class PicActivity extends AppCompatActivity {
         initView();
         initRecyclerView();
         initData();
-
-        /*mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
-        // 设置下拉刷新监听器
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        SystemClock.sleep(2000);
-                        PicActivity.this.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                //停止刷新操作
-                                mSwipeRefreshLayout.setRefreshing(false);
-                                //得到adapter.然后刷新
-                                mRecyclerView.getAdapter().notifyDataSetChanged();
-                            }
-                        });
-
-                    }
-                }).start();
-            }
-        });*/
     }
 
     private void initRecyclerView() {
@@ -143,7 +117,6 @@ public class PicActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        // mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 
