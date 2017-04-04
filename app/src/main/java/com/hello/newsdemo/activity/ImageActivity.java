@@ -41,11 +41,12 @@ import butterknife.ButterKnife;
  */
 public class ImageActivity extends AppCompatActivity {
 
-    private List<String> mData;
-    private int          mPosition;
-
     @BindView(R.id.vp)
     ViewPager mViewPager;
+
+    private List<String> mData;
+
+    private int mPosition;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

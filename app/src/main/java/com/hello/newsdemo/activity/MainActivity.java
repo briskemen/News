@@ -9,7 +9,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +17,8 @@ import android.widget.RadioGroup;
 
 import com.hello.newsdemo.base.BasePager;
 import com.hello.newsdemo.base.impl.NewsCenterPager;
+import com.hello.newsdemo.base.impl.RecommendPager;
+import com.hello.newsdemo.base.impl.SettingPager;
 import com.hello.newsdemo.base.impl.TopicPager;
 import com.hello.newsdemo.utils.ToastUtils;
 import com.hello.zhbj52.R;
@@ -31,7 +32,7 @@ import butterknife.ButterKnife;
 /**
  * 主页面
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     @BindView(R.id.rg_group)
     public RadioGroup rgGroup;
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         initData();
     }
 
-    private void initView() {
+    public void initView() {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         mToolbar.setTitle(R.string.app_name);
@@ -118,9 +119,9 @@ public class MainActivity extends AppCompatActivity {
         // 初始化4个子页面
         mPagerList = new ArrayList();
         mPagerList.add(new NewsCenterPager(this));
-        // mPagerList.add(new RecommendPager(this));
+        mPagerList.add(new RecommendPager(this));
         mPagerList.add(new TopicPager(this));
-        // mPagerList.add(new SettingPager(this));
+        mPagerList.add(new SettingPager(this));
 
         mViewPager.setAdapter(new ContentAdapter());
 
@@ -148,7 +149,6 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.rb_setting:
                         mViewPager.setCurrentItem(3, false);// 设置当前页面
                         break;
-
                     default:
                         break;
                 }

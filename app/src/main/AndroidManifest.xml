@@ -16,6 +16,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
 
     <application
+        android:name="com.hello.newsdemo.global.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/news"
         android:label="@string/app_name"

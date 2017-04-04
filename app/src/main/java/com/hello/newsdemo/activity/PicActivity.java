@@ -51,6 +51,7 @@ public class PicActivity extends AppCompatActivity {
 
     private StaggeredAdapter     adapter;
     private LRecyclerViewAdapter mLAdapter;
+
     private int pn = 0;
     // private boolean isLoadMore;
     // private List<Girl.DataEntity> mdata = new ArrayList<>();
@@ -105,7 +106,7 @@ public class PicActivity extends AppCompatActivity {
     }
 
     private void enterImageScaleActivity(int position) {
-        Intent intent = new Intent(this,ImageActivity.class);
+        Intent intent = new Intent(this, ImageActivity.class);
         intent.putExtra("position", position);
         ArrayList<String> data = new ArrayList<>();
         for (int i = 0; i < adapter.getDataList().size(); i++) {
@@ -170,7 +171,6 @@ public class PicActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mLAdapter);
     }*/
     private void initData() {
-
         String cache = CacheUtils.getCache(GlobalUrl.getGirlsData(pn), PicActivity.this);
         if (!TextUtils.isEmpty(cache)) {// 如果缓存存在,直接解析数据, 无需访问网路
             parseData(cache);
