@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
 
+import com.hello.newsdemo.base.BaseActivity;
 import com.hello.newsdemo.base.BasePager;
 import com.hello.newsdemo.base.impl.NewsCenterPager;
 import com.hello.newsdemo.base.impl.RecommendPager;
@@ -45,6 +46,7 @@ public class MainActivity extends BaseActivity {
 
     @BindView(R.id.drawer_layout)
     DrawerLayout   mDrawerLayout;
+    
     @BindView(R.id.nav_view)
     NavigationView mNavigationMenu;
 

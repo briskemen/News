@@ -87,8 +87,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         mData.remove(position);
         notifyItemRemoved(position);
 
-        if(position != (mData.size())){ // 如果移除的是最后一个，忽略
-            notifyItemRangeChanged(position,mData.size()-position);
+        if (position != (mData.size())) { // 如果移除的是最后一个，忽略
+            notifyItemRangeChanged(position, mData.size() - position);
         }
     }
 
@@ -97,7 +97,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView  tvTitle;
         public TextView  tvDate;
@@ -106,18 +106,18 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
         public ViewHolder(View itemView) {
             super(itemView);
-           ivPic = (ImageView) itemView.findViewById(R.id.iv_pic);
-           tvTitle = (TextView) itemView.findViewById(R.id.tv_title);
-           tvDate = (TextView) itemView.findViewById(R.id.tv_date);
-           tvHeelStick = (TextView) itemView.findViewById(R.id.tv_heel_stick);
+            ivPic = (ImageView) itemView.findViewById(R.id.iv_pic);
+            tvTitle = (TextView) itemView.findViewById(R.id.tv_title);
+            tvDate = (TextView) itemView.findViewById(R.id.tv_date);
+            tvHeelStick = (TextView) itemView.findViewById(R.id.tv_heel_stick);
         }
 
-        public void setDataAndRefreshUI(int pos){
+        public void setDataAndRefreshUI(int pos) {
             TabNewsData data = mData.get(pos);
             tvTitle.setText(data.title);
             tvDate.setText(data.source);
             tvHeelStick.setText(data.replyCount + "跟贴");
-            BitmapUtils.display(context,ivPic, data.imgsrc);
+            BitmapUtils.display(context, ivPic, data.imgsrc);
             String ids = PrefUtils.getString(context, "read_ids", "");
         }
     }

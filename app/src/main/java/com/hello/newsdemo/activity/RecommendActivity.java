@@ -56,9 +56,12 @@ public class RecommendActivity extends AppCompatActivity {
     private LRecyclerView       mRecyclerView;
     private CirclePageIndicator mIndicator;// 头条新闻位置指示器
     private TextView            tvTitle;// 头条新闻的标题
+    private TopNewsViewPager    mViewPager;
+    private View                headerView;
 
     private RecommendNewsAdapter mAdapter;
     private LRecyclerViewAdapter mLAdapter;
+    private MyNewsAdapter        mMyNewsAdapter;
 
     private int    index       = 0;
     private String mTopNewsUrl = GlobalUrl.getTopNewsUrl(index);
@@ -71,10 +74,6 @@ public class RecommendActivity extends AppCompatActivity {
     private boolean isLoadMore;
 
     private Handler mHandler;
-
-    private TopNewsViewPager mViewPager;
-    private View             headerView;
-    private MyNewsAdapter    mMyNewsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
