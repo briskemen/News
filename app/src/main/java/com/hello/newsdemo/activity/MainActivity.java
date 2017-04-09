@@ -15,12 +15,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
 
+import com.hello.newsdemo.base.BaseActivity;
 import com.hello.newsdemo.base.BasePager;
 import com.hello.newsdemo.base.impl.NewsCenterPager;
 import com.hello.newsdemo.base.impl.RecommendPager;
 import com.hello.newsdemo.base.impl.SettingPager;
 import com.hello.newsdemo.base.impl.TopicPager;
-import com.hello.newsdemo.utils.ToastUtils;
 import com.hello.zhbj52.R;
 
 import java.util.ArrayList;
@@ -45,6 +45,7 @@ public class MainActivity extends BaseActivity {
 
     @BindView(R.id.drawer_layout)
     DrawerLayout   mDrawerLayout;
+    
     @BindView(R.id.nav_view)
     NavigationView mNavigationMenu;
 
@@ -102,7 +103,9 @@ public class MainActivity extends BaseActivity {
                         mDrawerLayout.closeDrawers();
                         break;
                     case R.id.nav_setting:
-                        ToastUtils.showToast(MainActivity.this, "设置");
+                        // ToastUtils.showToast(MainActivity.this, "设置");
+                        Intent intent2 = new Intent(MainActivity.this, VRActivity.class);
+                        startActivity(intent2);
                         mDrawerLayout.closeDrawers();
                         break;
                     default:

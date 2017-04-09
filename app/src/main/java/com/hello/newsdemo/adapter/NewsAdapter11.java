@@ -7,9 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.hello.newsdemo.domain.TabNewsData;
-import com.hello.newsdemo.utils.BitmapUtils;
-import com.hello.newsdemo.utils.PrefUtils;
 import com.hello.zhbj52.R;
 
 import java.util.ArrayList;
@@ -37,12 +34,12 @@ import java.util.List;
  * updateDes：${TODO}
  * ============================================================
  */
-public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
+public class NewsAdapter11<T> extends RecyclerView.Adapter<NewsAdapter11.ViewHolder> {
 
     private Context context;
-    private List<TabNewsData> mData = new ArrayList<>();
+    private List<T> mData = new ArrayList<>();
 
-    public NewsAdapter(Context context) {
+    public NewsAdapter11(Context context) {
         this.context = context;
     }
 
@@ -55,8 +52,14 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.setDataAndRefreshUI(position);
+        setDataAndRefreshUI(holder,mData.get(position),context);
     }
+
+   /* @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        // holder.setDataAndRefreshUI(position);
+        setDataAndRefreshUI(holder,mData.get(position),context);
+    }*/
 
     @Override
     public int getItemCount() {
@@ -66,17 +69,17 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         return 0;
     }
 
-    public void setDataList(List<TabNewsData> data) {
+    public void setDataList(List<T> data) {
         mData.clear();
         mData.addAll(data);
         notifyDataSetChanged();
     }
 
-    public List<TabNewsData> getDataList() {
+    public List<T> getDataList() {
         return mData;
     }
 
-    public void addAll(List<TabNewsData> data) {
+    public void addAll(List<T> data) {
         int lastIndex = mData.size();
         if (mData.addAll(data)) {
             notifyItemRangeInserted(lastIndex, data.size());
@@ -97,6 +100,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         notifyDataSetChanged();
     }
 
+    public void setDataAndRefreshUI(ViewHolder holder, T t , Context context){
+
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView  tvTitle;
@@ -112,13 +119,16 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             tvHeelStick = (TextView) itemView.findViewById(R.id.tv_heel_stick);
         }
 
-        public void setDataAndRefreshUI(int pos) {
-            TabNewsData data = mData.get(pos);
+       /* public void setDataAndRefreshUI(int pos) {
+            T data = mData.get(pos);
+
+            NewsAdapter11.this.setDataAndRefreshUI(this,data,context);
+
             tvTitle.setText(data.title);
             tvDate.setText(data.source);
             tvHeelStick.setText(data.replyCount + "跟贴");
             BitmapUtils.display(context, ivPic, data.imgsrc);
             String ids = PrefUtils.getString(context, "read_ids", "");
-        }
+        }*/
     }
 }

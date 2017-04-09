@@ -1,9 +1,10 @@
-package com.hello.newsdemo.activity;
+package com.hello.newsdemo.base;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.hello.newsdemo.activity.MainActivity;
 import com.hello.newsdemo.utils.ToastUtils;
 
 import java.util.LinkedList;
@@ -26,7 +27,7 @@ import java.util.List;
  * updateDes：${TODO}
  * ============================================================
  **/
-public abstract class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends AppCompatActivity {
     // 共同属性
     // 共同的方法
     private List<AppCompatActivity> activities = new LinkedList<>();
@@ -45,46 +46,19 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        init();
-        initView();
-        initActionBar();
-        initData();
-        initListener();
         activities.add(this);
     }
 
     @Override
     protected void onDestroy() {
-        activities.remove(this);
         super.onDestroy();
+        activities.remove(this);
     }
 
     @Override
     protected void onResume() {
-        mCurActivity = this;// 最上层的一个activity
         super.onResume();
-    }
-
-    public void init() {
-        // TODO
-
-    }
-
-    public abstract void initView();
-
-    public void initActionBar() {
-        // TODO
-
-    }
-
-    public void initData() {
-        // TODO
-
-    }
-
-    public void initListener() {
-        // TODO
-
+        mCurActivity = this;// 最上层的一个activity
     }
 
     /**

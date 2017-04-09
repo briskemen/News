@@ -31,7 +31,7 @@ import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.hello.newsdemo.adapter.RecommendNewsAdapter;
+import com.hello.newsdemo.adapter.Adapter13;
 import com.hello.newsdemo.domain.RecommendNewsData;
 import com.hello.newsdemo.global.GlobalUrl;
 import com.hello.newsdemo.utils.BitmapUtils;
@@ -56,9 +56,12 @@ public class RecommendActivity extends AppCompatActivity {
     private LRecyclerView       mRecyclerView;
     private CirclePageIndicator mIndicator;// 头条新闻位置指示器
     private TextView            tvTitle;// 头条新闻的标题
+    private TopNewsViewPager    mViewPager;
+    private View                headerView;
 
-    private RecommendNewsAdapter mAdapter;
+    private Adapter13 mAdapter;
     private LRecyclerViewAdapter mLAdapter;
+    private MyNewsAdapter        mMyNewsAdapter;
 
     private int    index       = 0;
     private String mTopNewsUrl = GlobalUrl.getTopNewsUrl(index);
@@ -71,10 +74,6 @@ public class RecommendActivity extends AppCompatActivity {
     private boolean isLoadMore;
 
     private Handler mHandler;
-
-    private TopNewsViewPager mViewPager;
-    private View             headerView;
-    private MyNewsAdapter    mMyNewsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +103,8 @@ public class RecommendActivity extends AppCompatActivity {
         mRecyclerView.addItemDecoration(divider);
         mRecyclerView.setHasFixedSize(true);
 
-        mAdapter = new RecommendNewsAdapter(this);
+        // mAdapter = new RecommendNewsAdapter(this);
+        mAdapter = new Adapter13(this);
         mLAdapter = new LRecyclerViewAdapter(mAdapter);
         mRecyclerView.setAdapter(mLAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));

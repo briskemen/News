@@ -43,7 +43,7 @@ public class MyApplication extends Application {
         // 一旦有未捕获的异常,就会回调此方法
         @Override
         public void uncaughtException(Thread thread, Throwable ex) {
-            LogUtils.i(TAG,"发现一个未处理的异常, 但是被哥捕获了...");
+            LogUtils.e(TAG,"发现一个未处理的异常, 但是被哥捕获了...");
             ex.printStackTrace();
 
             // 收集崩溃日志, 可以在后台上传给服务器,供开发人员分析
