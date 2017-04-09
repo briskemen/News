@@ -36,8 +36,8 @@ import java.util.List;
  */
 public class NewsAdapter11<T> extends RecyclerView.Adapter<NewsAdapter11.ViewHolder> {
 
-    private Context context;
-    private List<T> mData = new ArrayList<>();
+    public Context context;
+    public List<T> mData = new ArrayList<>();
 
     public NewsAdapter11(Context context) {
         this.context = context;
@@ -51,8 +51,8 @@ public class NewsAdapter11<T> extends RecyclerView.Adapter<NewsAdapter11.ViewHol
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        setDataAndRefreshUI(holder,mData.get(position),context);
+    public void onBindViewHolder(NewsAdapter11.ViewHolder holder, int position) {
+        setDataAndRefreshUI(holder,mData.get(position));
     }
 
    /* @Override
@@ -100,7 +100,7 @@ public class NewsAdapter11<T> extends RecyclerView.Adapter<NewsAdapter11.ViewHol
         notifyDataSetChanged();
     }
 
-    public void setDataAndRefreshUI(ViewHolder holder, T t , Context context){
+    public void setDataAndRefreshUI(ViewHolder holder, T t){
 
     }
 
