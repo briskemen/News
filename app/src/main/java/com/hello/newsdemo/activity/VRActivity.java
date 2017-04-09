@@ -47,15 +47,12 @@ public class VRActivity extends AppCompatActivity {
         // Runtime.getRuntime().maxMemory()/8
         //Glide.with(this).load("url").into();
 
-
         /*StringRequest request;
         request.setTag()
         request.cancel();
 
         RequestQueue requestQueue = Volley.newRequestQueue();
         requestQueue.cancelAll();*/
-
-
     }
 
     @Override
@@ -83,7 +80,7 @@ public class VRActivity extends AppCompatActivity {
         protected Bitmap doInBackground(Void... params) {
             //2.4.从资产目录打开一个流
             try {
-                InputStream inputStream = getAssets().open("a.jpg");
+                InputStream inputStream = getAssets().open("andes.jpg");
                 //2.5.使用BitmapFactory转换成Bitmap
                 Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
                 return bitmap;
