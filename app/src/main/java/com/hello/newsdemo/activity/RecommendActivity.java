@@ -31,7 +31,7 @@ import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.hello.newsdemo.adapter.Adapter13;
+import com.hello.newsdemo.adapter.RecommendNewsAdapter;
 import com.hello.newsdemo.domain.RecommendNewsData;
 import com.hello.newsdemo.global.GlobalUrl;
 import com.hello.newsdemo.utils.BitmapUtils;
@@ -59,7 +59,7 @@ public class RecommendActivity extends AppCompatActivity {
     private TopNewsViewPager    mViewPager;
     private View                headerView;
 
-    private Adapter13 mAdapter;
+    private RecommendNewsAdapter mAdapter;
     private LRecyclerViewAdapter mLAdapter;
     private MyNewsAdapter        mMyNewsAdapter;
 
@@ -104,7 +104,7 @@ public class RecommendActivity extends AppCompatActivity {
         mRecyclerView.setHasFixedSize(true);
 
         // mAdapter = new RecommendNewsAdapter(this);
-        mAdapter = new Adapter13(this);
+        mAdapter = new RecommendNewsAdapter(this);
         mLAdapter = new LRecyclerViewAdapter(mAdapter);
         mRecyclerView.setAdapter(mLAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));

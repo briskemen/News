@@ -29,7 +29,7 @@ public class Adapter13 extends NewsAdapter11<RecommendNewsData.T1348647909107Ent
     }
 
     @Override
-    public void setDataAndRefreshUI(ViewHolder holder, RecommendNewsData.T1348647909107Entry tabNewsData) {
+    public void setDataAndRefreshUI(ViewHolder holder, RecommendNewsData.T1348647909107Entry tabNewsData, Context context) {
         holder.tvTitle.setText(tabNewsData.title);
         holder.tvDate.setText(tabNewsData.source);
         holder.tvHeelStick.setText(tabNewsData.replyCount + "跟贴");
