@@ -213,26 +213,6 @@ public class TabDetailPager extends BaseMenuDetailPager implements OnPageChangeL
     }
 
     /**
-     * 从服务器获取更多数据
-     */
-    /*private void getMoreDataFromServer() {
-
-        HttpUtils.get(mActivity.getApplicationContext(), mMoreUrl, new Callback() {
-            @Override
-            public void onResponse(String response) {
-                parseData(response, true);
-                // lvList.onRefreshComplete(true);// 收起下拉刷新控件
-            }
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                ToastUtils.showToast(mActivity, error.getMessage());
-                // lvList.onRefreshComplete(false);
-            }
-        });
-    }*/
-
-    /**
      * 解析数据
      *
      * @param responseData

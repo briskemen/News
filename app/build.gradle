@@ -5,7 +5,7 @@ android {
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.itheima.zhbj52"
-        minSdkVersion 14
+        minSdkVersion 19
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -17,6 +17,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
     lintOptions{
         checkReleaseBuilds false
         abortOnError false
@@ -49,6 +50,7 @@ dependencies {
     compile files('libs/ShareSDK-YouDao-2.8.0.jar')
     compile files('libs/mframework.jar')
     compile project(':LRecyclerview')
+    compile 'com.google.vr:sdk-panowidget:1.40.0'
     compile 'com.github.chrisbanes:PhotoView:2.0.0'
     compile 'com.android.support:design:25.3.1'
     compile 'de.hdodenhof:circleimageview:2.1.0'

@@ -1,3 +1,85 @@
+<android.support.v4.widget.DrawerLayout
+    android:id="@+id/drawer_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--解决Toolbar被覆盖的问题-->
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="#fc4b57"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+        </android.support.design.widget.AppBarLayout>
+
+
+        <com.hello.newsdemo.view.NoScrollViewPager
+            android:id="@+id/vp_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            />
+
+        <RadioGroup
+            android:id="@+id/rg_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="#8f8c8c"
+            android:orientation="horizontal"
+            app:layout_behavior="com.hello.newsdemo.behavior.MyBottomBarBehavior">
+
+            <RadioButton
+                android:id="@+id/rb_news"
+                style="@style/BottomTabStyle"
+                android:drawableTop="@drawable/btn_tab_home_selector"
+                android:text="新闻"/>
+
+            <RadioButton
+                android:id="@+id/rb_recommend"
+                style="@style/BottomTabStyle"
+                android:drawableTop="@drawable/btn_tab_news_selector"
+                android:text="推荐"/>
+
+            <RadioButton
+                android:id="@+id/rb_women"
+                style="@style/BottomTabStyle"
+                android:drawableTop="@drawable/btn_tab_smart_selector"
+                android:text="美女"/>
+
+            <RadioButton
+                android:id="@+id/rb_setting"
+                style="@style/BottomTabStyle"
+                android:drawableTop="@drawable/btn_tab_setting_selector"
+                android:text="设置"/>
+        </RadioGroup>
+
+    </android.support.design.widget.CoordinatorLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/nav_menu"/>
+</android.support.v4.widget.DrawerLayout>
+
+
+<!--
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -15,7 +97,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <!--解决Toolbar被覆盖的问题-->
+            &lt;!&ndash;解决Toolbar被覆盖的问题&ndash;&gt;
             <android.support.design.widget.AppBarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -80,3 +162,4 @@
             app:menu="@menu/nav_menu"/>
     </android.support.v4.widget.DrawerLayout>
 </android.support.design.widget.CoordinatorLayout>
+-->
