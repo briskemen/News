@@ -1,12 +1,13 @@
-package com.google.smartcity.ui.adapter.recyclerview;
+package com.hello.newsdemo.adapter.recyclerview;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 
-import com.google.smartcity.ui.adapter.recyclerview.base.ItemViewDelegate;
-import com.google.smartcity.ui.adapter.recyclerview.base.ViewHolder;
+import com.hello.newsdemo.adapter.recyclerview.base.ItemViewDelegate;
+import com.hello.newsdemo.adapter.recyclerview.base.ViewHolder;
 
 import java.util.List;
+
 /**
  * ============================================================
  * Copyright：Google有限公司版权所有 (c) 2017

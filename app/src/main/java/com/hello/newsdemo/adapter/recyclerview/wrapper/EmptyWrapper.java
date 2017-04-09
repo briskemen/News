@@ -1,12 +1,14 @@
-package com.google.smartcity.ui.adapter.recyclerview.wrapper;
+package com.hello.newsdemo.adapter.recyclerview.wrapper;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.smartcity.ui.adapter.recyclerview.base.ViewHolder;
-import com.google.smartcity.ui.adapter.recyclerview.utils.WrapperUtils;
+import com.hello.newsdemo.adapter.recyclerview.base.ViewHolder;
+import com.hello.newsdemo.adapter.recyclerview.utils.WrapperUtils;
+
+
 /**
  * ============================================================
  * Copyright：Google有限公司版权所有 (c) 2017

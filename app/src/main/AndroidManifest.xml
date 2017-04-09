@@ -66,6 +66,7 @@
         <activity android:name="com.hello.newsdemo.activity.RecommendActivity"/>
         <activity android:name="com.hello.newsdemo.activity.ImageActivity"/>
         <activity android:name="com.hello.newsdemo.activity.VRActivity"/>
+        <activity android:name="com.hello.newsdemo.activity.VideoPlayActivity"/>
     </application>
 
 </manifest>

@@ -1,9 +1,10 @@
-package com.google.smartcity.ui.adapter.recyclerview.utils;
+package com.hello.newsdemo.adapter.recyclerview.utils;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.ViewGroup;
+
 /**
  * ============================================================
  * Copyright：Google有限公司版权所有 (c) 2017

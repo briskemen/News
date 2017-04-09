@@ -1,4 +1,4 @@
-package com.google.smartcity.ui.adapter.recyclerview.base;
+package com.hello.newsdemo.adapter.recyclerview.base;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
+
 /**
  * ============================================================
  * Copyright：Google有限公司版权所有 (c) 2017

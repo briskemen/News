@@ -1,8 +1,9 @@
-package com.google.smartcity.utils.typebuilder.typeimpl;
+package com.hello.newsdemo.typebuilder.typeimpl;
 
 import java.lang.reflect.Type;
 import java.lang.reflect.WildcardType;
 import java.util.Arrays;
+
 /**
  * ============================================================
  * Copyright：Google有限公司版权所有 (c) 2017

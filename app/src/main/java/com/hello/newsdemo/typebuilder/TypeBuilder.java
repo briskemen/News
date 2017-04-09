@@ -1,12 +1,13 @@
-package com.google.smartcity.utils.typebuilder;
+package com.hello.newsdemo.typebuilder;
 
-import com.google.smartcity.utils.typebuilder.exception.TypeException;
-import com.google.smartcity.utils.typebuilder.typeimpl.ParameterizedTypeImpl;
-import com.google.smartcity.utils.typebuilder.typeimpl.WildcardTypeImpl;
+import com.hello.newsdemo.typebuilder.exception.TypeException;
+import com.hello.newsdemo.typebuilder.typeimpl.ParameterizedTypeImpl;
+import com.hello.newsdemo.typebuilder.typeimpl.WildcardTypeImpl;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  * ============================================================
  * Copyright：Google有限公司版权所有 (c) 2017

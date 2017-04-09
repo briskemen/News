@@ -1,6 +1,7 @@
-package com.google.smartcity.ui.adapter.recyclerview.base;
+package com.hello.newsdemo.adapter.recyclerview.base;
 
 import android.support.v4.util.SparseArrayCompat;
+
 /**
  * ============================================================
  * Copyright：Google有限公司版权所有 (c) 2017

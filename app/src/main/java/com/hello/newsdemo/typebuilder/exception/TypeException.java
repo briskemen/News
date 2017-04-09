@@ -1,4 +1,4 @@
-package com.google.smartcity.utils.typebuilder.exception;
+package com.hello.newsdemo.typebuilder.exception;
 /**
  * ============================================================
  * Copyright：Google有限公司版权所有 (c) 2017

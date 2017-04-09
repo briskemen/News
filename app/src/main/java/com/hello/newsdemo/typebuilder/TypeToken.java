@@ -1,9 +1,11 @@
-package com.google.smartcity.utils.typebuilder;
+package com.hello.newsdemo.typebuilder;
 
-import com.google.smartcity.utils.typebuilder.exception.TypeException;
+
+import com.hello.newsdemo.typebuilder.exception.TypeException;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+
 /**
  * ============================================================
  * Copyright：Google有限公司版权所有 (c) 2017

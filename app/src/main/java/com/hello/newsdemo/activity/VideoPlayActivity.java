@@ -1,4 +1,4 @@
-package com.google.smartcity.ui.activity;
+package com.hello.newsdemo.activity;
 
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
@@ -12,8 +12,8 @@ import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.google.smartcity.R;
-import com.google.smartcity.ui.widget.CustomMediaController;
+import com.hello.newsdemo.view.CustomMediaController;
+import com.hello.zhbj52.R;
 
 import io.vov.vitamio.MediaPlayer;
 import io.vov.vitamio.Vitamio;

@@ -20,15 +20,15 @@ import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.google.smartcity.R;
-import com.google.smartcity.bean.VideoSelection;
-import com.google.smartcity.http.RequestUrl;
-import com.google.smartcity.http.VolleyUtil;
-import com.google.smartcity.ui.activity.VideoPlayActivity;
-import com.google.smartcity.ui.adapter.recyclerview.CommonAdapter;
-import com.google.smartcity.ui.adapter.recyclerview.MultiItemTypeAdapter;
-import com.google.smartcity.ui.adapter.recyclerview.base.ViewHolder;
-import com.google.smartcity.ui.adapter.recyclerview.wrapper.LoadmoreWrapper;
+import com.hello.newsdemo.activity.VideoPlayActivity;
+import com.hello.newsdemo.adapter.recyclerview.CommonAdapter;
+import com.hello.newsdemo.adapter.recyclerview.MultiItemTypeAdapter;
+import com.hello.newsdemo.adapter.recyclerview.base.ViewHolder;
+import com.hello.newsdemo.adapter.recyclerview.wrapper.LoadmoreWrapper;
+import com.hello.newsdemo.domain.VideoSelection;
+import com.hello.newsdemo.http.RequestUrl;
+import com.hello.newsdemo.http.VolleyUtil;
+import com.hello.zhbj52.R;
 
 import java.util.List;
 

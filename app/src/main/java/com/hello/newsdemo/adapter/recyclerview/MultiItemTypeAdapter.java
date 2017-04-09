@@ -1,15 +1,16 @@
-package com.google.smartcity.ui.adapter.recyclerview;
+package com.hello.newsdemo.adapter.recyclerview;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.smartcity.ui.adapter.recyclerview.base.ItemViewDelegate;
-import com.google.smartcity.ui.adapter.recyclerview.base.ItemViewDelegateManager;
-import com.google.smartcity.ui.adapter.recyclerview.base.ViewHolder;
+import com.hello.newsdemo.adapter.recyclerview.base.ItemViewDelegate;
+import com.hello.newsdemo.adapter.recyclerview.base.ItemViewDelegateManager;
+import com.hello.newsdemo.adapter.recyclerview.base.ViewHolder;
 
 import java.util.List;
+
 /**
  * ============================================================
  * Copyright：Google有限公司版权所有 (c) 2017

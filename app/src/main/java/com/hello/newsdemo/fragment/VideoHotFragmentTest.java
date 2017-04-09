@@ -25,14 +25,14 @@ import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.github.jdsjlzx.util.RecyclerViewStateUtils;
 import com.github.jdsjlzx.view.LoadingFooter;
-import com.google.smartcity.R;
-import com.google.smartcity.bean.Video;
-import com.google.smartcity.http.RequestUrl;
-import com.google.smartcity.http.VolleyUtil;
-import com.google.smartcity.ui.activity.VideoPlayActivity;
-import com.google.smartcity.ui.adapter.recyclerview.CommonAdapter;
-import com.google.smartcity.ui.adapter.recyclerview.base.ViewHolder;
-import com.google.smartcity.utils.GsonUtil;
+import com.hello.newsdemo.activity.VideoPlayActivity;
+import com.hello.newsdemo.adapter.recyclerview.CommonAdapter;
+import com.hello.newsdemo.adapter.recyclerview.base.ViewHolder;
+import com.hello.newsdemo.domain.Video;
+import com.hello.newsdemo.http.RequestUrl;
+import com.hello.newsdemo.http.VolleyUtil;
+import com.hello.newsdemo.utils.GsonUtil;
+import com.hello.zhbj52.R;
 
 import java.util.Collection;
 import java.util.List;
@@ -127,7 +127,7 @@ public class VideoHotFragmentTest extends Fragment implements OnRefreshListener,
         if (!isLoadMore) {
             if (isRefresh) {
                 isRefresh = false;
-                mRecyclerView.refreshComplete();
+                mRecyclerView.refreshComplete(20);
                 mData.clear();
                 mData.addAll(data);
                 mAdapter.notifyDataSetChanged();

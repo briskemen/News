@@ -19,8 +19,8 @@ import com.hello.newsdemo.base.BaseActivity;
 import com.hello.newsdemo.base.BasePager;
 import com.hello.newsdemo.base.impl.NewsCenterPager;
 import com.hello.newsdemo.base.impl.RecommendPager;
-import com.hello.newsdemo.base.impl.SettingPager;
 import com.hello.newsdemo.base.impl.TopicPager;
+import com.hello.newsdemo.base.impl.VideoPager;
 import com.hello.zhbj52.R;
 
 import java.util.ArrayList;
@@ -124,7 +124,7 @@ public class MainActivity extends BaseActivity {
         mPagerList.add(new NewsCenterPager(this));
         mPagerList.add(new RecommendPager(this));
         mPagerList.add(new TopicPager(this));
-        mPagerList.add(new SettingPager(this));
+        mPagerList.add(new VideoPager(this));
 
         mViewPager.setAdapter(new ContentAdapter());
 

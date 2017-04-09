@@ -1,4 +1,4 @@
-package com.google.smartcity.bean;
+package com.hello.newsdemo.domain;
 
 import java.util.List;
 
