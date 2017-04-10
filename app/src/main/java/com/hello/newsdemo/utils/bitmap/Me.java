@@ -6,10 +6,10 @@ package com.hello.newsdemo.utils.bitmap;
  * Author：   卢俊霖
  * Email：    briskemen@163.com
  * GitHub：   https://github.com/briskemen
- * Project_Name：Zhbj
- * Package_Name：com.itheima.zhbj52.utils.bitmap
+ * Project_Name：News
+ * Package_Name：com.hello.newsdemo.utils.bitmap
  * Version：1.0
- * time：2017/2/20 23:28
+ * time：2017/4/10 0:36
  * des ：${TODO}
  * gitVersion：$Rev$
  * updateAuthor：$Author$
@@ -25,48 +25,31 @@ import com.hello.newsdemo.utils.LruCache;
 /**
  * 内存缓存
  */
-public class MemoryCacheUtils {
-    // private HashMap<String, SoftReference<Bitmap>> mMemoryCache = new
-    // HashMap<String, SoftReference<Bitmap>>();
-
+public class Me {
     private LruCache<String, Bitmap> mMemoryCache;
 
-    public MemoryCacheUtils() {
-        long maxMemory = Runtime.getRuntime().maxMemory() / 8;// 模拟器默认是16m
+    public Me() {
+        long maxMemory = Runtime.getRuntime().maxMemory() / 8;// Google推荐
         mMemoryCache = new LruCache<String, Bitmap>((int) maxMemory) {
             @Override
             protected int sizeOf(String key, Bitmap value) {
-                // Bitmap所占用的内存空间数等于Bitmap的每一行所占用的空间数乘以Bitmap的行数
-                int byteCount = value.getRowBytes() * value.getHeight();// 获取图片占用内存大小
+                int byteCount = value.getRowBytes() * value.getHeight();
                 return byteCount;
             }
         };
     }
 
     /**
-     * 从内存读
+     * 从内存中读取
      *
      * @param url
+     * @return
      */
     public Bitmap getBitmapFromMemory(String url) {
-        // SoftReference<Bitmap> softReference = mMemoryCache.get(url);
-        // if (softReference != null) {
-        // Bitmap bitmap = softReference.get();
-        // return bitmap;
-        // }
         return mMemoryCache.get(url);
     }
 
-    /**
-     * 写内存
-     *
-     * @param url
-     * @param bitmap
-     */
     public void setBitmapToMemory(String url, Bitmap bitmap) {
-        // SoftReference<Bitmap> softReference = new
-        // SoftReference<Bitmap>(bitmap);
-        // mMemoryCache.put(url, softReference);
         mMemoryCache.put(url, bitmap);
     }
 }

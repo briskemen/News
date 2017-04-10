@@ -69,8 +69,6 @@ public class RecommendActivity extends AppCompatActivity {
     // 头条新闻图片新闻数据集合
     private ArrayList<RecommendNewsData.AdsData> mPhotoData = new ArrayList<>();
 
-    public RecommendNewsData.T1348647909107Entry mTopNewsList;
-
     private boolean isLoadMore;
 
     private Handler mHandler;

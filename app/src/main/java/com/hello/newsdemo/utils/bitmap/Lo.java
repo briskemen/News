@@ -6,10 +6,10 @@ package com.hello.newsdemo.utils.bitmap;
  * Author：   卢俊霖
  * Email：    briskemen@163.com
  * GitHub：   https://github.com/briskemen
- * Project_Name：Zhbj
- * Package_Name：com.itheima.zhbj52.utils.bitmap
+ * Project_Name：News
+ * Package_Name：com.hello.newsdemo.utils.bitmap
  * Version：1.0
- * time：2017/2/20 23:02
+ * time：2017/4/10 0:20
  * des ：${TODO}
  * gitVersion：$Rev$
  * updateAuthor：$Author$
@@ -31,12 +31,15 @@ import java.io.FileOutputStream;
 /**
  * 本地缓存
  */
-public class LocalCacheUtils {
-    public static final String CACHE_PATH = Environment.getExternalStorageDirectory()
+public class Lo {
+    /**
+     * 本地缓存路径
+     */
+    private static final String CACHE_PATH = Environment.getExternalStorageDirectory()
             .getAbsolutePath() + "/news";
 
     /**
-     * 从本地获取缓存图片
+     * 从本地获取图片
      *
      * @param url
      * @return
@@ -52,7 +55,6 @@ public class LocalCacheUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return null;
     }
 
@@ -60,16 +62,15 @@ public class LocalCacheUtils {
      * 向sdcard写入图片
      *
      * @param url
-     * @return
+     * @param bitmap
      */
     public void setBitmapToLocal(String url, Bitmap bitmap) {
         try {
             String fileName = MD5Encoder.encode(url);
             File file = new File(CACHE_PATH, fileName);
-
             File parentFile = file.getParentFile();
             if (!parentFile.exists()) {
-                // 如果文件夹不存在，创建文件夹
+                // 如果文件不存在
                 parentFile.mkdirs();
             }
 

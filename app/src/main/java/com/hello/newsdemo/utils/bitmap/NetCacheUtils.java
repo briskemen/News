@@ -69,7 +69,6 @@ public class NetCacheUtils {
             ivPic = (ImageView) params[0];
             url = (String) params[1];
 
-            //            ivPic.setTag(url);// 将url和imageView绑定
             return downloadBitmap(url);
         }
 
