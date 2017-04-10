@@ -1,9 +1,8 @@
 package com.hello.newsdemo.global;
 
 import android.app.Application;
+import android.content.Context;
 import android.os.Environment;
-
-import com.hello.newsdemo.utils.LogUtils;
 
 import java.io.PrintWriter;
 
@@ -30,12 +29,26 @@ import java.io.PrintWriter;
  */
 public class MyApplication extends Application {
     private static final String TAG = "MyApplication";
+
+    private static Context mContext;
+    private static MyApplication mApplication;
+
     @Override
     public void onCreate() {
         super.onCreate();
+        mApplication = this;
+        mContext = getApplicationContext();
 
         // 设置未捕获异常的处理器
         Thread.setDefaultUncaughtExceptionHandler(new MyHandler());
+    }
+
+    public static Context getApplication() {
+        return mApplication;
+    }
+
+    public static Context getContext() {
+        return mContext;
     }
 
     class MyHandler implements Thread.UncaughtExceptionHandler {
@@ -43,7 +56,7 @@ public class MyApplication extends Application {
         // 一旦有未捕获的异常,就会回调此方法
         @Override
         public void uncaughtException(Thread thread, Throwable ex) {
-            LogUtils.e(TAG,"发现一个未处理的异常, 但是被哥捕获了...");
+            // LogUtils.e(TAG,"发现一个未处理的异常, 但是被哥捕获了...");
             ex.printStackTrace();
 
             // 收集崩溃日志, 可以在后台上传给服务器,供开发人员分析

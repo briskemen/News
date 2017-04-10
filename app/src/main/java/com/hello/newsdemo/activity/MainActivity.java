@@ -140,9 +140,9 @@ public class MainActivity extends BaseActivity {
                         break;
                     case R.id.rb_recommend:
                         // mViewPager.setCurrentItem(1);// 设置当前页面
-                        // mViewPager.setCurrentItem(1, false);// 设置当前页面
-                        Intent intent1 = new Intent(MainActivity.this, RecommendActivity.class);
-                        startActivity(intent1);
+                        mViewPager.setCurrentItem(1, false);// 设置当前页面
+                        /*Intent intent1 = new Intent(MainActivity.this, RecommendActivity.class);
+                        startActivity(intent1);*/
                         break;
                     case R.id.rb_women:
                         //mViewPager.setCurrentItem(2, false);// 设置当前页面

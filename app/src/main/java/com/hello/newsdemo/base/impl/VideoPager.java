@@ -53,6 +53,7 @@ public class VideoPager extends BasePager implements ViewPager.OnPageChangeListe
 
 	@Override
 	public void initData() {
+
 	}
 
 	@Override

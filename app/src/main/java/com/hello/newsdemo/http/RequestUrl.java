@@ -1,4 +1,5 @@
 package com.hello.newsdemo.http;
+
 /**
  * ============================================================
  * Copyright：Google有限公司版权所有 (c) 2017
@@ -22,7 +23,7 @@ package com.hello.newsdemo.http;
 public class RequestUrl {
 
     public static final String host         = "http://c.m.163.com/";
-    public static final String NewsUrl = host + "nc/article/headline/";
+    public static final String NewsUrl      = host + "nc/article/headline/";
     public static final String endUrl       = "-20.html";
     public static final String endDetailUrl = "/full.html";
 
@@ -105,7 +106,7 @@ public class RequestUrl {
     // 图集
     public static final String PhotoSet       = host + "photo/api/morelist/0096/4GJ60096/";
     // 图集end
-    public static final String PhotoSetEnd        = ".json";
+    public static final String PhotoSetEnd    = ".json";
     // 热点
     public static final String TuPianReDian   = host + "photo/api/morelist/0096/54GI0096/";
     // 独家
@@ -344,5 +345,10 @@ public class RequestUrl {
                 "&screen=1152x1920" +
                 "&publishid=6103" +
                 "&nw=wifi";
+    }
+
+    public static String getVRData(int page, int pagesize, int channelid, String channelname) {
+        return "http://www.detu.com/ajax/collection/getChannelList?page=" + page + "&pagesize=" +
+                pagesize + "&channelid=" + channelid + "&channelname=" + channelname;
     }
 }

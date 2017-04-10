@@ -1,31 +1,86 @@
 package com.hello.newsdemo.base.impl;
 
-import android.graphics.Color;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Gravity;
-import android.widget.TextView;
+import android.util.Log;
+import android.view.LayoutInflater;
 
 import com.hello.newsdemo.base.BasePager;
+import com.hello.newsdemo.fragment.VRFragment;
+import com.hello.zhbj52.R;
 
 /**
  * 首页实现
  */
 public class RecommendPager extends BasePager {
 
+    private ViewPager vp;
+    private TabLayout tabLayout;
+    private FragmentAdapter mFragmentAdapter;
+    private static final  String[] titles = new String[]{"精品推荐","舞台世界","全景高校","时空转移","空中全景","观光旅游"};
+
     public RecommendPager(AppCompatActivity activity) {
         super(activity);
     }
 
     @Override
-    public void initData() {
-        TextView text = new TextView(mActivity);
-        text.setText("推荐");
-        text.setTextColor(Color.RED);
-        text.setTextSize(25);
-        text.setGravity(Gravity.CENTER);
+    public void initViews() {
+        mRootView = LayoutInflater.from(mActivity).inflate(R.layout.layout_vr, null, false);
+        vp = (ViewPager) mRootView.findViewById(R.id.vp);
+        tabLayout = (TabLayout) mRootView.findViewById(R.id.tab_layout);
+        mFragmentAdapter = new FragmentAdapter(mActivity.getSupportFragmentManager());
+        vp.setAdapter(mFragmentAdapter);
+        tabLayout.setupWithViewPager(vp);
 
-        // 向FrameLayout中动态添加布局
-        flContent.addView(text);
+        vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                // ((VRFragment)mFragmentAdapter.getItem(position)).initData();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
+
+    @Override
+    public void initData() {
+        //Log.e("tag","initData");
+        //((VRFragment)mFragmentAdapter.getItem(0)).initData();
+    }
+
+    private class FragmentAdapter extends FragmentStatePagerAdapter {
+
+        public FragmentAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            Log.e("tag","创建fragment："+position);
+            return new VRFragment();
+        }
+
+        @Override
+        public int getCount() {
+            return titles.length;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return titles[position];
+        }
     }
 
     /*private ArrayList<BaseMenuDetailPager> mPagers;// 4个菜单详情页的集合

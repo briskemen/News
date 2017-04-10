@@ -33,7 +33,7 @@ public class HttpUtils {
 
     public static void get(Context context, String url, final Callback callback){
 
-        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        RequestQueue requestQueue = Volley.newRequestQueue(context.getApplicationContext());
 
         StringRequest request = new StringRequest(url, new Response
                 .Listener<String>() {
