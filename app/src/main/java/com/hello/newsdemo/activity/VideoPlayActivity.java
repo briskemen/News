@@ -40,10 +40,10 @@ import io.vov.vitamio.widget.VideoView;
  * ============================================================
  **/
 public class VideoPlayActivity extends AppCompatActivity implements MediaPlayer.OnInfoListener,
-        MediaPlayer.OnBufferingUpdateListener, MediaPlayer.OnPreparedListener{
+        MediaPlayer.OnBufferingUpdateListener, MediaPlayer.OnPreparedListener {
 
-    private String videourl;
-    private String title;
+    private String      videoUrl;
+    private String      title;
     private ProgressBar pb;
     private TextView    downloadRateView, loadRateView;
     //private MediaController       mMediaController;
@@ -78,14 +78,14 @@ public class VideoPlayActivity extends AppCompatActivity implements MediaPlayer.
         downloadRateView = (TextView) findViewById(R.id.download_rate);
         loadRateView = (TextView) findViewById(R.id.load_rate);
 
-        videourl = getIntent().getExtras().getString("videourl");
+        videoUrl = getIntent().getExtras().getString("videoUrl");
         title = getIntent().getExtras().getString("title");
 
         //mMediaController = new MediaController(this);
         mCustomMediaController = new CustomMediaController(this, mVideoView, this);
         mCustomMediaController.setVideoName(title);
 
-        if (getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
 
@@ -99,7 +99,7 @@ public class VideoPlayActivity extends AppCompatActivity implements MediaPlayer.
 
     //初始化数据
     private void initData() {
-        mVideoView.setVideoURI(Uri.parse(videourl));//设置视频播放地址
+        mVideoView.setVideoURI(Uri.parse(videoUrl));//设置视频播放地址
         mVideoView.setMediaController(mCustomMediaController);
         mVideoView.setVideoQuality(MediaPlayer.VIDEOQUALITY_HIGH);//高画质
         //mMediaController.show(5000);

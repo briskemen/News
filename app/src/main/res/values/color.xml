@@ -65,4 +65,6 @@
     <color name="mc_cir_progress_button_grey">#ffdedede</color>
     <color name="mc_cir_progress_button_red">#ffff4444</color>
     <color name="mc_cir_progress_button_white">#fffafafa</color>
+
+    <color name="red">#fc0101</color>
 </resources>
