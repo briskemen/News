@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 
 import com.hello.newsdemo.base.BasePager;
-import com.hello.newsdemo.fragment.VRMFragment;
+import com.hello.newsdemo.fragment.VRFragment;
 import com.hello.zhbj52.R;
 
 /**
@@ -67,7 +67,7 @@ public class VRPager extends BasePager {
 
         @Override
         public Fragment getItem(int position) {
-            VRMFragment fragment = new VRMFragment();
+            VRFragment fragment = new VRFragment();
             fragment.setCategory(titles[position]);
             return fragment;
         }

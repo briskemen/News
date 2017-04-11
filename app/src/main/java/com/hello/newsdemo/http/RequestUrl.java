@@ -1,5 +1,7 @@
 package com.hello.newsdemo.http;
 
+import java.net.URLEncoder;
+
 /**
  * ============================================================
  * Copyright：Google有限公司版权所有 (c) 2017
@@ -349,7 +351,7 @@ public class RequestUrl {
 
     public static String getVRData(int page, int pagesize, int channelid, String channelname) {
         return "http://www.detu.com/ajax/collection/getChannelList?page=" + page + "&pagesize=" +
-                pagesize + "&channelid=" + channelid + "&channelname=" + channelname;
+                pagesize + "&channelid=" + channelid + "&channelname=" + URLEncoder.encode(channelname);
     }
 
     public static String getVRMData(int pagesize, int pageindex, int channelid) {
