@@ -67,6 +67,7 @@
         <activity android:name="com.hello.newsdemo.activity.ImageActivity"/>
         <activity android:name="com.hello.newsdemo.activity.VRActivity"/>
         <activity android:name="com.hello.newsdemo.activity.VideoPlayActivity"/>
+        <activity android:name="com.hello.newsdemo.TabLayoutActivity"/>
         <activity android:name="com.hello.newsdemo.activity.PannoDetailActivity"/>
         <activity android:name="com.hello.newsdemo.activity.VRVideoActivity"/>
     </application>

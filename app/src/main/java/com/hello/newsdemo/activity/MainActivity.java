@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
 
+import com.hello.newsdemo.TabLayoutActivity;
 import com.hello.newsdemo.base.BaseActivity;
 import com.hello.newsdemo.base.BasePager;
 import com.hello.newsdemo.base.impl.NewsCenterPager;
@@ -93,7 +94,7 @@ public class MainActivity extends BaseActivity {
                         mDrawerLayout.closeDrawers();
                         break;
                     case R.id.nav_recommend:
-                        Intent intent = new Intent(MainActivity.this, RecommendActivity.class);
+                        Intent intent = new Intent(MainActivity.this, TabLayoutActivity.class);
                         startActivity(intent);
                         mDrawerLayout.closeDrawers();
                         break;
@@ -103,7 +104,6 @@ public class MainActivity extends BaseActivity {
                         mDrawerLayout.closeDrawers();
                         break;
                     case R.id.nav_setting:
-                        // ToastUtils.showToast(MainActivity.this, "设置");
                         Intent intent2 = new Intent(MainActivity.this, VRActivity.class);
                         startActivity(intent2);
                         mDrawerLayout.closeDrawers();

@@ -12,7 +12,6 @@ import android.widget.Toast;
 import com.google.vr.sdk.widgets.common.VrWidgetView;
 import com.google.vr.sdk.widgets.pano.VrPanoramaEventListener;
 import com.google.vr.sdk.widgets.pano.VrPanoramaView;
-import com.hello.zhbj52.R;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,18 +40,7 @@ public class VRActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_vr);
         initView();
-
-        // Runtime.getRuntime().maxMemory()/8
-        //Glide.with(this).load("url").into();
-
-        /*StringRequest request;
-        request.setTag()
-        request.cancel();
-
-        RequestQueue requestQueue = Volley.newRequestQueue();
-        requestQueue.cancelAll();*/
     }
 
     @Override
@@ -63,7 +51,8 @@ public class VRActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        // vrPanoramaView = (VrPanoramaView) findViewById(R.id.vr_pv);
+        setContentView(R.layout.activity_vr);
+        vrPanoramaView = (VrPanoramaView) findViewById(R.id.vr_pv);
         //2.2.设置初始化参数
         vrPanoramaView.setDisplayMode(VrWidgetView.DisplayMode.FULLSCREEN_STEREO);
         //删除不需要连接，信息图标
