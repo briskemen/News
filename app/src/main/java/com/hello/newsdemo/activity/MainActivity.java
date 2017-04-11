@@ -19,7 +19,7 @@ import com.hello.newsdemo.TabLayoutActivity;
 import com.hello.newsdemo.base.BaseActivity;
 import com.hello.newsdemo.base.BasePager;
 import com.hello.newsdemo.base.impl.NewsCenterPager;
-import com.hello.newsdemo.base.impl.RecommendPager;
+import com.hello.newsdemo.base.impl.VRPager;
 import com.hello.newsdemo.base.impl.TopicPager;
 import com.hello.newsdemo.base.impl.VideoPager;
 import com.hello.zhbj52.R;
@@ -122,7 +122,7 @@ public class MainActivity extends BaseActivity {
         // 初始化4个子页面
         mPagerList = new ArrayList();
         mPagerList.add(new NewsCenterPager(this));
-        mPagerList.add(new RecommendPager(this));
+        mPagerList.add(new VRPager(this));
         mPagerList.add(new TopicPager(this));
         mPagerList.add(new VideoPager(this));
 

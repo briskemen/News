@@ -16,14 +16,14 @@ import com.hello.zhbj52.R;
 /**
  * 首页实现
  */
-public class RecommendPager extends BasePager {
+public class VRPager extends BasePager {
 
     private ViewPager vp;
     private TabLayout tabLayout;
     private FragmentAdapter mFragmentAdapter;
     private static final  String[] titles = new String[]{"精品推荐","舞台世界","全景高校","时空转移","空中全景","观光旅游"};
 
-    public RecommendPager(AppCompatActivity activity) {
+    public VRPager(AppCompatActivity activity) {
         super(activity);
     }
 
@@ -90,7 +90,7 @@ public class RecommendPager extends BasePager {
     private int    index       = 0;
     private String mTopNewsUrl = GlobalUrl.getTopNewsUrl(index);
 
-    public RecommendPager(AppCompatActivity activity) {
+    public VRPager(AppCompatActivity activity) {
         super(activity);
     }
 
