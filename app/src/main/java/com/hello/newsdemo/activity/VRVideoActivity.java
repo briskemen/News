@@ -110,7 +110,8 @@ public class VRVideoActivity extends AppCompatActivity {
         loadVideoStatus = LOAD_VIDEO_STATUS_UNKNOWN;
         mVrVideoView.setInfoButtonEnabled(false);
         setSupportActionBar(mToolbar);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
     @Override

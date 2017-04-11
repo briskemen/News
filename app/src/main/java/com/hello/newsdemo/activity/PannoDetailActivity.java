@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,6 +60,9 @@ public class PannoDetailActivity extends AppCompatActivity {
     @BindView(R.id.tv_toolbartitle)
     public TextView tv_toolbartitle;
 
+    @BindView(R.id.toolbar)
+    public Toolbar mToolbar;
+
     @BindView(R.id.vr_panorama)
     public VrPanoramaView mPanoramaView;
     private VrPanoramaView.Options panoOptions = new VrPanoramaView.Options();
@@ -89,6 +93,9 @@ public class PannoDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_panno);
         ButterKnife.bind(this);
 
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         // 设置初始化参数
         // mPanoramaView.setDisplayMode(VrWidgetView.DisplayMode.FULLSCREEN_STEREO);
         //删除不需要连接，信息图标
