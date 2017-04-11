@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Pair;
 import android.view.View;
 import android.widget.ImageButton;
@@ -68,6 +69,9 @@ public class VRVideoActivity extends AppCompatActivity {
     @BindView(R.id.volume_toggle)
     public ImageButton volumeToggle;
 
+    @BindView(R.id.toolbar)
+    public Toolbar mToolbar;
+
     @BindView(R.id.vr_video)
     public VrVideoView mVrVideoView;
 
@@ -105,6 +109,8 @@ public class VRVideoActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         loadVideoStatus = LOAD_VIDEO_STATUS_UNKNOWN;
         mVrVideoView.setInfoButtonEnabled(false);
+        setSupportActionBar(mToolbar);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
