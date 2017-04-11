@@ -69,7 +69,9 @@ public class RecommendPager extends BasePager {
         @Override
         public Fragment getItem(int position) {
             Log.e("tag","创建fragment："+position);
-            return new VRFragment();
+            VRFragment fragment = new VRFragment();
+            fragment.setCategory(titles[position]);
+            return fragment;
         }
 
         @Override

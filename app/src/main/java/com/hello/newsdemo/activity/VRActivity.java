@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.google.vr.sdk.widgets.common.VrWidgetView;
 import com.google.vr.sdk.widgets.pano.VrPanoramaEventListener;
 import com.google.vr.sdk.widgets.pano.VrPanoramaView;
+import com.hello.zhbj52.R;
 
 import java.io.IOException;
 import java.io.InputStream;

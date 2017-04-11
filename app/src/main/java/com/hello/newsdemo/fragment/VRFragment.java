@@ -65,6 +65,9 @@ public class VRFragment extends Fragment {
     private VRAdapter            mVRAdapter;
     private int page = 1;
     private Context mContext;
+    private String  category;
+    private int     channelId;
+
     // private boolean isLoadMore;
     // private List<VRDetail> mVRDetails = new ArrayList<>();
 
@@ -92,6 +95,23 @@ public class VRFragment extends Fragment {
         mLRecyclerView.refresh();
         setListener();
         return view;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+        if (category.equals("精品推荐")) {
+            channelId = 13;
+        } else if (category.equals("舞台世界")) {
+            channelId = 20;
+        } else if (category.equals("全景高校")) {
+            channelId = 24;
+        } else if (category.equals("观光旅游")) {
+            channelId = 16;
+        } else if (category.equals("空中全景")) {
+            channelId = 17;
+        } else if (category.equals("时空转移")) {
+            channelId = 15;
+        }
     }
 
     private void setListener() {
@@ -168,7 +188,9 @@ public class VRFragment extends Fragment {
     }
 
     public void initData() {
-        HttpUtils.get(MyApplication.getContext(), RequestUrl.getVRData(page, 21, 13, "精品推荐"),
+
+        HttpUtils.get(MyApplication.getContext(), RequestUrl.getVRData(page, 21, channelId,
+                category),
                 new Callback() {
                     @Override
                     public void onResponse(String response) {
