@@ -351,4 +351,8 @@ public class RequestUrl {
         return "http://www.detu.com/ajax/collection/getChannelList?page=" + page + "&pagesize=" +
                 pagesize + "&channelid=" + channelid + "&channelname=" + channelname;
     }
+
+    public static String getVRDetail(String id) {
+        return "http://www.detu.com/cache/ajax/pano/data?id=" + id + "&type=json";
+    }
 }

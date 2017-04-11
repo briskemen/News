@@ -22,7 +22,9 @@ import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.hello.newsdemo.activity.PannoDetailActivity;
+import com.hello.newsdemo.activity.VRVideoActivity;
 import com.hello.newsdemo.domain.VRData;
+import com.hello.newsdemo.domain.VRDetail;
 import com.hello.newsdemo.global.MyApplication;
 import com.hello.newsdemo.http.Callback;
 import com.hello.newsdemo.http.HttpUtils;
@@ -64,6 +66,7 @@ public class VRFragment extends Fragment {
     private int page = 1;
     private Context mContext;
     // private boolean isLoadMore;
+    // private List<VRDetail> mVRDetails = new ArrayList<>();
 
     @Override
     public void onAttach(Context context) {
@@ -116,16 +119,45 @@ public class VRFragment extends Fragment {
         // 条目点击监听
         mAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
-                Intent intent = new Intent(mContext, PannoDetailActivity.class);
-                intent.putExtra("title", mVRAdapter.getDataList().get(position).name);
-                intent.putExtra("summary", mVRAdapter.getDataList().get(position).summary);
-                intent.putExtra("thumb", mVRAdapter.getDataList().get(position).thumb);
-                intent.putExtra("time", mVRAdapter.getDataList().get(position).releasetime);
-                intent.putExtra("title", mVRAdapter.getDataList().get(position).name);
-                mContext.startActivity(intent);
+            public void onItemClick(View view, final int position) {
+
+                String url = RequestUrl.getVRDetail(mVRAdapter.getDataList().get(position).pano.id);
+
+                HttpUtils.get(mContext, url, new Callback() {
+
+                    @Override
+                    public void onResponse(String response) {
+                        goToDetailActivity(response, position);
+                    }
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+
             }
         });
+    }
+
+    private void goToDetailActivity(String result, int position) {
+
+        VRDetail vrDetail = GsonUtil.changeGsonToBean(result, VRDetail.class);
+        Intent intent = new Intent();
+        intent.putExtra("name", mVRAdapter.getDataList().get(position).user.nickname);
+        intent.putExtra("title", mVRAdapter.getDataList().get(position).name);
+        intent.putExtra("summary", mVRAdapter.getDataList().get(position).summary);
+        intent.putExtra("time", mVRAdapter.getDataList().get(position).releasetime);
+
+        if (vrDetail.scenes.get(0).isvideo.equals("true")) {
+            intent.putExtra("mp4url", vrDetail.scenes.get(0).mp4url4);
+            intent.setClass(mContext, VRVideoActivity.class);
+        } else {
+            intent.setClass(mContext, PannoDetailActivity.class);
+            intent.putExtra("imgurl", vrDetail.scenes.get(0).thumburl);
+        }
+
+        mContext.startActivity(intent);
     }
 
     @Override
@@ -152,7 +184,6 @@ public class VRFragment extends Fragment {
 
     private void parseData(String response) {
         VRData vrData = GsonUtil.changeGsonToBean(response, VRData.class);
-        Log.e("tag", vrData.data.size() + "parseData");
         mVRAdapter.addAll(vrData.data);
         mLRecyclerView.refreshComplete(21);
     }
