@@ -2,6 +2,7 @@ package com.hello.newsdemo.adapter.recyclerview;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -9,6 +10,7 @@ import com.hello.newsdemo.adapter.recyclerview.base.ItemViewDelegate;
 import com.hello.newsdemo.adapter.recyclerview.base.ItemViewDelegateManager;
 import com.hello.newsdemo.adapter.recyclerview.base.ViewHolder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,17 +34,20 @@ import java.util.List;
  * ============================================================
  **/
 public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
+
     protected Context mContext;
-    protected List<T> mDatas;
+    protected List<T> mDatas = new ArrayList<>();
+    protected LayoutInflater mInflater;
+
     //protected final List<T> temp;
 
     protected ItemViewDelegateManager mItemViewDelegateManager;
     protected OnItemClickListener     mOnItemClickListener;
 
 
-    public MultiItemTypeAdapter(Context context, List<T> datas) {
+    public MultiItemTypeAdapter(Context context) {
         mContext = context;
-        mDatas = datas;
+        mInflater = LayoutInflater.from(context);
         //temp = new ArrayList<>(datas);
         mItemViewDelegateManager = new ItemViewDelegateManager();
     }
@@ -138,8 +143,10 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public int getItemCount() {
-        int itemCount = mDatas.size();
-        return itemCount;
+        if (mDatas != null){
+            return mDatas.size();
+        }
+        return 0;
     }
 
 
@@ -148,7 +155,30 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
     }
 
     public void setDatas(List<T> data) {
-        mDatas = data;
+        mDatas.clear();
+        mDatas.addAll(data);
+        notifyDataSetChanged();
+    }
+
+    public void addAll(List<T> data) {
+        int lastIndex = mDatas.size();
+        if (mDatas.addAll(data)) {
+            notifyItemRangeInserted(lastIndex, data.size());
+        }
+    }
+
+    public void remove(int position) {
+        mDatas.remove(position);
+        notifyItemRemoved(position);
+
+        if (position != (mDatas.size())) { // 如果移除的是最后一个，忽略
+            notifyItemRangeChanged(position, mDatas.size() - position);
+        }
+    }
+
+    public void clear() {
+        mDatas.clear();
+        notifyDataSetChanged();
     }
 
     public MultiItemTypeAdapter addItemViewDelegate(ItemViewDelegate<T> itemViewDelegate) {

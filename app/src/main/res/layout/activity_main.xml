@@ -53,7 +53,7 @@
                 android:id="@+id/rb_recommend"
                 style="@style/BottomTabStyle"
                 android:drawableTop="@drawable/btn_tab_news_selector"
-                android:text="推荐"/>
+                android:text="VR"/>
 
             <RadioButton
                 android:id="@+id/rb_women"

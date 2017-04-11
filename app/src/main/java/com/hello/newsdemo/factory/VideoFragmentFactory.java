@@ -5,7 +5,7 @@ import android.util.SparseArray;
 
 import com.hello.newsdemo.fragment.VideoAmusementFragment;
 import com.hello.newsdemo.fragment.VideoFunnyFragment;
-import com.hello.newsdemo.fragment.VideoHotFragmentTest;
+import com.hello.newsdemo.fragment.VideoHotFragment;
 import com.hello.newsdemo.fragment.VideoSelectionFragment;
 
 
@@ -52,7 +52,7 @@ public class VideoFragmentFactory {
                 fragment = new VideoSelectionFragment();
                 break;
             case FRAGMENT_HOT:
-                fragment = new VideoHotFragmentTest();
+                fragment = new VideoHotFragment();
                 break;
             case FRAGMENT_AMUSEMENT:
                 fragment = new VideoAmusementFragment();

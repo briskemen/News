@@ -1,12 +1,9 @@
 package com.hello.newsdemo.adapter.recyclerview;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 
 import com.hello.newsdemo.adapter.recyclerview.base.ItemViewDelegate;
 import com.hello.newsdemo.adapter.recyclerview.base.ViewHolder;
-
-import java.util.List;
 
 /**
  * ============================================================
@@ -30,18 +27,12 @@ import java.util.List;
  **/
 public abstract class CommonAdapter<T> extends MultiItemTypeAdapter<T>
 {
-    protected Context mContext;
     protected int mLayoutId;
-    protected List<T> mDatas;
-    protected LayoutInflater mInflater;
 
-    public CommonAdapter(final Context context, final int layoutId, List<T> datas)
+    public CommonAdapter(final Context context, final int layoutId)
     {
-        super(context, datas);
-        mContext = context;
-        mInflater = LayoutInflater.from(context);
+        super(context);
         mLayoutId = layoutId;
-        mDatas = datas;
 
         addItemViewDelegate(new ItemViewDelegate<T>()
         {

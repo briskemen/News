@@ -2,32 +2,30 @@ package com.hello.newsdemo.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.github.jdsjlzx.interfaces.OnItemClickListener;
+import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
+import com.github.jdsjlzx.interfaces.OnRefreshListener;
+import com.github.jdsjlzx.recyclerview.LRecyclerView;
+import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.hello.newsdemo.activity.VideoPlayActivity;
 import com.hello.newsdemo.adapter.recyclerview.CommonAdapter;
-import com.hello.newsdemo.adapter.recyclerview.MultiItemTypeAdapter;
 import com.hello.newsdemo.adapter.recyclerview.base.ViewHolder;
-import com.hello.newsdemo.adapter.recyclerview.wrapper.LoadmoreWrapper;
 import com.hello.newsdemo.domain.VideoSelection;
+import com.hello.newsdemo.http.Callback;
+import com.hello.newsdemo.http.HttpUtils;
 import com.hello.newsdemo.http.RequestUrl;
-import com.hello.newsdemo.http.VolleyUtil;
+import com.hello.newsdemo.utils.GsonUtil;
 import com.hello.zhbj52.R;
 
 import java.util.List;
@@ -53,21 +51,18 @@ import java.util.List;
  * ============================================================
  **/
 
-public class VideoSelectionFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,
-        MultiItemTypeAdapter.OnItemClickListener, LoadmoreWrapper.OnLoadMoreListener {
+public class VideoSelectionFragment extends Fragment {
 
-    private RecyclerView       mRecyclerView;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
-    private LoadmoreWrapper    mLoadmoreWrapper;
-
-    private VideoAdapter                   mAdapter;
-    private List<VideoSelection.VideoData> mData;
-    private int     page      = 1;
-    private boolean isRefresh = false;
+    private LRecyclerView        mRecyclerView;
+    private LRecyclerViewAdapter mRecyclerViewAdapter;
+    private VideoAdapter         mAdapter;
+    private int page = 1;
+    private Context mContext;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
     }
 
     @Nullable
@@ -84,219 +79,86 @@ public class VideoSelectionFragment extends Fragment implements SwipeRefreshLayo
     }
 
     public View initView(LayoutInflater inflater, ViewGroup container) {
-        mRecyclerView = new RecyclerView(getActivity());
-        mRecyclerView.setBackgroundColor(Color.parseColor("#eaeaea"));
-        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(manager);
+        View rootView = inflater.inflate(R.layout.layout_video_hot, container, false);
+        mRecyclerView = (LRecyclerView) rootView.findViewById(R.id.rv_funnyvideo);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        mAdapter = new VideoAdapter(mContext, R.layout.list_item_video_selection);
+        mRecyclerViewAdapter = new LRecyclerViewAdapter(mAdapter);
+        mRecyclerView.setAdapter(mRecyclerViewAdapter);
+        mRecyclerView.refresh();
+        initListener();
+        return rootView;
+    }
 
-        mSwipeRefreshLayout = new SwipeRefreshLayout(getActivity());
-        mSwipeRefreshLayout.addView(mRecyclerView);
-        mSwipeRefreshLayout.setOnRefreshListener(this);
-        return mSwipeRefreshLayout;
+    private void initListener() {
+        mRecyclerView.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mAdapter.clear();
+                page = 1;
+                initData();
+            }
+        });
 
-        /*View rootView = inflater.inflate(R.layout.layout_video_hot, container, false);
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_video);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        return rootView;*/
+        mRecyclerView.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                page++;
+                initData();
+            }
+        });
+
+        mRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                enterVideoActivity(mAdapter.getDatas().get(position));
+            }
+        });
     }
 
     private void initData() {
+        requestData(RequestUrl.getVideoSelectionUrl(page));
+    }
 
-        /*StringRequest request = new StringRequest(RequestUrl.getVideoSelectionUrl(page), new
-        Response.Listener<String>() {
+    public void requestData(String url) {
+
+        HttpUtils.get(mContext, url, new Callback() {
             @Override
-            public void onResponse(String result) {
-                parseData(result);
+            public void onResponse(String response) {
+                parseData(response);
             }
-        }, new Response.ErrorListener() {
+
             @Override
-            public void onErrorResponse(VolleyError volleyError) {
+            public void onErrorResponse(VolleyError error) {
 
             }
         });
-
-        VolleyUtil.getInstance(getActivity()).getQueue().add(request);*/
-
-        requestData(RequestUrl.getVideoSelectionUrl(page), false);
     }
 
-    public void requestData(String url, final boolean isLoadMore) {
-        StringRequest request = new StringRequest(url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String result) {
-                parseData(result, isLoadMore);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-
-            }
-        });
-
-        VolleyUtil.getInstance(getActivity().getApplicationContext()).addToRequestQueue(request);
+    private void parseData(String result) {
+        List<VideoSelection> data = GsonUtil.changeGsonToList(result, VideoSelection.class);
+        mAdapter.addAll(data.get(0).item);
+        mRecyclerView.refreshComplete(data.get(0).item.size());
     }
-
-    /*private void parseData(String result, boolean isLoadMore) {
-        final Gson gson = new Gson();
-        List<VideoSelection> data = gson.fromJson(result, new TypeToken<List<VideoSelection>>(){}
-        .getType());
-        mData = data.get(0).item;
-        mAdapter = new VideoAdapter(getActivity(), R.layout.list_item_video_selection, mData);
-        initListener();
-
-        final LoadmoreWrapper loadmoreWrapper = new LoadmoreWrapper(mAdapter);
-        loadmoreWrapper.setLoadMoreView(R.layout.list_footer_loading);
-        loadmoreWrapper.setOnLoadMoreListener(new LoadmoreWrapper.OnLoadMoreListener() {
-            @Override
-            public void onLoadMoreRequested() {
-                page++;
-                StringRequest request = new StringRequest(RequestUrl.getVideoSelectionUrl(page),
-                        new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String result) {
-                        System.out.println(result);
-                        List<VideoSelection> data = new Gson().fromJson(result.trim(), new
-                                TypeToken<List<VideoSelection>>() {
-                        }.getType());
-                        mData.addAll(data.get(0).item);
-                        loadmoreWrapper.notifyDataSetChanged();
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-
-                    }
-                });
-
-                VolleyUtil.getInstance(getActivity()).getQueue().add(request);
-            }
-        });
-
-        mRecyclerView.setAdapter(loadmoreWrapper);
-    }*/
-
-    private void parseData(String result, boolean isLoadMore) {
-        //GsonUtil.changeGsonToList(result,PhotoBean.class);
-        List<VideoSelection> data = new Gson().fromJson(result, new
-                TypeToken<List<VideoSelection>>() {}.getType());
-        if (!isLoadMore) {
-            if (isRefresh) {
-                isRefresh = false;
-                mSwipeRefreshLayout.setRefreshing(false);
-                mData.clear();
-                mData.addAll(data.get(0).item);
-                mLoadmoreWrapper.notifyDataSetChanged();
-            } else {
-                mData = data.get(0).item;
-                mAdapter = new VideoAdapter(getActivity(), R.layout.list_item_video_selection,
-                        mData);
-                mAdapter.setOnItemClickListener(this);
-                mLoadmoreWrapper = new LoadmoreWrapper(mAdapter);
-                mLoadmoreWrapper.setOnLoadMoreListener(this);
-                mLoadmoreWrapper.setLoadMoreView(R.layout.list_footer_loading);
-                mRecyclerView.setAdapter(mLoadmoreWrapper);
-            }
-        } else {
-            int lastIndex = mData.size();
-            if (mData.addAll(data.get(0).item)){
-                System.out.println("notify: " + lastIndex + " " + data.get(0).item.size());
-                mLoadmoreWrapper.notifyItemRangeInserted(lastIndex,data.get(0).item.size());
-            }
-        }
-    }
-
-    /*private class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> {
-
-        private Context               mContext;
-        private List<Video.VideoData> mListData;
-
-        public VideoAdapter(Context context, List<Video.VideoData> listdata) {
-            mContext = context;
-            mListData = listdata;
-        }
-
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View itemView = LayoutInflater.from(mContext).inflate(R.layout.list_item_video, parent,
-                    false);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast.makeText(mContext, "click", Toast.LENGTH_SHORT).show();
-
-                }
-            });
-            return new ViewHolder(itemView);
-        }
-
-        @Override
-        public void onBindViewHolder(ViewHolder holder, final int position) {
-            holder.setData(mListData.get(position));
-        }
-
-        @Override
-        public int getItemCount() {
-            return mListData.size();
-        }
-
-        public class ViewHolder extends RecyclerView.ViewHolder {
-            private ImageView iv;
-            private TextView  title;
-
-            public ViewHolder(View itemView) {
-                super(itemView);
-                iv = (ImageView) itemView.findViewById(R.id.iv_video);
-                title = (TextView) itemView.findViewById(R.id.tv_title);
-            }
-
-            private void setData(Video.VideoData data) {
-                Glide.with(mContext).load(data.cover).into(iv);
-                title.setText(data.title);
-            }
-        }
-    }*/
-
 
     public void enterVideoActivity(VideoSelection.VideoData data) {
         Bundle bundle = new Bundle();
-        bundle.putString("videourl", data.video_url.replace("https","http"));
+        bundle.putString("videoUrl", data.video_url.replace("https", "http"));
         bundle.putString("title", data.title);
-        Intent intent = new Intent(getActivity(), VideoPlayActivity.class);
+        Intent intent = new Intent(mContext, VideoPlayActivity.class);
         intent.putExtras(bundle);
-        getActivity().startActivity(intent);
-    }
-
-    @Override
-    public void onRefresh() {
-        page = 1;
-        isRefresh = true;
-        requestData(RequestUrl.getVideoSelectionUrl(page), false);
-    }
-
-    @Override
-    public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-        enterVideoActivity(mData.get(position));
-    }
-
-    @Override
-    public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
-        return false;
-    }
-
-    @Override
-    public void onLoadMoreRequested() {
-        page++;
-        requestData(RequestUrl.getVideoSelectionUrl(page), true);
+        mContext.startActivity(intent);
     }
 
     private class VideoAdapter extends CommonAdapter<VideoSelection.VideoData> {
 
-        public VideoAdapter(Context context, int layoutId, List<VideoSelection.VideoData> datas) {
-            super(context, layoutId, datas);
+        public VideoAdapter(Context context, int layoutId) {
+            super(context, layoutId);
         }
 
         @Override
-        protected void convert(ViewHolder holder, VideoSelection.VideoData videoData, int position) {
+        protected void convert(ViewHolder holder, VideoSelection.VideoData videoData, int
+                position) {
             ImageView iv = holder.getView(R.id.iv_video);
             Glide.with(mContext).load(videoData.image).into(iv);
             holder.setText(R.id.tv_title, videoData.title);

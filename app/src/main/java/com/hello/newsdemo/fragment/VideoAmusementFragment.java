@@ -6,27 +6,27 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
+import com.github.jdsjlzx.interfaces.OnItemClickListener;
+import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
+import com.github.jdsjlzx.interfaces.OnRefreshListener;
+import com.github.jdsjlzx.recyclerview.LRecyclerView;
+import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.hello.newsdemo.activity.VideoPlayActivity;
 import com.hello.newsdemo.adapter.recyclerview.CommonAdapter;
-import com.hello.newsdemo.adapter.recyclerview.MultiItemTypeAdapter;
 import com.hello.newsdemo.adapter.recyclerview.base.ViewHolder;
-import com.hello.newsdemo.domain.VideoAmusement;
+import com.hello.newsdemo.domain.VideoNews;
+import com.hello.newsdemo.http.Callback;
+import com.hello.newsdemo.http.HttpUtils;
 import com.hello.newsdemo.http.RequestUrl;
-import com.hello.newsdemo.http.VolleyUtil;
+import com.hello.newsdemo.utils.GsonUtil;
 import com.hello.zhbj52.R;
-
-import java.util.List;
 
 /**
  * ============================================================
@@ -51,10 +51,17 @@ import java.util.List;
 
 public class VideoAmusementFragment extends Fragment {
 
-    private RecyclerView mRecyclerView;
-    private VideoAdapter mAdapter;
-    String url = RequestUrl.getVideoAmusementUrl(0);
-    private VideoAmusement mData;
+    private LRecyclerView mRecyclerView;
+    private VideoAdapter  mAdapter;
+    private LRecyclerViewAdapter mLRecyclerViewAdapter;
+    private int offset;
+    private Context mContext;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,119 +83,80 @@ public class VideoAmusementFragment extends Fragment {
 
     public View initView(LayoutInflater inflater, ViewGroup container) {
         View rootView = inflater.inflate(R.layout.layout_video_hot, container, false);
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_video);
+        mRecyclerView = (LRecyclerView) rootView.findViewById(R.id.rv_funnyvideo);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mAdapter = new VideoAdapter(mContext,R.layout.list_item_video2);
+        mLRecyclerViewAdapter = new LRecyclerViewAdapter(mAdapter);
+        mRecyclerView.setAdapter(mLRecyclerViewAdapter);
+        mRecyclerView.refresh();
+        setListener();
         return rootView;
+    }
+
+    private void setListener() {
+        mLRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                enterVideoActivity(mAdapter.getDatas().get(position));
+            }
+        });
+
+        mRecyclerView.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mAdapter.clear();
+                offset = 0;
+                initData();
+            }
+        });
+
+        mRecyclerView.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                offset += 20;
+                initData();
+            }
+        });
     }
 
     private void initData() {
 
-        StringRequest request = new StringRequest(url, new Response.Listener<String>() {
+        HttpUtils.get(mContext, RequestUrl.getVideoUrl("Video_Recom", offset), new Callback() {
             @Override
-            public void onResponse(String result) {
-                parseData(result);
+            public void onResponse(String response) {
+                parseData(response);
             }
-        }, new Response.ErrorListener() {
+
             @Override
-            public void onErrorResponse(VolleyError volleyError) {
+            public void onErrorResponse(VolleyError error) {
 
             }
         });
-
-        VolleyUtil.getInstance(getActivity()).getQueue().add(request);
     }
 
     private void parseData(String result) {
-        Gson gson = new Gson();
-        mData = gson.fromJson(result, VideoAmusement.class);
-        mAdapter = new VideoAdapter(getActivity(), R.layout.list_item_video, mData.V9LG4CHOR);
-        initListener();
-        mRecyclerView.setAdapter(mAdapter);
+        VideoNews mData = GsonUtil.changeGsonToBean(result,VideoNews.class);
+        mAdapter.addAll(mData.视频);
+        mRecyclerView.refreshComplete(20);
     }
 
-    public void initListener(){
-        mAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-                enterVideoActivity(mData.V9LG4CHOR.get(position));
-            }
-
-            @Override
-            public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
-                return false;
-            }
-        });
-    }
-
-    /*private class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> {
-
-        private Context               mContext;
-        private List<Video.VideoData> mListData;
-
-        public VideoAdapter(Context context, List<Video.VideoData> listdata) {
-            mContext = context;
-            mListData = listdata;
-        }
-
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View itemView = LayoutInflater.from(mContext).inflate(R.layout.list_item_video, parent,
-                    false);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast.makeText(mContext, "click", Toast.LENGTH_SHORT).show();
-
-                }
-            });
-            return new ViewHolder(itemView);
-        }
-
-        @Override
-        public void onBindViewHolder(ViewHolder holder, final int position) {
-            holder.setData(mListData.get(position));
-        }
-
-        @Override
-        public int getItemCount() {
-            return mListData.size();
-        }
-
-        public class ViewHolder extends RecyclerView.ViewHolder {
-            private ImageView iv;
-            private TextView  title;
-
-            public ViewHolder(View itemView) {
-                super(itemView);
-                iv = (ImageView) itemView.findViewById(R.id.iv_video);
-                title = (TextView) itemView.findViewById(R.id.tv_title);
-            }
-
-            private void setData(Video.VideoData data) {
-                Glide.with(mContext).load(data.cover).into(iv);
-                title.setText(data.title);
-            }
-        }
-    }*/
-
-
-    public void enterVideoActivity(VideoAmusement.AmusementData data) {
+    public void enterVideoActivity(VideoNews.VideoData data) {
         Bundle bundle = new Bundle();
-        bundle.putString("videourl",data.mp4_url);
-        bundle.putString("title",data.title);
-        Intent intent = new Intent(getActivity(), VideoPlayActivity.class);
+        bundle.putString("videoUrl", data.mp4_url);
+        bundle.putString("title", data.title);
+        Intent intent = new Intent(mContext, VideoPlayActivity.class);
         intent.putExtras(bundle);
-        getActivity().startActivity(intent);
+        mContext.startActivity(intent);
     }
 
-    private class VideoAdapter extends CommonAdapter<VideoAmusement.AmusementData> {
+    private class VideoAdapter extends CommonAdapter<VideoNews.VideoData> {
 
-        public VideoAdapter(Context context, int layoutId, List<VideoAmusement.AmusementData> datas) {
-            super(context, layoutId, datas);
+        public VideoAdapter(Context context, int layoutId) {
+            super(context, layoutId);
         }
 
         @Override
-        protected void convert(ViewHolder holder, VideoAmusement.AmusementData videoData, int position) {
+        protected void convert(ViewHolder holder, VideoNews.VideoData videoData, int position) {
             ImageView iv = holder.getView(R.id.iv_video);
             Glide.with(mContext).load(videoData.cover).into(iv);
             holder.setText(R.id.tv_title, videoData.title);

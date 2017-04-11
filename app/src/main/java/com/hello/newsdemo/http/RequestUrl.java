@@ -355,4 +355,13 @@ public class RequestUrl {
     public static String getVRDetail(String id) {
         return "http://www.detu.com/cache/ajax/pano/data?id=" + id + "&type=json";
     }
+
+    public static String getVideoUrl(String subtab, int offset) {
+        return "http://c.m.163.com/recommend/getChanListNews?channel=T1457068979049&subtab=" +
+                subtab + "&size=20&offset="+offset+"&fn=1&prog=&passport=&devId=ujHjV7eaPdxs%2Bn3auGxVEw" +
+                "%3D%3D&lat=J%2FL6Pf45ENZ4SNmCfL%2B5LA%3D%3D&lon=h9rfYmL2wkY8pQ2vQIj%2BjQ%3D%3D" +
+                "&version=22.1&net=wifi&ts=1491786625&sign=9ccPnLrAh%2FLToMq4nsZNAqUPO0tEXQ" +
+                "%2FkVEZdkMOqQRZ48ErR02zJ6%2FKXOnxX046I&encryption=1&canal=meizu_store2014_news" +
+                "&mac=6K9Bh52MduyjsI60TBWf%2FMniKsPhqwUPmAMQf86XLBg%3D&open=&openpath=";
+    }
 }
