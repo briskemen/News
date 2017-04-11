@@ -1,9 +1,12 @@
 package com.hello.newsdemo.utils;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.hello.zhbj52.R;
 
 /**
  * ============================================================
@@ -27,7 +30,8 @@ import com.bumptech.glide.Glide;
  * ============================================================
  */
 public class BitmapUtils {
-    public static void display(Context context, ImageView iv, String url){
-        Glide.with(context).load(url).into(iv);
+    public static void display(Context context, ImageView iv, String url) {
+        Glide.with(context).load(url).placeholder(new ColorDrawable(Color.parseColor("#eaeaea")))
+                .error(R.mipmap.pic_item_list_default).into(iv);
     }
 }
