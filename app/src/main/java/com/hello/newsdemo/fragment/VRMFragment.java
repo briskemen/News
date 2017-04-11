@@ -23,6 +23,7 @@ import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.hello.newsdemo.activity.PannoDetailActivity;
 import com.hello.newsdemo.activity.VRVideoActivity;
+import com.hello.newsdemo.domain.VRDetail;
 import com.hello.newsdemo.domain.VRMData;
 import com.hello.newsdemo.global.MyApplication;
 import com.hello.newsdemo.http.Callback;
@@ -139,62 +140,44 @@ public class VRMFragment extends Fragment {
         mAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, final int position) {
-
-                /*String url = RequestUrl.getVRDetail(mVRAdapter.getDataList().get(position).pano.id);
-
-                HttpUtils.get(mContext, url, new Callback() {
-
-                    @Override
-                    public void onResponse(String response) {
-                        goToDetailActivity(response, position);
-                    }
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
-                });*/
-
-                Intent intent = new Intent();
-                intent.putExtra("name", mVRAdapter.getDataList().get(position).author.nickname);
-                intent.putExtra("title", mVRAdapter.getDataList().get(position).name);
-                intent.putExtra("summary", mVRAdapter.getDataList().get(position).imagedes);
-                intent.putExtra("time", mVRAdapter.getDataList().get(position).uploadtime);
-
-                String videourl = mVRAdapter.getDataList().get(position).original_offline;
-
-                if (videourl !=null) {
-                    intent.putExtra("mp4url", videourl);
-                    intent.setClass(mContext, VRVideoActivity.class);
-                } else {
-                    intent.setClass(mContext, PannoDetailActivity.class);
-                    intent.putExtra("imgurl", mVRAdapter.getDataList().get(position).thumburl);
-                }
-
-                mContext.startActivity(intent);
-
+                goToDetailActivity(position);
             }
         });
     }
 
-    private void goToDetailActivity(String result, int position) {
+    private void goToDetailActivity(final int position) {
 
-        /*VRDetail vrDetail = GsonUtil.changeGsonToBean(result, VRDetail.class);
-        Intent intent = new Intent();
-        intent.putExtra("name", mVRAdapter.getDataList().get(position).user.nickname);
+        final Intent intent = new Intent();
+        intent.putExtra("name", mVRAdapter.getDataList().get(position).author.nickname);
         intent.putExtra("title", mVRAdapter.getDataList().get(position).name);
-        intent.putExtra("summary", mVRAdapter.getDataList().get(position).summary);
-        intent.putExtra("time", mVRAdapter.getDataList().get(position).releasetime);
+        intent.putExtra("summary", mVRAdapter.getDataList().get(position).imagedes);
+        intent.putExtra("time", mVRAdapter.getDataList().get(position).uploadtime);
 
-        if (vrDetail.scenes.get(0).isvideo.equals("true")) {
-            intent.putExtra("mp4url", vrDetail.scenes.get(0).mp4url4);
+        String videourl = mVRAdapter.getDataList().get(position).original_offline;
+
+        if (videourl !=null) {
+            intent.putExtra("mp4url", videourl);
             intent.setClass(mContext, VRVideoActivity.class);
+            mContext.startActivity(intent);
         } else {
-            intent.setClass(mContext, PannoDetailActivity.class);
-            intent.putExtra("imgurl", vrDetail.scenes.get(0).thumburl);
-        }
+            String url = RequestUrl.getVRDetail(mVRAdapter.getDataList().get(position).id);
 
-        mContext.startActivity(intent);*/
+            HttpUtils.get(mContext, url, new Callback() {
+
+                @Override
+                public void onResponse(String response) {
+                    VRDetail vrDetail = GsonUtil.changeGsonToBean(response, VRDetail.class);
+                    intent.setClass(mContext, PannoDetailActivity.class);
+                    intent.putExtra("imgurl", vrDetail.scenes.get(0).thumburl);
+                    mContext.startActivity(intent);
+                }
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            });
+        }
     }
 
     @Override
