@@ -58,7 +58,7 @@ public class VRMData {
         public String            stars;
         public int               syncstatus;
         public String            thumburl;
-        public int               uploadtime;
+        public long               uploadtime;
         public String            viewcount;
         public String            width;
         public String            html5_3dpreview;

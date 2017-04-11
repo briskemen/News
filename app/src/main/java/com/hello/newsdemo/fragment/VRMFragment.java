@@ -29,13 +29,12 @@ import com.hello.newsdemo.http.Callback;
 import com.hello.newsdemo.http.HttpUtils;
 import com.hello.newsdemo.http.RequestUrl;
 import com.hello.newsdemo.utils.BitmapUtils;
+import com.hello.newsdemo.utils.DateUtils;
 import com.hello.newsdemo.utils.GsonUtil;
 import com.hello.newsdemo.utils.UIUtils;
 import com.hello.zhbj52.R;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -336,9 +335,7 @@ public class VRMFragment extends Fragment {
                     iv_thumb.getLayoutParams().height = UIUtils.dip2px(mContext, 100);
                 }
                 BitmapUtils.display(context, iv_thumb, mData.get(pos).thumburl);
-                Date date = new Date(mData.get(pos).uploadtime);
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
-                tv_date.setText(sdf.format(date));
+                tv_date.setText(DateUtils.timeStampToDate(mData.get(pos).uploadtime*1000));
                 tv_title.setText(mData.get(pos).name);
             }
         }
