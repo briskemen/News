@@ -6,11 +6,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 
 import com.hello.newsdemo.base.BasePager;
-import com.hello.newsdemo.fragment.VRFragment;
+import com.hello.newsdemo.fragment.VRMFragment;
 import com.hello.zhbj52.R;
 
 /**
@@ -68,8 +67,7 @@ public class VRPager extends BasePager {
 
         @Override
         public Fragment getItem(int position) {
-            Log.e("tag","创建fragment："+position);
-            VRFragment fragment = new VRFragment();
+            VRMFragment fragment = new VRMFragment();
             fragment.setCategory(titles[position]);
             return fragment;
         }

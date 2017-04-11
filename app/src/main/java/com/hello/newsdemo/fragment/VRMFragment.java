@@ -23,8 +23,7 @@ import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.hello.newsdemo.activity.PannoDetailActivity;
 import com.hello.newsdemo.activity.VRVideoActivity;
-import com.hello.newsdemo.domain.VRData;
-import com.hello.newsdemo.domain.VRDetail;
+import com.hello.newsdemo.domain.VRMData;
 import com.hello.newsdemo.global.MyApplication;
 import com.hello.newsdemo.http.Callback;
 import com.hello.newsdemo.http.HttpUtils;
@@ -34,7 +33,9 @@ import com.hello.newsdemo.utils.GsonUtil;
 import com.hello.newsdemo.utils.UIUtils;
 import com.hello.zhbj52.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -58,12 +59,12 @@ import java.util.List;
  * updateDes：${TODO}
  * ============================================================
  */
-public class VRFragment extends Fragment {
+public class VRMFragment extends Fragment {
 
     private LRecyclerView        mLRecyclerView;
     private LRecyclerViewAdapter mAdapter;
     private VRAdapter            mVRAdapter;
-    private int page = 1;
+    private int pageindex = 1;
     private Context mContext;
     private String  category;
     private int     channelId;
@@ -120,7 +121,7 @@ public class VRFragment extends Fragment {
             public void onRefresh() {
                 // isLoadMore = false;
                 mVRAdapter.clear();
-                page = 1;
+                pageindex = 1;
                 initData();
             }
         });
@@ -130,7 +131,7 @@ public class VRFragment extends Fragment {
             @Override
             public void onLoadMore() {
                 // isLoadMore = true;
-                page++;
+                pageindex++;
                 initData();
             }
         });
@@ -140,7 +141,7 @@ public class VRFragment extends Fragment {
             @Override
             public void onItemClick(View view, final int position) {
 
-                String url = RequestUrl.getVRDetail(mVRAdapter.getDataList().get(position).pano.id);
+                /*String url = RequestUrl.getVRDetail(mVRAdapter.getDataList().get(position).pano.id);
 
                 HttpUtils.get(mContext, url, new Callback() {
 
@@ -153,7 +154,25 @@ public class VRFragment extends Fragment {
                     public void onErrorResponse(VolleyError error) {
 
                     }
-                });
+                });*/
+
+                Intent intent = new Intent();
+                intent.putExtra("name", mVRAdapter.getDataList().get(position).author.nickname);
+                intent.putExtra("title", mVRAdapter.getDataList().get(position).name);
+                intent.putExtra("summary", mVRAdapter.getDataList().get(position).imagedes);
+                intent.putExtra("time", mVRAdapter.getDataList().get(position).uploadtime);
+
+                String videourl = mVRAdapter.getDataList().get(position).original_offline;
+
+                if (videourl !=null) {
+                    intent.putExtra("mp4url", videourl);
+                    intent.setClass(mContext, VRVideoActivity.class);
+                } else {
+                    intent.setClass(mContext, PannoDetailActivity.class);
+                    intent.putExtra("imgurl", mVRAdapter.getDataList().get(position).thumburl);
+                }
+
+                mContext.startActivity(intent);
 
             }
         });
@@ -161,7 +180,7 @@ public class VRFragment extends Fragment {
 
     private void goToDetailActivity(String result, int position) {
 
-        VRDetail vrDetail = GsonUtil.changeGsonToBean(result, VRDetail.class);
+        /*VRDetail vrDetail = GsonUtil.changeGsonToBean(result, VRDetail.class);
         Intent intent = new Intent();
         intent.putExtra("name", mVRAdapter.getDataList().get(position).user.nickname);
         intent.putExtra("title", mVRAdapter.getDataList().get(position).name);
@@ -176,7 +195,7 @@ public class VRFragment extends Fragment {
             intent.putExtra("imgurl", vrDetail.scenes.get(0).thumburl);
         }
 
-        mContext.startActivity(intent);
+        mContext.startActivity(intent);*/
     }
 
     @Override
@@ -187,8 +206,7 @@ public class VRFragment extends Fragment {
 
     public void initData() {
 
-        HttpUtils.get(MyApplication.getContext(), RequestUrl.getVRData(page, 21, channelId,
-                category),
+        HttpUtils.get(MyApplication.getContext(), RequestUrl.getVRMData(21,pageindex,channelId),
                 new Callback() {
                     @Override
                     public void onResponse(String response) {
@@ -203,7 +221,7 @@ public class VRFragment extends Fragment {
     }
 
     private void parseData(String response) {
-        VRData vrData = GsonUtil.changeGsonToBean(response, VRData.class);
+        VRMData vrData = GsonUtil.changeGsonToBean(response, VRMData.class);
         mVRAdapter.addAll(vrData.data);
         mLRecyclerView.refreshComplete(21);
     }
@@ -212,7 +230,7 @@ public class VRFragment extends Fragment {
     public class VRAdapter extends RecyclerView.Adapter<VRAdapter.ViewHolder> {
 
         private Context context;
-        private List<VRData.DataEntity> mData = new ArrayList<>();
+        private List<VRMData.DataEntity> mData = new ArrayList<>();
 
         public VRAdapter(Context context) {
             this.context = context;
@@ -261,17 +279,17 @@ public class VRFragment extends Fragment {
 
         }
 
-        public void setDataList(List<VRData.DataEntity> data) {
+        public void setDataList(List<VRMData.DataEntity> data) {
             mData.clear();
             mData.addAll(data);
             notifyDataSetChanged();
         }
 
-        public List<VRData.DataEntity> getDataList() {
+        public List<VRMData.DataEntity> getDataList() {
             return mData;
         }
 
-        public void addAll(List<VRData.DataEntity> data) {
+        public void addAll(List<VRMData.DataEntity> data) {
             int lastIndex = mData.size();
             if (mData.addAll(data)) {
                 notifyItemRangeInserted(lastIndex, data.size());
@@ -317,8 +335,10 @@ public class VRFragment extends Fragment {
                 } else {
                     iv_thumb.getLayoutParams().height = UIUtils.dip2px(mContext, 100);
                 }
-                BitmapUtils.display(context, iv_thumb, mData.get(pos).thumb);
-                tv_date.setText(mData.get(pos).releasetime);
+                BitmapUtils.display(context, iv_thumb, mData.get(pos).thumburl);
+                Date date = new Date(mData.get(pos).uploadtime);
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+                tv_date.setText(sdf.format(date));
                 tv_title.setText(mData.get(pos).name);
             }
         }
