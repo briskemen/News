@@ -349,9 +349,19 @@ public class RequestUrl {
                 "&nw=wifi";
     }
 
+    public String getIfengNews(int index) {
+        return "http://api.iclient.ifeng.com/ifengvideoList?page=" + index;
+    }
+
     public static String getVRData(int page, int pagesize, int channelid, String channelname) {
         return "http://www.detu.com/ajax/collection/getChannelList?page=" + page + "&pagesize=" +
-                pagesize + "&channelid=" + channelid + "&channelname=" + URLEncoder.encode(channelname);
+                pagesize + "&channelid=" + channelid + "&channelname=" + URLEncoder.encode
+                (channelname);
+    }
+
+    public static String getVRData(int page, int pagesize, int channelid) {
+        return "http://www.detu.com/ajax/collection/getChannelList?page=" + page + "&pagesize=" +
+                pagesize + "&channelid=" + channelid;
     }
 
     public static String getVRMData(int pagesize, int pageindex, int channelid) {
@@ -373,4 +383,9 @@ public class RequestUrl {
                 "%2FkVEZdkMOqQRZ48ErR02zJ6%2FKXOnxX046I&encryption=1&canal=meizu_store2014_news" +
                 "&mac=6K9Bh52MduyjsI60TBWf%2FMniKsPhqwUPmAMQf86XLBg%3D&open=&openpath=";
     }
+
+    /*public static String getVideoUrl(String subtab, int offset) {
+        return "http://c.m.163.com/recommend/getChanListNews?channel=T1457068979049&subtab=" +
+                subtab + "&size=20&offset=" + offset;
+    }*/
 }
