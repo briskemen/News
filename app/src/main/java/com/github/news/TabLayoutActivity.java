@@ -64,12 +64,26 @@ public class TabLayoutActivity extends AppCompatActivity implements ViewPager.On
         mTabLayout.addTab(mTabLayout.newTab().setText(mTitleList.get(0)));
         mTabLayout.addTab(mTabLayout.newTab().setText(mTitleList.get(1)));
 
+        /*List<Fragment> fragments = new ArrayList<>();
+        for (int i = 0; i < mTitleList.size(); i++) {
+            fragments.add(new GoogleVrPicFragment());
+        }
+
+        FragmentAdapter mFragmentAdapteradapter =
+                new FragmentAdapter(getSupportFragmentManager(), fragments, mTitleList);
+        //给ViewPager设置适配器
+        mViewPager.setAdapter(mFragmentAdapteradapter);
+        //将TabLayout和ViewPager关联起来。
+        mTabLayout.setupWithViewPager(mViewPager);
+        //给TabLayout设置适配器
+        mTabLayout.setTabsFromPagerAdapter(mFragmentAdapteradapter);*/
+
         mAdapter = new MyTabPagerAdapter(mViewList);
         mViewPager.setAdapter(mAdapter);
         // 将tabLayout与viewPager关联
         mTabLayout.setupWithViewPager(mViewPager);
         // 给Tab设置适配器
-        //mTabLayout.setTabsFromPagerAdapter(mAdapter);
+        mTabLayout.setTabsFromPagerAdapter(mAdapter);
     }
 
     @Override
