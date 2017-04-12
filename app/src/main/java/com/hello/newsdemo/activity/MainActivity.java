@@ -99,8 +99,6 @@ public class MainActivity extends BaseActivity {
                         mDrawerLayout.closeDrawers();
                         break;
                     case R.id.nav_women:
-                        Intent intent1 = new Intent(MainActivity.this, PicActivity.class);
-                        startActivity(intent1);
                         mDrawerLayout.closeDrawers();
                         break;
                     case R.id.nav_setting:

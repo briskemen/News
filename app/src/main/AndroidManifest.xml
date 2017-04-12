@@ -36,9 +36,7 @@
             android:name="com.hello.newsdemo.activity.MainActivity"
             android:theme="@style/Theme.PageIndicatorDefaults"/>
         <activity android:name="com.hello.newsdemo.activity.NewsDetailActivity"/>
-        <activity
-            android:name="com.hello.newsdemo.activity.PicActivity"
-            android:theme="@style/AppTheme"/>
+
         <activity
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"

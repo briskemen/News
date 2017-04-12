@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +20,10 @@ import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.hello.newsdemo.activity.ImageActivity;
 import com.hello.newsdemo.adapter.recyclerview.CommonAdapter;
 import com.hello.newsdemo.adapter.recyclerview.base.ViewHolder;
-import com.hello.newsdemo.domain.Beauty;
+import com.hello.newsdemo.domain.Girl;
+import com.hello.newsdemo.global.GlobalUrl;
 import com.hello.newsdemo.http.Callback;
 import com.hello.newsdemo.http.HttpUtils;
-import com.hello.newsdemo.http.RequestUrl;
 import com.hello.newsdemo.utils.BitmapUtils;
 import com.hello.newsdemo.utils.GsonUtil;
 import com.hello.newsdemo.utils.UIUtils;
@@ -60,8 +59,7 @@ public class PicFragment extends Fragment {
     private LRecyclerViewAdapter mRecyclerViewAdapter;
     private PicAdapter           mAdapter;
     private int                  pn;
-    private int    rn      = 20;
-    private String keyword = "美女 小清新";
+    private int rn = 20;
 
     @Override
     public void onAttach(Context context) {
@@ -73,14 +71,20 @@ public class PicFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_pic, container, false);
+        return initViews(inflater, container);
+    }
+
+    private View initViews(LayoutInflater inflater, ViewGroup container) {
+        View rootView = inflater.inflate(R.layout.fragment_pic, container, false);
+        return rootView;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mRecyclerView = (LRecyclerView) view.findViewById(R.id.rv_pic);
-        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
+        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(3,
+                StaggeredGridLayoutManager.VERTICAL));
         mAdapter = new PicAdapter(mContext, R.layout.item_stragger);
         mRecyclerViewAdapter = new LRecyclerViewAdapter(mAdapter);
         mRecyclerView.setAdapter(mRecyclerViewAdapter);
@@ -92,21 +96,24 @@ public class PicFragment extends Fragment {
         mRecyclerView.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh() {
-
+                mAdapter.clear();
+                pn = 0;
+                requestData();
             }
         });
 
         mRecyclerView.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-
+                pn += 20;
+                requestData();
             }
         });
 
         mRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-
+                enterImageScaleActivity(position);
             }
         });
     }
@@ -129,10 +136,9 @@ public class PicFragment extends Fragment {
     }
 
     private void requestData() {
-        HttpUtils.get(mContext, RequestUrl.getImagesUrl(pn, rn, keyword), new Callback() {
+        HttpUtils.get(mContext, GlobalUrl.getGirlsData(pn), new Callback() {
             @Override
             public void onResponse(String response) {
-                Log.e("tag", "response" + response);
                 parseData(response);
             }
 
@@ -145,29 +151,33 @@ public class PicFragment extends Fragment {
     }
 
     private void parseData(String response) {
-        Beauty beauty = GsonUtil.changeGsonToBean(response, Beauty.class);
-        mAdapter.addAll(beauty.data);
+        Girl girl = GsonUtil.changeGsonToBean(response, Girl.class);
+        mAdapter.addAll(girl.data);
         mRecyclerView.refreshComplete(rn);
     }
 
-    private class PicAdapter extends CommonAdapter<Beauty.DataEntity> {
+    private class PicAdapter extends CommonAdapter<Girl.DataEntity> {
 
         public PicAdapter(Context context, int layoutId) {
             super(context, layoutId);
         }
 
         @Override
-        protected void convert(ViewHolder holder, Beauty.DataEntity beauty, int position) {
+        protected void convert(ViewHolder holder, Girl.DataEntity beauty, int position) {
             ImageView iv = holder.getView(R.id.item_straggered_iv);
 
-            if (position%2 == 0){
-                iv.getLayoutParams().height = UIUtils.dip2px(mContext,200);
-            }else {
-                iv.getLayoutParams().height = UIUtils.dip2px(mContext,250);
-            }
+           /* if (position % 2 == 0) {
+                iv.getLayoutParams().height = UIUtils.dip2px(mContext, 200);
+            } else {
+                iv.getLayoutParams().height = UIUtils.dip2px(mContext, 250);
+            }*/
 
-            BitmapUtils.display(mContext, iv, beauty.obj_url);
-            holder.setText(R.id.item_straggered_tv, "文艺小清新");
+            int randomheight = UIUtils.dip2px(mContext, (int) (Math.random() * 100));
+            int height = UIUtils.dip2px(mContext, 150) + randomheight;
+
+            iv.getLayoutParams().height = height;
+            BitmapUtils.display(mContext, iv, beauty.image_url);
+            // holder.setText(R.id.item_straggered_tv, beauty.abs != null ? beauty.abs : "文艺小清新");
         }
     }
 }
