@@ -10,9 +10,9 @@ import com.hello.zhbj52.R;
  * 主页下4个子页面的基类
  */
 public class BasePager {
-    public  AppCompatActivity     mActivity;
-    public  View                  mRootView;// 布局对象
-    public  FrameLayout           flContent;// 内容
+    public AppCompatActivity mActivity;
+    public View              mRootView;// 布局对象
+    public FrameLayout       flContent;// 内容
 
     public BasePager(AppCompatActivity activity) {
         mActivity = activity;

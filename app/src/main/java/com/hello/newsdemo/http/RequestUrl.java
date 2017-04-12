@@ -388,4 +388,9 @@ public class RequestUrl {
         return "http://c.m.163.com/recommend/getChanListNews?channel=T1457068979049&subtab=" +
                 subtab + "&size=20&offset=" + offset;
     }*/
+
+    public static String getImagesUrl(int pn, int rn, String word) {
+        return "http://image.baidu.com/search/wisejsonala?tn=wisejsonala&ie=utf8&word=" + URLEncoder.encode(word) +
+                "&pn=" + pn + "&rn=" + rn;
+    }
 }

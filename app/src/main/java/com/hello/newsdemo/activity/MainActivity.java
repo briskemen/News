@@ -19,8 +19,8 @@ import com.hello.newsdemo.TabLayoutActivity;
 import com.hello.newsdemo.base.BaseActivity;
 import com.hello.newsdemo.base.BasePager;
 import com.hello.newsdemo.base.impl.NewsCenterPager;
+import com.hello.newsdemo.base.impl.PicturePager;
 import com.hello.newsdemo.base.impl.VRPager;
-import com.hello.newsdemo.base.impl.TopicPager;
 import com.hello.newsdemo.base.impl.VideoPager;
 import com.hello.zhbj52.R;
 
@@ -36,10 +36,10 @@ import butterknife.ButterKnife;
 public class MainActivity extends BaseActivity {
 
     @BindView(R.id.rg_group)
-    public RadioGroup rgGroup;
+    RadioGroup rgGroup;
 
     @BindView(R.id.vp_content)
-    public ViewPager mViewPager;
+    ViewPager mViewPager;
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -123,7 +123,7 @@ public class MainActivity extends BaseActivity {
         mPagerList = new ArrayList();
         mPagerList.add(new NewsCenterPager(this));
         mPagerList.add(new VRPager(this));
-        mPagerList.add(new TopicPager(this));
+        mPagerList.add(new PicturePager(this));
         mPagerList.add(new VideoPager(this));
 
         mViewPager.setAdapter(new ContentAdapter());
@@ -135,21 +135,16 @@ public class MainActivity extends BaseActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.rb_news:
-                        mViewPager.setCurrentItem(0);// 设置当前页面
+                        // mViewPager.setCurrentItem(0);// 设置当前页面
                         mViewPager.setCurrentItem(0, false);// 去掉切换页面的动画
                         break;
-                    case R.id.rb_recommend:
-                        // mViewPager.setCurrentItem(1);// 设置当前页面
+                    case R.id.rb_vr:
                         mViewPager.setCurrentItem(1, false);// 设置当前页面
-                        /*Intent intent1 = new Intent(MainActivity.this, RecommendActivity.class);
-                        startActivity(intent1);*/
                         break;
-                    case R.id.rb_women:
-                        //mViewPager.setCurrentItem(2, false);// 设置当前页面
-                        Intent intent = new Intent(MainActivity.this, PicActivity.class);
-                        startActivity(intent);
+                    case R.id.rb_pic:
+                        mViewPager.setCurrentItem(2, false);// 设置当前页面
                         break;
-                    case R.id.rb_setting:
+                    case R.id.rb_video:
                         mViewPager.setCurrentItem(3, false);// 设置当前页面
                         break;
                     default:

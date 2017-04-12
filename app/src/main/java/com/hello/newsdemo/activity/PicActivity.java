@@ -17,13 +17,13 @@ import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
-import com.google.gson.Gson;
 import com.hello.newsdemo.adapter.StaggeredAdapter;
-import com.hello.newsdemo.domain.Girl;
-import com.hello.newsdemo.global.GlobalUrl;
+import com.hello.newsdemo.domain.Beauty;
 import com.hello.newsdemo.http.Callback;
 import com.hello.newsdemo.http.HttpUtils;
+import com.hello.newsdemo.http.RequestUrl;
 import com.hello.newsdemo.utils.CacheUtils;
+import com.hello.newsdemo.utils.GsonUtil;
 import com.hello.newsdemo.utils.ShareUtils;
 import com.hello.newsdemo.utils.ToastUtils;
 import com.hello.zhbj52.R;
@@ -110,7 +110,7 @@ public class PicActivity extends AppCompatActivity {
         intent.putExtra("position", position);
         ArrayList<String> data = new ArrayList<>();
         for (int i = 0; i < adapter.getDataList().size(); i++) {
-            data.add(adapter.getDataList().get(i).image_url);
+            data.add(adapter.getDataList().get(i).obj_url);
         }
         //传入一个集合
         intent.putStringArrayListExtra("imageUrls", data);
@@ -171,7 +171,7 @@ public class PicActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mLAdapter);
     }*/
     private void initData() {
-        String cache = CacheUtils.getCache(GlobalUrl.getGirlsData(pn), PicActivity.this);
+        String cache = CacheUtils.getCache(RequestUrl.getImagesUrl(0,20,"美女 小清新"), PicActivity.this);
         if (!TextUtils.isEmpty(cache)) {// 如果缓存存在,直接解析数据, 无需访问网路
             parseData(cache);
         }
@@ -184,7 +184,7 @@ public class PicActivity extends AppCompatActivity {
      */
     private void getDataFromServer() {
 
-        HttpUtils.get(getApplicationContext(), GlobalUrl.getGirlsData(pn), new Callback() {
+        HttpUtils.get(getApplicationContext(), RequestUrl.getImagesUrl(0,20,"美女 小清新"), new Callback() {
             @Override
             public void onResponse(String response) {
                 parseData(response);
@@ -204,10 +204,9 @@ public class PicActivity extends AppCompatActivity {
      * @param result
      */
     protected void parseData(String result) {
-        Gson gson = new Gson();
-        Girl data = gson.fromJson(result, Girl.class);
+        Beauty beauty = GsonUtil.changeGsonToBean(result, Beauty.class);
 
-        addItems(data.data);
+        addItems(beauty.data);
         mRecyclerView.refreshComplete(20);
     }
 
@@ -215,7 +214,7 @@ public class PicActivity extends AppCompatActivity {
         mLAdapter.notifyDataSetChanged();
     }
 
-    private void addItems(List<Girl.DataEntity> data) {
+    private void addItems(List<Beauty.DataEntity> data) {
         adapter.addAll(data);
     }
 }

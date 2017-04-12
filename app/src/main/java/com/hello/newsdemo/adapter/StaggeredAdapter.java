@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.hello.newsdemo.domain.Girl;
+import com.hello.newsdemo.domain.Beauty;
 import com.hello.newsdemo.utils.BitmapUtils;
 import com.hello.newsdemo.utils.UIUtils;
 import com.hello.zhbj52.R;
@@ -35,7 +35,7 @@ import java.util.List;
 public class StaggeredAdapter extends RecyclerView.Adapter<StaggeredAdapter.MyHolder> {
 
     private Context         context;
-    private List<Girl.DataEntity> mData = new ArrayList<>();
+    private List<Beauty.DataEntity> mData = new ArrayList<>();
 
     public StaggeredAdapter(Context context) {
         this.context = context;
@@ -69,17 +69,17 @@ public class StaggeredAdapter extends RecyclerView.Adapter<StaggeredAdapter.MyHo
         return 0;
     }
 
-    public void setDataList(List<Girl.DataEntity> data) {
+    public void setDataList(List<Beauty.DataEntity> data) {
         mData.clear();
         mData.addAll(data);
         notifyDataSetChanged();
     }
 
-    public List<Girl.DataEntity> getDataList() {
+    public List<Beauty.DataEntity> getDataList() {
         return mData;
     }
 
-    public void addAll(List<Girl.DataEntity> data) {
+    public void addAll(List<Beauty.DataEntity> data) {
         int lastIndex = mData.size();
         if (mData.addAll(data)) {
             notifyItemRangeInserted(lastIndex, data.size());
@@ -117,13 +117,10 @@ public class StaggeredAdapter extends RecyclerView.Adapter<StaggeredAdapter.MyHo
          *
          * @param dataBean
          */
-        public void setDataAndRefreshUI(Girl.DataEntity dataBean) {
-            if (dataBean.image_url == null){
-                dataBean.image_url = "http://a.hiphotos.baidu.com/image/pic/item/359b033b5bb5c9ea05f973e2d739b6003af3b3ac.jpg";
-            }
+        public void setDataAndRefreshUI(Beauty.DataEntity dataBean) {
 
-            mTvName.setText(dataBean.date);
-            BitmapUtils.display(context,mIvIcon,dataBean.image_url);
+            mTvName.setText(dataBean.title);
+            BitmapUtils.display(context,mIvIcon,dataBean.obj_url);
         }
     }
 }

@@ -87,7 +87,7 @@ public class VRMFragment extends Fragment {
 
     private View initViews(LayoutInflater inflater, ViewGroup container) {
         View view = inflater.inflate(R.layout.fragment_vr, container, false);
-        mLRecyclerView = (LRecyclerView) view.findViewById(R.id.rv);
+        mLRecyclerView = (LRecyclerView) view.findViewById(R.id.rv_vr);
         mLRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 2));
         mVRAdapter = new VRAdapter(mContext);
         mAdapter = new LRecyclerViewAdapter(mVRAdapter);

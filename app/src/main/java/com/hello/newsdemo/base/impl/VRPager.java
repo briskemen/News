@@ -29,8 +29,8 @@ public class VRPager extends BasePager {
     @Override
     public void initViews() {
         mRootView = LayoutInflater.from(mActivity).inflate(R.layout.layout_vr, null, false);
-        vp = (ViewPager) mRootView.findViewById(R.id.vp);
-        tabLayout = (TabLayout) mRootView.findViewById(R.id.tab_layout);
+        vp = (ViewPager) mRootView.findViewById(R.id.viewpager_vr);
+        tabLayout = (TabLayout) mRootView.findViewById(R.id.tab_vr);
         mFragmentAdapter = new FragmentAdapter(mActivity.getSupportFragmentManager());
         vp.setAdapter(mFragmentAdapter);
         tabLayout.setupWithViewPager(vp);
