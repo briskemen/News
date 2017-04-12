@@ -390,7 +390,25 @@ public class RequestUrl {
     }*/
 
     public static String getImagesUrl(int pn, int rn, String word) {
-        return "http://image.baidu.com/search/wisejsonala?tn=wisejsonala&ie=utf8&word=" + URLEncoder.encode(word) +
+        return "http://image.baidu.com/search/wisejsonala?tn=wisejsonala&ie=utf8&word=" +
+                URLEncoder.encode(word) +
                 "&pn=" + pn + "&rn=" + rn;
+    }
+
+    public static String getNewsUrl(String tid, int index) {
+        return "http://c.m.163.com/nc/article/list/" + tid + "/" + index + "-20.html";
+    }
+
+    public static String getBeautifulGirl(int size, int offset) {
+        return "http://c.m.163.com/recommend/getChanRecomNews?channel=T1456112189138&size=" +
+                size + "&offset=" + offset + "&fn=1";
+    }
+
+    public static String getPicUrl() {
+        return "http://c.m.163.com/photo/api/list/0096/54GI0096.json";
+    }
+
+    public static String getMorePicUrl(String setid) {
+        return "http://c.m.163.com/photo/api/morelist/0096/54GI0096/" + setid + ".json";
     }
 }

@@ -8,16 +8,14 @@
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_video"
         android:layout_width="match_parent"
-        android:layout_height="38dp"
-        android:background="@android:color/holo_red_light"
-        app:tabIndicatorColor="#fff"
-        app:tabSelectedTextColor="#fff"
-        app:tabTextColor="#8affffff"/>
+        android:layout_height="40dp"
+        app:tabIndicatorColor="@android:color/tab_indicator_text"/>
 
-    <!--<View
+    <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@color/divider"/>-->
+        android:background="@color/common_list_item_divider"
+        />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_video"

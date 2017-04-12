@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 
 import com.hello.newsdemo.base.BasePager;
-import com.hello.newsdemo.fragment.PicFragment;
+import com.hello.newsdemo.factory.PicFragmentFactory;
 import com.hello.zhbj52.R;
 
 
@@ -18,7 +18,7 @@ public class PicturePager extends BasePager {
     private ViewPager  vp;
     private TabLayout  tabLayout;
     private PicAdapter mPicAdapter;
-    private static final String[] titles = new String[]{"小清新", "风景"};
+    private static final String[] titles = new String[]{"小清新", "美女","新闻"};
 
 
     public PicturePager(AppCompatActivity activity) {
@@ -69,8 +69,7 @@ public class PicturePager extends BasePager {
 
         @Override
         public Fragment getItem(int position) {
-            PicFragment fragment = new PicFragment();
-            return fragment;
+            return PicFragmentFactory.getFragment(position);
         }
 
         @Override

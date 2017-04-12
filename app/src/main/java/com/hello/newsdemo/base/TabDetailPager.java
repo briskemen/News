@@ -33,7 +33,6 @@ import com.hello.newsdemo.http.Callback;
 import com.hello.newsdemo.http.HttpUtils;
 import com.hello.newsdemo.utils.BitmapUtils;
 import com.hello.newsdemo.utils.CacheUtils;
-import com.hello.newsdemo.utils.LogUtils;
 import com.hello.newsdemo.utils.PrefUtils;
 import com.hello.newsdemo.utils.ToastUtils;
 import com.hello.newsdemo.view.TopNewsViewPager;
@@ -198,7 +197,7 @@ public class TabDetailPager extends BaseMenuDetailPager implements OnPageChangeL
                     @Override
                     public void onResponse(String response) {
                         parseData(response);
-                        LogUtils.i(TAG,"response:"+response);
+                        // LogUtils.i(TAG,"response:"+response);
                         // 设置缓存
                         CacheUtils.SetCache(GlobalUrl.getNewsUrl(mTabData.tid, index), response,
                                 mActivity);
@@ -224,14 +223,12 @@ public class TabDetailPager extends BaseMenuDetailPager implements OnPageChangeL
             // 解决方法1
             JSONObject jsonObject = new JSONObject(responseData);
             result = jsonObject.getString(mTabData.tid);
-            LogUtils.i(TAG,"result:"+result);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         List<TabNewsData> data = gson.fromJson(result, new TypeToken<List<TabNewsData>>() {
         }.getType());
-        LogUtils.i(TAG,"data:"+data);
         /**
          * data:[com.itheima.newsdemo.json.WYNewsJson$TopNews@3d56a9e8, com.itheima.newsdemo.json
          * .WYNewsJson$TopNews@171b3801,...]
