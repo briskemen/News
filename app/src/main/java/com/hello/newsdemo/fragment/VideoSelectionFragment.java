@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.android.volley.VolleyError;
-import com.bumptech.glide.Glide;
 import com.github.jdsjlzx.interfaces.OnItemClickListener;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.interfaces.OnRefreshListener;
@@ -25,6 +24,7 @@ import com.hello.newsdemo.domain.VideoSelection;
 import com.hello.newsdemo.http.Callback;
 import com.hello.newsdemo.http.HttpUtils;
 import com.hello.newsdemo.http.RequestUrl;
+import com.hello.newsdemo.utils.BitmapUtils;
 import com.hello.newsdemo.utils.GsonUtil;
 import com.hello.zhbj52.R;
 
@@ -160,7 +160,7 @@ public class VideoSelectionFragment extends Fragment {
         protected void convert(ViewHolder holder, VideoSelection.VideoData videoData, int
                 position) {
             ImageView iv = holder.getView(R.id.iv_video);
-            Glide.with(mContext).load(videoData.image).into(iv);
+            BitmapUtils.display(mContext,iv,videoData.image);
             holder.setText(R.id.tv_title, videoData.title);
         }
     }

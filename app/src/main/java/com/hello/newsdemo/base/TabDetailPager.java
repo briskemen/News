@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
+import com.bumptech.glide.Glide;
 import com.github.jdsjlzx.ItemDecoration.DividerDecoration;
 import com.github.jdsjlzx.interfaces.OnItemClickListener;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
@@ -54,7 +55,6 @@ public class TabDetailPager extends BaseMenuDetailPager implements OnPageChangeL
     private TopNewsViewPager     mViewPager;
     private TextView             tvTitle;// 头条新闻的标题
     private LRecyclerView        mRecyclerView;
-    // private NewsAdapter2          mAdapter;
     private NewsAdapter          mAdapter;
     private LRecyclerViewAdapter mLAdapter;
     private TopNewsAdapter       mTopNewsAdapter;
@@ -139,6 +139,32 @@ public class TabDetailPager extends BaseMenuDetailPager implements OnPageChangeL
                 isLoadMore = true;
                 index += 20;
                 getDataFromServer();
+            }
+        });
+
+        mRecyclerView.setLScrollListener(new LRecyclerView.LScrollListener() {
+            @Override
+            public void onScrollUp() {
+
+            }
+
+            @Override
+            public void onScrollDown() {
+
+            }
+
+            @Override
+            public void onScrolled(int distanceX, int distanceY) {
+
+            }
+
+            @Override
+            public void onScrollStateChanged(int state) {
+                if (state == LRecyclerView.SCROLL_STATE_IDLE){
+                    Glide.with(mActivity).resumeRequests();
+                }else if (state == LRecyclerView.SCROLL_STATE_SETTLING){
+                    Glide.with(mActivity).pauseRequests();
+                }
             }
         });
 

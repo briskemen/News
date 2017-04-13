@@ -28,10 +28,12 @@ public class PictureNews implements MultiItemEntity {
 
     @Override
     public int getItemType(int position) {
-        if (position % 3 == 0) {
+        if (position % 4 == 0) {
             return TYPE1;
-        } else if (position % 3 == 1) {
+        } else if (position % 4 == 1) {
             return TYPE2;
+        } else if (position % 4 == 2) {
+            return TYPE1;
         } else {
             return TYPE3;
         }

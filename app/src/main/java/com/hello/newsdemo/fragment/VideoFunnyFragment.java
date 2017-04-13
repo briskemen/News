@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.android.volley.VolleyError;
-import com.bumptech.glide.Glide;
 import com.github.jdsjlzx.interfaces.OnItemClickListener;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.interfaces.OnRefreshListener;
@@ -25,6 +24,7 @@ import com.hello.newsdemo.domain.VideoNews;
 import com.hello.newsdemo.http.Callback;
 import com.hello.newsdemo.http.HttpUtils;
 import com.hello.newsdemo.http.RequestUrl;
+import com.hello.newsdemo.utils.BitmapUtils;
 import com.hello.newsdemo.utils.GsonUtil;
 import com.hello.zhbj52.R;
 
@@ -162,8 +162,9 @@ public class VideoFunnyFragment extends Fragment {
         protected void convert(ViewHolder holder, VideoNews.VideoData videoData, int position) {
             ImageView iv = holder.getView(R.id.iv_cover);
             ImageView iv_user_avatar = holder.getView(R.id.iv_user_avatar);
-            Glide.with(mContext).load(videoData.cover).into(iv);
-            Glide.with(mContext).load(videoData.videoTopic.topic_icons).into(iv_user_avatar);
+            BitmapUtils.display(mContext,iv,videoData.cover);
+            BitmapUtils.display(mContext,iv_user_avatar,videoData.videoTopic.topic_icons);
+
             holder.setText(R.id.count, videoData.playCount + "播放");
             holder.setText(R.id.des, videoData.title);
             holder.setText(R.id.username, videoData.videoTopic.tname);
