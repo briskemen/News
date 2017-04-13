@@ -1,20 +1,17 @@
 package com.hello.newsdemo.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
+import com.hello.newsdemo.domain.PictureNews;
 import com.hello.newsdemo.domain.TabNewsData;
-import com.hello.newsdemo.utils.BitmapUtils;
-import com.hello.newsdemo.utils.PrefUtils;
 import com.hello.zhbj52.R;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.text.DecimalFormat;
 
+import static com.hello.zhbj52.R.id.iv_pic;
+import static com.hello.zhbj52.R.id.tv_date;
+import static com.hello.zhbj52.R.id.tv_heel_stick;
+import static com.hello.zhbj52.R.id.tv_title;
 
 /**
  * ============================================================
@@ -26,10 +23,10 @@ import java.util.List;
  * 博客：     http://blog.csdn.net/axi295309066
  * 微博：     AndroidDeveloper
  * <p>
- * Project_Name：ZHBJ
+ * Project_Name：News
  * Package_Name：com.hello.newsdemo.adapter
  * Version：1.0
- * time：2017/4/2 15:05
+ * time：2017/4/13 9:38
  * des ：${TODO}
  * gitVersion：2.12.0.windows.1
  * updateAuthor：$Author$
@@ -37,88 +34,60 @@ import java.util.List;
  * updateDes：${TODO}
  * ============================================================
  */
-public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
-
-    private Context context;
-    private List<TabNewsData> mData = new ArrayList<>();
+public class NewsAdapter extends BaseMultiAdapter<TabNewsData> {
 
     public NewsAdapter(Context context) {
-        this.context = context;
+        super(context);
+        addItemType(TabNewsData.TYPE_NORMAL, R.layout.list_news_item);
+        addItemType(TabNewsData.TYPE_PHOTOSET, R.layout.item_image);
+        addItemType(TabNewsData.TYPE_SPECIAL, R.layout.list_item_special);
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = View.inflate(context, R.layout.list_news_item, null);
-        ViewHolder viewHolder = new ViewHolder(view);
-        return viewHolder;
-    }
-
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.setDataAndRefreshUI(position);
-    }
-
-    @Override
-    public int getItemCount() {
-        if (mData != null) {
-            return mData.size();
-        }
-        return 0;
-    }
-
-    public void setDataList(List<TabNewsData> data) {
-        mData.clear();
-        mData.addAll(data);
-        notifyDataSetChanged();
-    }
-
-    public List<TabNewsData> getDataList() {
-        return mData;
-    }
-
-    public void addAll(List<TabNewsData> data) {
-        int lastIndex = mData.size();
-        if (mData.addAll(data)) {
-            notifyItemRangeInserted(lastIndex, data.size());
+    public void onBindItemHolder(SuperViewHolder holder, int position) {
+        TabNewsData item = getDataList().get(position);
+        switch (item.getItemType(position)) {
+            case PictureNews.TYPE1:
+                bindTypeNormalItem(holder, item);
+                break;
+            case PictureNews.TYPE2:
+                bindTypeImageItem(holder, item);
+                break;
+            case PictureNews.TYPE3:
+                bindTypeSpecialItem(holder, item);
+                break;
+            default:
+                break;
         }
     }
 
-    public void remove(int position) {
-        mData.remove(position);
-        notifyItemRemoved(position);
-
-        if (position != (mData.size())) { // 如果移除的是最后一个，忽略
-            notifyItemRangeChanged(position, mData.size() - position);
-        }
+    private void bindTypeNormalItem(SuperViewHolder holder, TabNewsData item) {
+        holder.setText(tv_title, item.title);
+        holder.setText(tv_date, item.source);
+        holder.setText(tv_heel_stick, item.replyCount + "跟贴");
+        holder.setImage(iv_pic, item.imgsrc);
+        // String ids = PrefUtils.getString(mContext, "read_ids", "");
     }
 
-    public void clear() {
-        mData.clear();
-        notifyDataSetChanged();
+    private void bindTypeImageItem(SuperViewHolder holder, TabNewsData item) {
+
+        holder.setText(R.id.tv_title, item.title);
+        holder.setText(R.id.tv_source_typeimage, item.source);
+        holder.setText(R.id.tv_replyCount_typeimage, item.replyCount + "跟帖");
+        holder.setImage(R.id.imageView1, item.imgextra.get(0).imgsrc);
+        holder.setImage(R.id.imageView2, item.imgsrc);
+        holder.setImage(R.id.imageView3, item.imgextra.get(1).imgsrc);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-
-        public TextView  tvTitle;
-        public TextView  tvDate;
-        public TextView  tvHeelStick;
-        public ImageView ivPic;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            ivPic = (ImageView) itemView.findViewById(R.id.iv_pic);
-            tvTitle = (TextView) itemView.findViewById(R.id.tv_title);
-            tvDate = (TextView) itemView.findViewById(R.id.tv_date);
-            tvHeelStick = (TextView) itemView.findViewById(R.id.tv_heel_stick);
+    private void bindTypeSpecialItem(SuperViewHolder holder, TabNewsData item) {
+        holder.setText(R.id.tv_title, item.title);
+        holder.setText(R.id.tv_source_typespecial, item.source);
+        if (Integer.parseInt(item.replyCount) > 10000) {
+            holder.setText(R.id.tv_replyCount_typespecial, new DecimalFormat(".0")
+                    .format(Integer.parseInt(item.replyCount) * 1.0 / 10000) + "万跟帖");
+        } else {
+            holder.setText(R.id.tv_replyCount_typespecial, item.replyCount + "跟帖");
         }
-
-        public void setDataAndRefreshUI(int pos) {
-            TabNewsData data = mData.get(pos);
-            tvTitle.setText(data.title);
-            tvDate.setText(data.source);
-            tvHeelStick.setText(data.replyCount + "跟贴");
-            BitmapUtils.display(context, ivPic, data.imgsrc);
-            String ids = PrefUtils.getString(context, "read_ids", "");
-        }
+        holder.setImage(R.id.iv_typespecial, item.imgsrc);
     }
 }

@@ -1,5 +1,7 @@
 package com.hello.newsdemo.domain;
 
+import com.hello.newsdemo.adapter.MultiItemEntity;
+
 import java.util.ArrayList;
 
 /**
@@ -23,7 +25,11 @@ import java.util.ArrayList;
  * updateDes：${TODO}
  * ============================================================
  */
-public class TabNewsData {
+public class TabNewsData implements MultiItemEntity {
+
+    public static final int TYPE_NORMAL   = 1;
+    public static final int TYPE_PHOTOSET = 2;
+    public static final int TYPE_SPECIAL  = 3;
 
     public ArrayList<AdsData>      ads;// 图片新闻
     public ArrayList<ImgextraData> imgextra;//	Array
@@ -70,6 +76,17 @@ public class TabNewsData {
 
     public class ImgextraData {
         public String imgsrc;
+    }
+
+    @Override
+    public int getItemType(int position) {
+        if (skipType != null && skipType.equals("photoset") && imgextra != null) {
+            return TYPE_PHOTOSET;
+        } else if (skipType != null && skipType.equals("special")) {
+            return TYPE_SPECIAL;
+        } else {
+            return TYPE_NORMAL;
+        }
     }
 
 }

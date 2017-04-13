@@ -54,6 +54,7 @@ public class TabDetailPager extends BaseMenuDetailPager implements OnPageChangeL
     private TopNewsViewPager     mViewPager;
     private TextView             tvTitle;// 头条新闻的标题
     private LRecyclerView        mRecyclerView;
+    // private NewsAdapter2          mAdapter;
     private NewsAdapter          mAdapter;
     private LRecyclerViewAdapter mLAdapter;
     private TopNewsAdapter       mTopNewsAdapter;
@@ -145,6 +146,7 @@ public class TabDetailPager extends BaseMenuDetailPager implements OnPageChangeL
         mLAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+
                 // 在本地记录已读状态
                 String ids = PrefUtils.getString(mActivity, "read_ids", "");
                 String docId = mAdapter.getDataList().get(position).docid;
