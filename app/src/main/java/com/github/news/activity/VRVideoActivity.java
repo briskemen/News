@@ -207,7 +207,7 @@ public class VRVideoActivity extends AppCompatActivity {
 
     class VideoLoaderTask extends AsyncTask<Pair<Uri, VrVideoView.Options>, Void, Boolean> {
         @Override
-        protected Boolean doInBackground(Pair<Uri, VrVideoView.Options>... fileInformation) {
+        protected Boolean doInBackground(final Pair<Uri, VrVideoView.Options>... fileInformation) {
             try {
                 if (fileInformation == null || fileInformation.length < 1
                         || fileInformation[0] == null || fileInformation[0].first == null) {
@@ -221,9 +221,19 @@ public class VRVideoActivity extends AppCompatActivity {
                     options.inputType = VrVideoView.Options.TYPE_STEREO_OVER_UNDER;
                     mVrVideoView.loadVideoFromAsset("congo.mp4", options);*/
                 } else {
-                    mVrVideoView.loadVideo(fileInformation[0].first, fileInformation[0].second);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                mVrVideoView.loadVideo(fileInformation[0].first, fileInformation
+                                        [0].second);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
                 }
-            } catch (IOException e) {
+            } catch (Exception e) {
                 loadVideoStatus = LOAD_VIDEO_STATUS_ERROR;
                 mVrVideoView.post(new Runnable() {
                     @Override
