@@ -24,7 +24,7 @@ import com.github.news.http.HttpUtils;
 import com.github.news.http.RequestUrl;
 import com.github.news.utils.GsonUtil;
 import com.github.news.utils.ToastUtils;
-import com.hello.zhbj52.R;
+import com.github.news.R;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -37,7 +37,7 @@ import com.github.news.utils.CacheUtils;
 import com.github.news.utils.PrefUtils;
 import com.github.news.utils.ToastUtils;
 import com.github.news.view.TopNewsViewPager;
-import com.hello.zhbj52.R;
+import com.github.news.R;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import org.json.JSONException;

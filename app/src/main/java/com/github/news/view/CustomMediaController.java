@@ -18,7 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.hello.zhbj52.R;
+import com.github.news.R;
 
 import io.vov.vitamio.widget.MediaController;
 import io.vov.vitamio.widget.VideoView;

@@ -27,7 +27,7 @@
         </android.support.design.widget.AppBarLayout>
 
 
-        <com.hello.newsdemo.view.NoScrollViewPager
+        <com.github.news.view.NoScrollViewPager
             android:id="@+id/vp_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -41,7 +41,7 @@
             android:layout_gravity="bottom"
             android:background="#8f8c8c"
             android:orientation="horizontal"
-            app:layout_behavior="com.hello.newsdemo.behavior.MyBottomBarBehavior">
+            app:layout_behavior="com.github.news.behavior.MyBottomBarBehavior">
 
             <RadioButton
                 android:id="@+id/rb_news"

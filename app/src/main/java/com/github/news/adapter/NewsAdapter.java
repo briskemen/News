@@ -4,14 +4,14 @@ import android.content.Context;
 
 import com.github.news.domain.PictureNews;
 import com.github.news.domain.TabNewsData;
-import com.hello.zhbj52.R;
+import com.github.news.R;
 
 import java.text.DecimalFormat;
 
-import static com.hello.zhbj52.R.id.iv_pic;
-import static com.hello.zhbj52.R.id.tv_date;
-import static com.hello.zhbj52.R.id.tv_heel_stick;
-import static com.hello.zhbj52.R.id.tv_title;
+import static com.github.news.R.id.iv_pic;
+import static com.github.news.R.id.tv_date;
+import static com.github.news.R.id.tv_heel_stick;
+import static com.github.news.R.id.tv_title;
 
 /**
  * ============================================================

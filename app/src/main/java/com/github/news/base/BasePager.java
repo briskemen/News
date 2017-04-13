@@ -4,7 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.hello.zhbj52.R;
+import com.github.news.R;
+
 
 /**
  * 主页下4个子页面的基类

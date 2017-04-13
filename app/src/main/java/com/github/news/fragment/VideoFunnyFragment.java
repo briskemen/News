@@ -26,7 +26,7 @@ import com.github.news.http.HttpUtils;
 import com.github.news.http.RequestUrl;
 import com.github.news.utils.BitmapUtils;
 import com.github.news.utils.GsonUtil;
-import com.hello.zhbj52.R;
+import com.github.news.R;
 
 /**
  * ============================================================

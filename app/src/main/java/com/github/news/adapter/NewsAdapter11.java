@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.hello.zhbj52.R;
+import com.github.news.R;
 
 import java.util.ArrayList;
 import java.util.List;

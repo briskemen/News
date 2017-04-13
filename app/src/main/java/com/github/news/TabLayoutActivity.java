@@ -10,8 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.hello.zhbj52.R;
-
 import java.util.ArrayList;
 import java.util.List;
 

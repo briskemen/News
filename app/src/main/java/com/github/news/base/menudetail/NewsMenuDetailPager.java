@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.github.news.base.BaseMenuDetailPager;
 import com.github.news.base.TabDetailPager;
 import com.github.news.domain.TabData;
-import com.hello.zhbj52.R;
+import com.github.news.R;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -11,7 +11,7 @@ import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.widget.RelativeLayout;
 
-import com.hello.zhbj52.R;
+import com.github.news.R;
 
 /**
  * 闪屏页

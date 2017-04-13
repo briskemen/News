@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.github.news.domain.RecommendNewsData;
 import com.github.news.utils.BitmapUtils;
 import com.github.news.utils.PrefUtils;
-import com.hello.zhbj52.R;
+import com.github.news.R;
 
 import java.util.ArrayList;
 import java.util.List;

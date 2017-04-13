@@ -22,7 +22,7 @@ import com.github.news.base.impl.NewsCenterPager;
 import com.github.news.base.impl.PicturePager;
 import com.github.news.base.impl.VRPager;
 import com.github.news.base.impl.VideoPager;
-import com.hello.zhbj52.R;
+import com.github.news.R;
 
 import java.util.ArrayList;
 import java.util.List;

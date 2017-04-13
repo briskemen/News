@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import com.github.news.domain.PictureNews;
 import com.github.news.utils.BitmapUtils;
-import com.hello.zhbj52.R;
+import com.github.news.R;
 
 public class MultipleItemAdapter extends BaseMultiAdapter<PictureNews> {
 

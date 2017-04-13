@@ -14,8 +14,8 @@ import android.webkit.WebViewClient;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 
+import com.github.news.R;
 import com.github.news.utils.ShareUtils;
-import com.hello.zhbj52.R;
 
 /**
  * ============================================================

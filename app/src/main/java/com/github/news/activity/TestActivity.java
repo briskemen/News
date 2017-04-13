@@ -10,7 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.github.news.fragment.PicFragment;
-import com.hello.zhbj52.R;
+import com.github.news.R;
 
 /**
  * ============================================================

@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.google.vr.sdk.widgets.video.VrVideoEventListener;
 import com.google.vr.sdk.widgets.video.VrVideoView;
-import com.hello.zhbj52.R;
+import com.github.news.R;
 
 import java.io.IOException;
 

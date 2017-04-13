@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import com.github.news.activity.MainActivity;
 import com.github.news.base.BasePager;
 import com.github.news.factory.VideoFragmentFactory;
-import com.hello.zhbj52.R;
+import com.github.news.R;
 
 /**
  * 设置页面

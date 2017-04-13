@@ -15,7 +15,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.google.vr.sdk.widgets.pano.VrPanoramaEventListener;
 import com.google.vr.sdk.widgets.pano.VrPanoramaView;
-import com.hello.zhbj52.R;
+import com.github.news.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

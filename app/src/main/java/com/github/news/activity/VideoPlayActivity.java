@@ -13,7 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.github.news.view.CustomMediaController;
-import com.hello.zhbj52.R;
+import com.github.news.R;
 
 import io.vov.vitamio.MediaPlayer;
 import io.vov.vitamio.Vitamio;

@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 
 import com.github.chrisbanes.photoview.PhotoView;
 import com.github.news.utils.BitmapUtils;
-import com.hello.zhbj52.R;
+import com.github.news.R;
 
 import java.util.List;
 

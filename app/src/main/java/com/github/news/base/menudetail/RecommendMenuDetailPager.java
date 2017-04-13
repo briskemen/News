@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 
 import com.github.news.base.BaseMenuDetailPager;
 import com.github.news.domain.RecommendNewsData;
-import com.hello.zhbj52.R;
+import com.github.news.R;
 
 import java.util.ArrayList;
 import java.util.List;
