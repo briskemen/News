@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.hello.zhbj52"
+<manifest package="com.github.news"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -16,14 +16,14 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
 
     <application
-        android:name="com.hello.newsdemo.global.MyApplication"
+        android:name="com.github.news.base.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/news"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.hello.newsdemo.activity.SplashActivity"
+            android:name="com.github.news.activity.SplashActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
             <intent-filter>
@@ -33,9 +33,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.hello.newsdemo.activity.MainActivity"
+            android:name="com.github.news.activity.MainActivity"
             android:theme="@style/Theme.PageIndicatorDefaults"/>
-        <activity android:name="com.hello.newsdemo.activity.NewsDetailActivity"/>
+        <activity android:name="com.github.news.activity.NewsDetailActivity"/>
 
         <activity
             android:name="com.mob.tools.MobUIShell"
@@ -61,13 +61,13 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.hello.newsdemo.activity.RecommendActivity"/>
-        <activity android:name="com.hello.newsdemo.activity.ImageActivity"/>
-        <activity android:name="com.hello.newsdemo.activity.VRActivity"/>
-        <activity android:name="com.hello.newsdemo.activity.VideoPlayActivity"/>
-        <activity android:name="com.hello.newsdemo.TabLayoutActivity"/>
-        <activity android:name="com.hello.newsdemo.activity.PannoDetailActivity"/>
-        <activity android:name="com.hello.newsdemo.activity.VRVideoActivity"/>
+        <activity android:name="com.github.news.activity.RecommendActivity"/>
+        <activity android:name="com.github.news.activity.ImageActivity"/>
+        <activity android:name="com.github.news.activity.VRActivity"/>
+        <activity android:name="com.github.news.activity.VideoPlayActivity"/>
+        <activity android:name="com.github.news.TabLayoutActivity"/>
+        <activity android:name="com.github.news.activity.PannoDetailActivity"/>
+        <activity android:name="com.github.news.activity.VRVideoActivity"/>
     </application>
 
 </manifest>
