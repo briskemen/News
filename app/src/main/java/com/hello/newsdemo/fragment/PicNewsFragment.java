@@ -23,6 +23,7 @@ import com.hello.newsdemo.http.Callback;
 import com.hello.newsdemo.http.HttpUtils;
 import com.hello.newsdemo.http.RequestUrl;
 import com.hello.newsdemo.utils.GsonUtil;
+import com.hello.newsdemo.utils.ToastUtils;
 import com.hello.zhbj52.R;
 
 import java.util.ArrayList;
@@ -78,6 +79,12 @@ public class PicNewsFragment extends Fragment {
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        requestData();
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mRecyclerView = (LRecyclerView) view.findViewById(R.id.rv_pic);
@@ -95,7 +102,7 @@ public class PicNewsFragment extends Fragment {
             public void onRefresh() {
                 mMultipleItemAdapter.clear();
                 url = RequestUrl.getPicUrl();
-                index = 9;
+                index = -1;
                 requestData();
             }
         });
@@ -104,7 +111,8 @@ public class PicNewsFragment extends Fragment {
             @Override
             public void onLoadMore() {
                 index += 10;
-                url = RequestUrl.getMorePicUrl(mMultipleItemAdapter.getDataList().get(index).setid);
+                int lastindex = mMultipleItemAdapter.getDataList().size() - 1;
+                url = RequestUrl.getMorePicUrl(mMultipleItemAdapter.getDataList().get(lastindex).setid);
                 requestData();
             }
         });
@@ -118,20 +126,19 @@ public class PicNewsFragment extends Fragment {
     }
 
     private void enterImageScaleActivity(int position) {
-        Intent intent = new Intent(mContext, ImageActivity.class);
-        intent.putExtra("position", position);
-        ArrayList<String> data = new ArrayList<>();
-        for (int i = 0; i < mMultipleItemAdapter.getDataList().size(); i++) {
-            data.add(mMultipleItemAdapter.getDataList().get(i).cover);
+        try {
+            Intent intent = new Intent(mContext, ImageActivity.class);
+            intent.putExtra("position", position);
+            ArrayList<String> data = new ArrayList<>();
+            for (int i = 0; i < mMultipleItemAdapter.getDataList().size(); i++) {
+                data.add(mMultipleItemAdapter.getDataList().get(i).cover);
+            }
+            intent.putStringArrayListExtra("imageUrls", data);
+            startActivity(intent);
+        }catch (Exception e){
+            ToastUtils.showToast(mContext,e.getMessage());
+            e.printStackTrace();
         }
-        intent.putStringArrayListExtra("imageUrls", data);
-        startActivity(intent);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        requestData();
     }
 
     private void requestData() {
@@ -143,16 +150,21 @@ public class PicNewsFragment extends Fragment {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                error.printStackTrace();
             }
         });
 
     }
 
     private void parseData(String response) {
-        List<PictureNews> data = GsonUtil.changeGsonToList(response, PictureNews.class);
-        mMultipleItemAdapter.addAll(data);
-        mRecyclerView.refreshComplete(pagesize);
+        try {
+            List<PictureNews> data = GsonUtil.changeGsonToList(response, PictureNews.class);
+            mMultipleItemAdapter.addAll(data);
+            mRecyclerView.refreshComplete(pagesize);
+        }catch (Exception e){
+            ToastUtils.showToast(mContext,e.getMessage());
+            e.printStackTrace();
+        }
     }
 
 }
