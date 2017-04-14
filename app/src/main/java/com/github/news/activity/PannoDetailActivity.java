@@ -6,16 +6,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.github.news.R;
+import com.github.news.utils.ToastUtils;
 import com.google.vr.sdk.widgets.pano.VrPanoramaEventListener;
 import com.google.vr.sdk.widgets.pano.VrPanoramaView;
-import com.github.news.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,10 +64,11 @@ public class PannoDetailActivity extends AppCompatActivity {
 
     @BindView(R.id.vr_panorama)
     public VrPanoramaView mPanoramaView;
-    private VrPanoramaView.Options panoOptions = new VrPanoramaView.Options();
 
-    public boolean loadImageSuccessful;
-    private String url;
+    private VrPanoramaView.Options panOptions = new VrPanoramaView.Options();
+
+    public  boolean loadImageSuccessful;
+    private String  url;
 
 
     @Override
@@ -106,7 +106,7 @@ public class PannoDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        if (mPanoramaView != null){
+        if (mPanoramaView != null) {
             mPanoramaView.pauseRendering();
         }
         Glide.with(this).pauseRequests();
@@ -116,7 +116,7 @@ public class PannoDetailActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (mPanoramaView != null){
+        if (mPanoramaView != null) {
             mPanoramaView.resumeRendering();
         }
         Glide.with(this).resumeRequests();
@@ -125,7 +125,7 @@ public class PannoDetailActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mPanoramaView != null){
+        if (mPanoramaView != null) {
             mPanoramaView.shutdown();
         }
         Glide.clear(mTarget);
@@ -137,14 +137,15 @@ public class PannoDetailActivity extends AppCompatActivity {
 
     SimpleTarget<Bitmap> mTarget = new SimpleTarget<Bitmap>() {
         @Override
-        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap>
+                glideAnimation) {
             if (resource != null) {
                 // VrPanoramaView.Options options = new VrPanoramaView.Options();
                 //加载立体图片，上部分显示在左眼，下部分显示在右眼
                 // options.inputType = VrPanoramaView.Options.TYPE_STEREO_OVER_UNDER;
                 // options.inputType = VrPanoramaView.Options.TYPE_MONO;
-                panoOptions.inputType = VrPanoramaView.Options.TYPE_MONO;
-                mPanoramaView.loadImageFromBitmap(resource, panoOptions);
+                panOptions.inputType = VrPanoramaView.Options.TYPE_MONO;
+                mPanoramaView.loadImageFromBitmap(resource, panOptions);
             }
         }
     };
@@ -170,9 +171,8 @@ public class PannoDetailActivity extends AppCompatActivity {
         @Override
         public void onLoadError(String errorMessage) {
             loadImageSuccessful = false;
-            Toast.makeText(PannoDetailActivity.this, "Error loading pano: " + errorMessage,
-                    Toast.LENGTH_LONG).show();
-            Log.e(TAG, "Error loading pano: " + errorMessage);
+            ToastUtils.showToast(PannoDetailActivity.this, "Error loading panorama: " +
+                    errorMessage);
         }
     }
 }

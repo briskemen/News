@@ -99,6 +99,8 @@ public class MainActivity extends BaseActivity {
                         mDrawerLayout.closeDrawers();
                         break;
                     case R.id.nav_women:
+                       /* Intent intent3 = new Intent(MainActivity.this, ImageActivity.class);
+                        startActivity(intent3);*/
                         mDrawerLayout.closeDrawers();
                         break;
                     case R.id.nav_setting:
@@ -154,8 +156,8 @@ public class MainActivity extends BaseActivity {
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
-            public void onPageSelected(int arg0) {
-                mPagerList.get(arg0).initData();// 获取当前被选中的页面, 初始化该页面数据
+            public void onPageSelected(int pos) {
+                mPagerList.get(pos).initData();// 获取当前被选中的页面, 初始化该页面数据
             }
 
             @Override

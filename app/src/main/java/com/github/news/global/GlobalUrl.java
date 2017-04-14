@@ -14,7 +14,6 @@ public class GlobalUrl {
     public static final String tListUrl = "http://c.m.163" +
             ".com/nc/topicset/android/subscribe/manage/listspecial.html";
 
-
     // 美女图片
     public static final String womenPicUrl = "http://image.baidu" +
             ".com/channel/listjson?pn=0&rn=30&tag1=美女&tag2=全部";
@@ -37,9 +36,5 @@ public class GlobalUrl {
     public static String getGirlsData(int pn) {
         return "http://image.baidu.com/channel/listjson?pn=" + pn + "&rn=20&tag1=美女&tag2=全部";
     }
-
-    public static String API_HOST  = "api.youkes.com";
-    public static int    API_PORT  = 8081;
-    public static String URL_Query = "http://" + API_HOST + ":" + API_PORT + "/api/video/query";
 }
 

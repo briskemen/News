@@ -38,7 +38,7 @@ import com.github.news.utils.LogUtils;
 import com.github.news.utils.PrefUtils;
 import com.github.news.utils.ShareUtils;
 import com.github.news.utils.ToastUtils;
-import com.github.news.view.TopNewsViewPager;
+import com.github.news.view.NewsViewPager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.viewpagerindicator.CirclePageIndicator;
@@ -56,7 +56,7 @@ public class RecommendActivity extends AppCompatActivity {
     private LRecyclerView       mRecyclerView;
     private CirclePageIndicator mIndicator;// 头条新闻位置指示器
     private TextView            tvTitle;// 头条新闻的标题
-    private TopNewsViewPager    mViewPager;
+    private NewsViewPager       mViewPager;
     private View                headerView;
 
     private RecommendNewsAdapter mAdapter;
@@ -86,9 +86,9 @@ public class RecommendActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recommend);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        headerView = View.inflate(this, R.layout.list_header_topnews, null);
+        headerView = View.inflate(this, R.layout.list_pic_news, null);
         mRecyclerView = (LRecyclerView) findViewById(R.id.rv);
-        mViewPager = (TopNewsViewPager) headerView.findViewById(R.id.vp_news);
+        mViewPager = (NewsViewPager) headerView.findViewById(R.id.vp_news);
         tvTitle = (TextView) headerView.findViewById(R.id.tv_title);
         mIndicator = (CirclePageIndicator) headerView.findViewById(R.id.indicator);
 

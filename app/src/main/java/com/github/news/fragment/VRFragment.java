@@ -63,10 +63,10 @@ public class VRFragment extends Fragment {
     private LRecyclerView        mLRecyclerView;
     private LRecyclerViewAdapter mAdapter;
     private VRAdapter            mVRAdapter;
+    private Context              mContext;
+    private String               category;
     private int page = 1;
-    private Context mContext;
-    private String  category;
-    private int     channelId;
+    private int channelId;
 
     // private boolean isLoadMore;
     // private List<VRDetail> mVRDetails = new ArrayList<>();
@@ -198,7 +198,7 @@ public class VRFragment extends Fragment {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
+                        Toast.makeText(mContext, error.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
     }

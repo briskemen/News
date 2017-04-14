@@ -8,13 +8,15 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.news.R;
 import com.github.news.base.BaseMenuDetailPager;
 import com.github.news.base.TabDetailPager;
 import com.github.news.domain.TabData;
-import com.github.news.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.OnClick;
 
 /**
  * 菜单详情页-新闻
@@ -41,10 +43,18 @@ public class NewsMenuDetailPager extends BaseMenuDetailPager implements
         mViewPager.addOnPageChangeListener(this);
 
         mIndicator = (TabLayout) view.findViewById(R.id.tab);
-        // mViewPager.setOnPageChangeListener(this);注意:当viewpager和Indicator绑定时,
-        // 滑动监听需要设置给Indicator而不是viewpager
+        // mViewPager.setOnPageChangeListener(this);
+        // 注意:当viewpager和Indicator绑定时,滑动监听需要设置给Indicator而不是viewpager
         // mIndicator.setOnPageChangeListener(this);
+        nextPage(mViewPager);
         return view;
+    }
+
+    // 跳转下一个页面
+    @OnClick(R.id.btn_next)
+    public void nextPage(View view) {
+        int currentItem = mViewPager.getCurrentItem();
+        mViewPager.setCurrentItem(++currentItem);
     }
 
     @Override

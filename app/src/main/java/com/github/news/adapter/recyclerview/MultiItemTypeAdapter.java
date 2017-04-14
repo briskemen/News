@@ -36,7 +36,7 @@ import java.util.List;
 public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
 
     protected Context mContext;
-    protected List<T> mDatas = new ArrayList<>();
+    protected List<T> mData = new ArrayList<>();
     protected LayoutInflater mInflater;
 
     //protected final List<T> temp;
@@ -48,7 +48,7 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
     public MultiItemTypeAdapter(Context context) {
         mContext = context;
         mInflater = LayoutInflater.from(context);
-        //temp = new ArrayList<>(datas);
+        //temp = new ArrayList<>(data);
         mItemViewDelegateManager = new ItemViewDelegateManager();
     }
 
@@ -63,29 +63,29 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
             }
             @Override
             public int getNewListSize() {
-                return mDatas.size();
+                return mData.size();
             }
             // 判断是否是同一个 item
             @Override
             public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-                return MultiItemTypeAdapter.this.areItemsTheSame(temp.get(oldItemPosition), mDatas.get(newItemPosition));
+                return MultiItemTypeAdapter.this.areItemsTheSame(temp.get(oldItemPosition), mData.get(newItemPosition));
             }
             // 如果是同一个 item 判断内容是否相同
             @Override
             public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-                return MultiItemTypeAdapter.this.areContentsTheSame(temp.get(oldItemPosition), mDatas.get(newItemPosition));
+                return MultiItemTypeAdapter.this.areContentsTheSame(temp.get(oldItemPosition), mData.get(newItemPosition));
             }
         });
         diffResult.dispatchUpdatesTo(this);
         // 通知刷新了之后，要更新副本数据到最新
         temp.clear();
-        temp.addAll(mDatas);
+        temp.addAll(mData);
     }*/
 
     @Override
     public int getItemViewType(int position) {
         if (!useItemViewDelegateManager()) return super.getItemViewType(position);
-        return mItemViewDelegateManager.getItemViewType(mDatas.get(position), position);
+        return mItemViewDelegateManager.getItemViewType(mData.get(position), position);
     }
 
 
@@ -138,46 +138,46 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        convert(holder, mDatas.get(position));
+        convert(holder, mData.get(position));
     }
 
     @Override
     public int getItemCount() {
-        if (mDatas != null){
-            return mDatas.size();
+        if (mData != null){
+            return mData.size();
         }
         return 0;
     }
 
 
-    public List<T> getDatas() {
-        return mDatas;
+    public List<T> getData() {
+        return mData;
     }
 
-    public void setDatas(List<T> data) {
-        mDatas.clear();
-        mDatas.addAll(data);
+    public void setData(List<T> data) {
+        mData.clear();
+        mData.addAll(data);
         notifyDataSetChanged();
     }
 
     public void addAll(List<T> data) {
-        int lastIndex = mDatas.size();
-        if (mDatas.addAll(data)) {
+        int lastIndex = mData.size();
+        if (mData.addAll(data)) {
             notifyItemRangeInserted(lastIndex, data.size());
         }
     }
 
     public void remove(int position) {
-        mDatas.remove(position);
+        mData.remove(position);
         notifyItemRemoved(position);
 
-        if (position != (mDatas.size())) { // 如果移除的是最后一个，忽略
-            notifyItemRangeChanged(position, mDatas.size() - position);
+        if (position != (mData.size())) { // 如果移除的是最后一个，忽略
+            notifyItemRangeChanged(position, mData.size() - position);
         }
     }
 
     public void clear() {
-        mDatas.clear();
+        mData.clear();
         notifyDataSetChanged();
     }
 

@@ -23,8 +23,7 @@ import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.github.news.R;
 import com.github.news.activity.NewsDetailActivity;
 import com.github.news.adapter.NewsAdapter;
 import com.github.news.domain.TabData;
@@ -36,8 +35,9 @@ import com.github.news.utils.BitmapUtils;
 import com.github.news.utils.CacheUtils;
 import com.github.news.utils.PrefUtils;
 import com.github.news.utils.ToastUtils;
-import com.github.news.view.TopNewsViewPager;
-import com.github.news.R;
+import com.github.news.view.NewsViewPager;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import org.json.JSONException;
@@ -52,7 +52,7 @@ import java.util.List;
 public class TabDetailPager extends BaseMenuDetailPager implements OnPageChangeListener {
     private static final String TAG = "TabDetailPager";
 
-    private TopNewsViewPager     mViewPager;
+    private NewsViewPager        mViewPager;
     private TextView             tvTitle;// 头条新闻的标题
     private LRecyclerView        mRecyclerView;
     private NewsAdapter          mAdapter;
@@ -78,13 +78,13 @@ public class TabDetailPager extends BaseMenuDetailPager implements OnPageChangeL
 
     @Override
     public View initViews() {
-        View view = View.inflate(mActivity, R.layout.tab_detail_pager, null);// 加载头布局
-        View headerView = View.inflate(mActivity, R.layout.list_header_topnews, null);
+        View shufflingPic = View.inflate(mActivity, R.layout.list_pic_news, null);// 加载轮播图
+        View newsView = View.inflate(mActivity, R.layout.tab_detail_pager, null);
 
-        mRecyclerView = (LRecyclerView) view.findViewById(R.id.rv);
-        mViewPager = (TopNewsViewPager) headerView.findViewById(R.id.vp_news);
-        tvTitle = (TextView) headerView.findViewById(R.id.tv_title);
-        mIndicator = (CirclePageIndicator) headerView.findViewById(R.id.indicator);
+        mViewPager = (NewsViewPager) shufflingPic.findViewById(R.id.vp_news);
+        tvTitle = (TextView) shufflingPic.findViewById(R.id.tv_title);
+        mIndicator = (CirclePageIndicator) shufflingPic.findViewById(R.id.indicator);
+        mRecyclerView = (LRecyclerView) newsView.findViewById(R.id.rv);
 
         // 添加分割线
         DividerDecoration divider = new DividerDecoration.Builder(mActivity)
@@ -111,12 +111,12 @@ public class TabDetailPager extends BaseMenuDetailPager implements OnPageChangeL
         mRecyclerView.setFooterViewColor(R.color.colorAccent, R.color.dark, android.R.color.white);
         mRecyclerView.setFooterViewHint("拼命加载中", "已经全部为你呈现了", "网络不给力啊，点击再试一次吧");
 
-        // 将头条新闻以头布局的形式加给RecyclerView
-        mLAdapter.addHeaderView(headerView);
+        // 将轮播图以头布局的形式加给RecyclerView
+        mLAdapter.addHeaderView(shufflingPic);
         mRecyclerView.refresh();
         setListener();
 
-        return view;
+        return newsView;
     }
 
     private void setListener() {
@@ -160,9 +160,9 @@ public class TabDetailPager extends BaseMenuDetailPager implements OnPageChangeL
 
             @Override
             public void onScrollStateChanged(int state) {
-                if (state == LRecyclerView.SCROLL_STATE_IDLE){
+                if (state == LRecyclerView.SCROLL_STATE_IDLE) {
                     Glide.with(mActivity).resumeRequests();
-                }else if (state == LRecyclerView.SCROLL_STATE_SETTLING){
+                } else if (state == LRecyclerView.SCROLL_STATE_SETTLING) {
                     Glide.with(mActivity).pauseRequests();
                 }
             }
@@ -234,7 +234,6 @@ public class TabDetailPager extends BaseMenuDetailPager implements OnPageChangeL
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         ToastUtils.showToast(mActivity, error.getMessage());
-                        // lvList.onRefreshComplete(true);
                     }
                 });
     }
@@ -275,7 +274,8 @@ public class TabDetailPager extends BaseMenuDetailPager implements OnPageChangeL
                 TabNewsData.AdsData adsData = new TabNewsData.AdsData();
                 adsData.imgsrc = data.get(0).imgsrc;
                 adsData.title = data.get(0).title;
-                data.get(0).ads.add(adsData);
+                ArrayList<TabNewsData.AdsData> adsList = data.get(0).ads;
+                adsList.add(adsData);
             }
             mPhotoData = data.get(0).ads;
 

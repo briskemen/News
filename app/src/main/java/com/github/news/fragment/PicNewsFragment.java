@@ -56,9 +56,11 @@ public class PicNewsFragment extends Fragment {
     private LRecyclerView        mRecyclerView;
     private LRecyclerViewAdapter mRecyclerViewAdapter;
     private MultipleItemAdapter  mMultipleItemAdapter;
+
     private String url = RequestUrl.getPicUrl();
-    private int pagesize = 10;
-    private int index = -1;
+
+    private int pageSize = 10;
+    private int index    = -1;
 
     @Override
     public void onAttach(Context context) {
@@ -111,8 +113,9 @@ public class PicNewsFragment extends Fragment {
             @Override
             public void onLoadMore() {
                 index += 10;
-                int lastindex = mMultipleItemAdapter.getDataList().size() - 1;
-                url = RequestUrl.getMorePicUrl(mMultipleItemAdapter.getDataList().get(lastindex).setid);
+                int lastIndex = mMultipleItemAdapter.getDataList().size() - 1;
+                url = RequestUrl.getMorePicUrl(mMultipleItemAdapter.getDataList().get(lastIndex)
+                        .setid);
                 requestData();
             }
         });
@@ -135,8 +138,8 @@ public class PicNewsFragment extends Fragment {
             }
             intent.putStringArrayListExtra("imageUrls", data);
             startActivity(intent);
-        }catch (Exception e){
-            ToastUtils.showToast(mContext,e.getMessage());
+        } catch (Exception e) {
+            ToastUtils.showToast(mContext, e.getMessage());
             e.printStackTrace();
         }
     }
@@ -160,9 +163,9 @@ public class PicNewsFragment extends Fragment {
         try {
             List<PictureNews> data = GsonUtil.changeGsonToList(response, PictureNews.class);
             mMultipleItemAdapter.addAll(data);
-            mRecyclerView.refreshComplete(pagesize);
-        }catch (Exception e){
-            ToastUtils.showToast(mContext,e.getMessage());
+            mRecyclerView.refreshComplete(pageSize);
+        } catch (Exception e) {
+            ToastUtils.showToast(mContext, e.getMessage());
             e.printStackTrace();
         }
     }

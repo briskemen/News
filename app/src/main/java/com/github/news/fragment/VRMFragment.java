@@ -64,7 +64,7 @@ public class VRMFragment extends Fragment {
     private LRecyclerView        mLRecyclerView;
     private LRecyclerViewAdapter mAdapter;
     private VRAdapter            mVRAdapter;
-    private int pageindex = 1;
+    private int pageIndex = 1;
     private Context mContext;
     private String  category;
     private int     channelId;
@@ -122,7 +122,7 @@ public class VRMFragment extends Fragment {
             public void onRefresh() {
                 // isLoadMore = false;
                 mVRAdapter.clear();
-                pageindex = 1;
+                pageIndex = 1;
                 initData();
             }
         });
@@ -132,7 +132,7 @@ public class VRMFragment extends Fragment {
             @Override
             public void onLoadMore() {
                 // isLoadMore = true;
-                pageindex++;
+                pageIndex++;
                 initData();
             }
         });
@@ -154,10 +154,10 @@ public class VRMFragment extends Fragment {
         intent.putExtra("summary", mVRAdapter.getDataList().get(position).imagedes);
         intent.putExtra("time", mVRAdapter.getDataList().get(position).uploadtime);
 
-        String videourl = mVRAdapter.getDataList().get(position).original_offline;
+        String videoUrl = mVRAdapter.getDataList().get(position).original_offline;
 
-        if (videourl !=null) {
-            intent.putExtra("mp4url", videourl);
+        if (videoUrl !=null) {
+            intent.putExtra("mp4url", videoUrl);
             intent.setClass(mContext, VRVideoActivity.class);
             mContext.startActivity(intent);
         } else {
@@ -189,7 +189,7 @@ public class VRMFragment extends Fragment {
 
     public void initData() {
 
-        HttpUtils.get(MyApplication.getContext(), RequestUrl.getVRMData(21,pageindex,channelId),
+        HttpUtils.get(MyApplication.getContext(), RequestUrl.getVRMData(21, pageIndex,channelId),
                 new Callback() {
                     @Override
                     public void onResponse(String response) {

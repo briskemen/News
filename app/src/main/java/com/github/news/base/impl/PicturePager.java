@@ -18,7 +18,8 @@ public class PicturePager extends BasePager {
     private ViewPager  vp;
     private TabLayout  tabLayout;
     private PicAdapter mPicAdapter;
-    private static final String[] titles = new String[]{"小清新", "美女","新闻"};
+
+    private static final String[] titles = new String[]{"小清新", "美女", "新闻"};
 
 
     public PicturePager(AppCompatActivity activity) {

@@ -122,8 +122,8 @@ public class PicGirlFragment extends Fragment {
         Intent intent = new Intent(mContext, ImageActivity.class);
         intent.putExtra("position", position);
         ArrayList<String> data = new ArrayList<>();
-        for (int i = 0; i < mAdapter.getDatas().size(); i++) {
-            data.add(mAdapter.getDatas().get(i).imgsrc);
+        for (int i = 0; i < mAdapter.getData().size(); i++) {
+            data.add(mAdapter.getData().get(i).imgsrc);
         }
         intent.putStringArrayListExtra("imageUrls", data);
         startActivity(intent);
@@ -172,8 +172,8 @@ public class PicGirlFragment extends Fragment {
                 iv.getLayoutParams().height = UIUtils.dip2px(mContext, 250);
             }*/
 
-            int randomheight = UIUtils.dip2px(mContext, (int) (Math.random() * 100));
-            int height = UIUtils.dip2px(mContext, 150) + randomheight;
+            int randomHeight = UIUtils.dip2px(mContext, (int) (Math.random() * 100));
+            int height = UIUtils.dip2px(mContext, 150) + randomHeight;
 
             iv.getLayoutParams().height = height;
             BitmapUtils.display(mContext, iv, beauty.imgsrc);

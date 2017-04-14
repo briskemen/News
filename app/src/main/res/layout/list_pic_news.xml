@@ -4,7 +4,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-    <com.github.news.view.TopNewsViewPager
+    <com.github.news.view.NewsViewPager
         android:id="@+id/vp_news"
         android:layout_width="match_parent"
         android:layout_height="200dp"/>

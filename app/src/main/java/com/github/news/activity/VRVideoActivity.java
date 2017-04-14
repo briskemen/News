@@ -80,14 +80,17 @@ public class VRVideoActivity extends AppCompatActivity {
 
 
     private String url;
-    public static final  int     LOAD_VIDEO_STATUS_UNKNOWN = 0;
-    public static final  int     LOAD_VIDEO_STATUS_SUCCESS = 1;
-    public static final  int     LOAD_VIDEO_STATUS_ERROR   = 2;
-    private              int     loadVideoStatus           = LOAD_VIDEO_STATUS_UNKNOWN;
-    private static final String  STATE_VIDEO_DURATION      = "videoDuration";
-    private static final String  STATE_IS_PAUSED           = "isPaused";
-    private static final String  STATE_PROGRESS_TIME       = "progressTime";
-    private              boolean isPaused                  = false;
+
+    public static final int LOAD_VIDEO_STATUS_UNKNOWN = 0;
+    public static final int LOAD_VIDEO_STATUS_SUCCESS = 1;
+    public static final int LOAD_VIDEO_STATUS_ERROR   = 2;
+    private             int loadVideoStatus           = LOAD_VIDEO_STATUS_UNKNOWN;
+
+    private static final String STATE_VIDEO_DURATION = "videoDuration";
+    private static final String STATE_IS_PAUSED      = "isPaused";
+    private static final String STATE_PROGRESS_TIME  = "progressTime";
+
+    private boolean isPaused = false;
     private boolean isMuted;
 
     @Override
