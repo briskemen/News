@@ -64,7 +64,7 @@ public class NewsCenterPager extends BasePager {
     protected void parseData(String result) {
         Gson gson = new Gson();
         TabData tabData = gson.fromJson(result, TabData.class);
-
+        isLoading = true;
         mPagers = new ArrayList<>();
         mPagers.add(new NewsMenuDetailPager(mActivity, tabData.tList));
         setCurrentMenuDetailPager(0);

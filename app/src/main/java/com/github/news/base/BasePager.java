@@ -14,6 +14,7 @@ public class BasePager {
     public AppCompatActivity mActivity;
     public View              mRootView;// 布局对象
     public FrameLayout       flContent;// 内容
+    public boolean isLoading = false; // 取消重复加载数据
 
     public BasePager(AppCompatActivity activity) {
         mActivity = activity;

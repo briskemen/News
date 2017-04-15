@@ -154,8 +154,11 @@ public class MainActivity extends BaseActivity {
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
-            public void onPageSelected(int arg0) {
-                mPagerList.get(arg0).initData();// 获取当前被选中的页面, 初始化该页面数据
+            public void onPageSelected(int pos) {
+                BasePager pager = mPagerList.get(pos);
+                if (!pager.isLoading){
+                    pager.initData();// 获取当前被选中的页面, 初始化该页面数据
+                }
             }
 
             @Override
@@ -170,9 +173,10 @@ public class MainActivity extends BaseActivity {
         });
 
         mPagerList.get(0).initData();// 初始化首页数据
+        mPagerList.get(0).isLoading = true;
     }
 
-    class ContentAdapter extends PagerAdapter {
+    private class ContentAdapter extends PagerAdapter {
 
         @Override
         public int getCount() {

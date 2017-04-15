@@ -9,13 +9,13 @@ import android.view.View;
 
 import static android.R.attr.animationDuration;
 
-public class MyBottomBarBehavior extends CoordinatorLayout.Behavior<View> {
+public class BottomBarBehavior extends CoordinatorLayout.Behavior<View> {
 
     private boolean isHeadHide = false;
     private boolean isAnimating = false;
     private int childHeight;
 
-    public MyBottomBarBehavior(Context context, AttributeSet attrs) {
+    public BottomBarBehavior(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
@@ -25,13 +25,18 @@ public class MyBottomBarBehavior extends CoordinatorLayout.Behavior<View> {
         return dependency instanceof AppBarLayout;
     }
 
+    private float dh;
 
     @Override
     public boolean onDependentViewChanged(CoordinatorLayout parent, View child, View dependency) {
-        float translationY = Math.abs(dependency.getTop());//获取更随布局的顶部位置
+        float translationY = Math.abs(dependency.getTop());//获取跟随布局的顶部位置
         if (translationY == dependency.getHeight()){
             translationY = child.getHeight();
         }
+
+        /*if (dh == 0){
+            dh = ((float)child.getHeight() - dependency.getHeight())/dependency.getHeight();
+        }*/
         child.setTranslationY(translationY);
 
         /*if (childHeight == 0) {

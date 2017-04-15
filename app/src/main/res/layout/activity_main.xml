@@ -41,7 +41,7 @@
             android:layout_gravity="bottom"
             android:background="#8f8c8c"
             android:orientation="horizontal"
-            app:layout_behavior="com.github.news.behavior.MyBottomBarBehavior">
+            app:layout_behavior="com.github.news.behavior.BottomBarBehavior">
 
             <RadioButton
                 android:id="@+id/rb_news"
