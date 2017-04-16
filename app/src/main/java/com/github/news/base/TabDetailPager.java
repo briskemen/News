@@ -23,9 +23,9 @@ import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.github.news.R;
 import com.github.news.activity.NewsDetailActivity;
+import com.github.news.activity.PhotoSetActivity;
 import com.github.news.adapter.NewsAdapter;
 import com.github.news.domain.TabData;
 import com.github.news.domain.TabNewsData;
@@ -37,7 +37,8 @@ import com.github.news.utils.CacheUtils;
 import com.github.news.utils.PrefUtils;
 import com.github.news.utils.ToastUtils;
 import com.github.news.view.TopNewsViewPager;
-import com.github.news.R;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import org.json.JSONException;
@@ -187,10 +188,16 @@ public class TabDetailPager extends BaseMenuDetailPager implements OnPageChangeL
                 }
 
                 changeReadState(view);// 实现局部界面刷新, 这个view就是被点击的item布局对象
-                // 跳转新闻详情页面
+
                 Intent intent = new Intent();
-                intent.setClass(mActivity, NewsDetailActivity.class);
-                intent.putExtra("url", GlobalUrl.getNewsDetailUrl(docId));
+                if (mAdapter.getItemViewType(position) == TabNewsData.TYPE_PHOTOSET){
+                    intent.setClass(mActivity, PhotoSetActivity.class);
+                    intent.putExtra("photosetID", mAdapter.getDataList().get(position).photosetID);
+                }else {
+                    // 跳转新闻详情页面
+                    intent.setClass(mActivity, NewsDetailActivity.class);
+                    intent.putExtra("url", GlobalUrl.getNewsDetailUrl(docId));
+                }
                 mActivity.startActivity(intent);
             }
         });

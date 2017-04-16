@@ -23,9 +23,9 @@ import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.news.activity.PannoDetailActivity;
 import com.github.news.activity.VRVideoActivity;
+import com.github.news.base.App;
 import com.github.news.domain.VRData;
 import com.github.news.domain.VRDetail;
-import com.github.news.base.MyApplication;
 import com.github.news.http.Callback;
 import com.github.news.http.HttpUtils;
 import com.github.news.http.RequestUrl;
@@ -188,7 +188,7 @@ public class VRFragment extends Fragment {
 
     public void initData() {
 
-        HttpUtils.get(MyApplication.getContext(), RequestUrl.getVRData(page, 21, channelId,
+        HttpUtils.get(App.getContext(), RequestUrl.getVRData(page, 21, channelId,
                 category),
                 new Callback() {
                     @Override

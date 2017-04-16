@@ -27,6 +27,9 @@ public class RollViewPager extends ViewPager implements ViewPager.OnPageChangeLi
     private boolean hasAdapter   = false;
     private int     oldPosition  = 0;
     private int     mCurrentItem = 0;
+    private int  downX;
+    private int  downY;
+    private long downTimeMillis;
 
     // 是否滑动
     private boolean isMove = false;
@@ -62,7 +65,9 @@ public class RollViewPager extends ViewPager implements ViewPager.OnPageChangeLi
                     long currentTimeMillis = System.currentTimeMillis();
                     if (currentTimeMillis - downTimeMillis < 500) {
                         // Toast.makeText(mContext, "我被点击了", 0).show();
-
+                        if (mViewPageOnTouchListener != null) {
+                            mViewPageOnTouchListener.onViewPageClickListener();
+                        }
                     }
                     // 继续跳动
                     start();
@@ -219,4 +224,13 @@ public class RollViewPager extends ViewPager implements ViewPager.OnPageChangeLi
         }
     };
 
+    private ViewPageOnTouchListener mViewPageOnTouchListener;
+
+    public interface ViewPageOnTouchListener {
+        public void onViewPageClickListener();
+    }
+
+    public void setViewPageOnTouchListener(ViewPageOnTouchListener viewPageOnTouchListener) {
+        mViewPageOnTouchListener = viewPageOnTouchListener;
+    }
 }

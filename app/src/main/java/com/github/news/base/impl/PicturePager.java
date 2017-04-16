@@ -3,14 +3,14 @@ package com.github.news.base.impl;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 
+import com.github.news.R;
 import com.github.news.base.BasePager;
 import com.github.news.factory.PicFragmentFactory;
-import com.github.news.R;
 
 
 public class PicturePager extends BasePager {
@@ -61,7 +61,7 @@ public class PicturePager extends BasePager {
 
     }
 
-    private class PicAdapter extends FragmentStatePagerAdapter {
+    private class PicAdapter extends FragmentPagerAdapter {
 
         public PicAdapter(FragmentManager fm) {
             super(fm);

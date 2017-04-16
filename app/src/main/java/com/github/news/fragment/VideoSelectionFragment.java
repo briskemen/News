@@ -58,6 +58,11 @@ public class VideoSelectionFragment extends Fragment {
     private VideoAdapter         mAdapter;
     private int page = 1;
     private Context mContext;
+    /**
+     * 视图是否已经初初始化
+     */
+    protected boolean isInit = false;
+    protected boolean isLoad = false;
 
     @Override
     public void onAttach(Context context) {
@@ -69,13 +74,51 @@ public class VideoSelectionFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
             Bundle savedInstanceState) {
+        isInit = true;
         return initView(inflater, container);
+    }
+
+    /**
+     * 视图是否已经对用户可见，系统的方法
+     */
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        // isCanLoadData();
+    }
+
+    /**
+     * 是否可以加载数据
+     * 可以加载数据的条件：
+     * 1.视图已经初始化
+     * 2.视图对用户可见
+     */
+    private void isCanLoadData() {
+        if (!isInit) {
+            return;
+        }
+
+        if (getUserVisibleHint()) {
+            // lazyLoad();
+            isLoad = true;
+        } else {
+            if (isLoad) {
+                // stopLoad();
+            }
+        }
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initData();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        isInit = false;
+        isLoad = false;
     }
 
     public View initView(LayoutInflater inflater, ViewGroup container) {

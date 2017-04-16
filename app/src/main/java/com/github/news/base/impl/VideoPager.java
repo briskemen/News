@@ -3,15 +3,15 @@ package com.github.news.base.impl;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 
+import com.github.news.R;
 import com.github.news.activity.MainActivity;
 import com.github.news.base.BasePager;
 import com.github.news.factory.VideoFragmentFactory;
-import com.github.news.R;
 
 /**
  * 设置页面
@@ -70,7 +70,7 @@ public class VideoPager extends BasePager implements ViewPager.OnPageChangeListe
 
 	}
 
-	private class FragmentAdapter extends FragmentStatePagerAdapter {
+	private class FragmentAdapter extends FragmentPagerAdapter {
 
 		public FragmentAdapter(FragmentManager fm) {
 			super(fm);

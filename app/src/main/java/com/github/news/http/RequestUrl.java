@@ -411,4 +411,8 @@ public class RequestUrl {
     public static String getMorePicUrl(String setid) {
         return "http://c.m.163.com/photo/api/morelist/0096/54GI0096/" + setid + ".json";
     }
+
+    public static String getPhotoId(String photosetId1, String photosetId2) {
+        return "http://c.m.163.com/photo/api/set/" + photosetId1 + "/" + photosetId2 + ".json";
+    }
 }

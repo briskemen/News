@@ -62,6 +62,7 @@ public class TabNewsData implements MultiItemEntity {
     public String  template;//	normal1
     public String  title;//	女子给跪地乞丐一袋麻花 被扔进垃圾桶
     public String  tname;//	头条  这个很重要，相当于是标题分栏的名字。比如：头条，体育，财经等等
+    public boolean isRead;
 
     public static class AdsData {
         public String imgsrc;
