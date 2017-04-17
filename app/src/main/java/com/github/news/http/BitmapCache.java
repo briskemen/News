@@ -29,7 +29,6 @@ public class BitmapCache implements ImageLoader.ImageCache {
     // 存储结构/容器/集合缓存的最大值
     // 1.告知缓存的具体大小
     private int maxSize = 5 * 1024 * 1024;    // 5242880 byte
-    // private int maxSize = 5; // 5m
 
     public BitmapCache() {
         mLruCache = new LruCache<String, Bitmap>(maxSize) {

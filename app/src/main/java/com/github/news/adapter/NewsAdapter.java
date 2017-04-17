@@ -39,7 +39,7 @@ public class NewsAdapter extends BaseMultiAdapter<TabNewsData> {
     public NewsAdapter(Context context) {
         super(context);
         addItemType(TabNewsData.TYPE_NORMAL, R.layout.list_news_item);
-        addItemType(TabNewsData.TYPE_PHOTOSET, R.layout.item_image);
+        addItemType(TabNewsData.TYPE_PHOTO_SET, R.layout.item_image);
         addItemType(TabNewsData.TYPE_SPECIAL, R.layout.list_item_special);
     }
 

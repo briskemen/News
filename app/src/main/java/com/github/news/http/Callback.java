@@ -24,6 +24,7 @@ import com.android.volley.VolleyError;
  * ============================================================
  */
 public interface Callback {
-    public void onResponse(String response);
-    public void onErrorResponse(VolleyError error);
+    void onResponse(String response);
+
+    void onErrorResponse(VolleyError error);
 }

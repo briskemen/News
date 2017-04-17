@@ -65,7 +65,7 @@
         <activity android:name="com.github.news.activity.ImageActivity"/>
         <activity android:name="com.github.news.activity.VRActivity"/>
         <activity android:name="com.github.news.activity.VideoPlayActivity"/>
-        <activity android:name="com.github.news.TabLayoutActivity"/>
+        <activity android:name="com.github.news.activity.TabLayoutActivity"/>
         <activity android:name="com.github.news.activity.PannoDetailActivity"/>
         <activity android:name="com.github.news.activity.VRVideoActivity"/>
     </application>

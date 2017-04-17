@@ -22,7 +22,9 @@ public class NewsViewPager extends ViewPager {
     }
 
     /**
-     * 事件分发, 请求父控件及祖宗控件是否拦截事件 1. 右划, 而且是第一个页面, 需要父控件拦截 2. 左划, 而且是最后一个页面, 需要父控件拦截
+     * 事件分发, 请求父控件及祖宗控件是否拦截事件
+     * 1. 右划, 而且是第一个页面, 需要父控件拦截
+     * 2. 左划, 而且是最后一个页面, 需要父控件拦截
      * 3. 上下滑动, 需要父控件拦截
      */
     @Override
@@ -35,7 +37,6 @@ public class NewsViewPager extends ViewPager {
                 startY = (int) ev.getRawY();
                 break;
             case MotionEvent.ACTION_MOVE:
-
                 int endX = (int) ev.getRawX();
                 int endY = (int) ev.getRawY();
 
@@ -55,7 +56,6 @@ public class NewsViewPager extends ViewPager {
                 }
 
                 break;
-
             default:
                 break;
         }

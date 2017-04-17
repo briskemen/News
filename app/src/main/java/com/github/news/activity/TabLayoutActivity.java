@@ -1,4 +1,4 @@
-package com.github.news;
+package com.github.news.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -9,6 +9,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.github.news.R;
 
 import java.util.ArrayList;
 import java.util.List;

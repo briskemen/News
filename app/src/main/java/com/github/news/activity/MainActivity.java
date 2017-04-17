@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
 
-import com.github.news.TabLayoutActivity;
 import com.github.news.base.BaseActivity;
 import com.github.news.base.BasePager;
 import com.github.news.base.impl.NewsCenterPager;

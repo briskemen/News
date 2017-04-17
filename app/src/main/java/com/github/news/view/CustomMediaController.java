@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.github.news.R;
@@ -45,22 +44,18 @@ import io.vov.vitamio.widget.VideoView;
 public class CustomMediaController extends MediaController {
     private static final int HIDE_FROM = 0;//控制提示窗口的显示
 
-    private ImageButton img_back;//返回按钮
-    private TextView    mFileName;//文件名
-    private VideoView   videoView;
-    private Activity    activity;
-    private Context     context;
-    private String      videoName;//视频名称
-    private int controllerWidth = 0;//设置mediaController高度为了使横屏时top显示在屏幕顶端
-    private View mVolumeBrightnessLayout;//提示窗口
-
+    private ImageButton  img_back;//返回按钮
+    private TextView     mFileName;//文件名
+    private VideoView    videoView;
+    private Activity     activity;
+    private Context      context;
+    private String       videoName;//视频名称
+    private View         mVolumeBrightnessLayout;//提示窗口
     private ImageView    mOperationBg;//提示图片
     private TextView     mOperationTv;//提示文字
     private AudioManager mAudioManager;
 
-    private SeekBar            progress;
-    private boolean            mDragging;
-    private MediaPlayerControl player;
+    private int controllerWidth = 0;//设置mediaController高度为了使横屏时top显示在屏幕顶端
 
     //最大声音
     private int mMaxVolume;
@@ -184,7 +179,7 @@ public class CustomMediaController extends MediaController {
         @Override
         public boolean onSingleTapConfirmed(MotionEvent e) {
             //当手势结束，并且是单击结束时，控制器隐藏/显示
-            toggleMediaControlsVisiblity();
+            toggleMediaControlsVisible();
             return super.onSingleTapConfirmed(e);
         }
 
@@ -199,9 +194,9 @@ public class CustomMediaController extends MediaController {
             float mOldX = e1.getX(), mOldY = e1.getY();
             int y = (int) e2.getRawY();
             int x = (int) e2.getRawX();
-            Display disp = activity.getWindowManager().getDefaultDisplay();
-            int windowWidth = disp.getWidth();
-            int windowHeight = disp.getHeight();
+            Display display = activity.getWindowManager().getDefaultDisplay();
+            int windowWidth = display.getWidth();
+            int windowHeight = display.getHeight();
             if (mOldX > windowWidth * 3.0 / 4.0) {// 右边滑动 屏幕 3/4
                 onVolumeSlide((mOldY - y) / windowHeight);
             } else if (mOldX < windowWidth * 1.0 / 4.0) {// 左边滑动 屏幕 1/4
@@ -253,11 +248,9 @@ public class CustomMediaController extends MediaController {
         } else {
             mOperationBg.setImageResource(R.mipmap.volmn_no);
         }
-        //DecimalFormat    df   = new DecimalFormat("######0.00");
         mOperationTv.setText((int) (((double) index / mMaxVolume) * 100) + "%");
         // 变更声音
         mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, index, 0);
-
     }
 
     /**
@@ -327,7 +320,7 @@ public class CustomMediaController extends MediaController {
     /**
      * 隐藏或显示
      */
-    private void toggleMediaControlsVisiblity() {
+    private void toggleMediaControlsVisible() {
         if (isShowing()) {
             hide();
         } else {

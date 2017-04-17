@@ -31,7 +31,7 @@ import com.android.volley.toolbox.Volley;
  */
 public class HttpUtils {
 
-    public static void get(Context context, String url, final Callback callback){
+    public static void get(Context context, String url, final Callback callback) {
 
         RequestQueue requestQueue = Volley.newRequestQueue(context.getApplicationContext());
 

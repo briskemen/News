@@ -87,7 +87,7 @@ public class ImageActivity extends AppCompatActivity {
         public Object instantiateItem(ViewGroup container, int position) {
             /*View view = View.inflate(ImageActivity.this,R.layout.image,null);
             ImageView iv = (ImageView) view.findViewById(R.id.iv);
-            BitmapUtils.display(ImageActivity.this,iv,mdata.get(position).image_url);
+            BitmapUtils.display(ImageActivity.this,iv,mData.get(position).image_url);
             container.addView(view);*/
             PhotoView photoView = new PhotoView(container.getContext());
             BitmapUtils.display(ImageActivity.this, photoView, mData.get(position));

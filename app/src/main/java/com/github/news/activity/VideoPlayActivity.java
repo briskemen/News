@@ -55,6 +55,7 @@ public class VideoPlayActivity extends AppCompatActivity implements MediaPlayer.
         super.onCreate(savedInstanceState);
         initView();
         initData();
+        initListener();
     }
 
     @Override
@@ -88,13 +89,6 @@ public class VideoPlayActivity extends AppCompatActivity implements MediaPlayer.
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
-
-        /*mVideoView.setVideoURI(Uri.parse(path));
-        mVideoView.setMediaController(new MediaController(this));
-        mVideoView.requestFocus();
-        mVideoView.setOnInfoListener(this);
-        mVideoView.setOnBufferingUpdateListener(this);
-        mVideoView.setOnPreparedListener(this);*/
     }
 
     //初始化数据
@@ -104,6 +98,9 @@ public class VideoPlayActivity extends AppCompatActivity implements MediaPlayer.
         mVideoView.setVideoQuality(MediaPlayer.VIDEOQUALITY_HIGH);//高画质
         //mMediaController.show(5000);
         mVideoView.requestFocus();
+    }
+
+    private void initListener() {
         mVideoView.setOnInfoListener(this);
         mVideoView.setOnBufferingUpdateListener(this);
         mVideoView.setOnPreparedListener(this);

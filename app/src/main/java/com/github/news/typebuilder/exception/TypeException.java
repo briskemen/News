@@ -1,4 +1,5 @@
 package com.github.news.typebuilder.exception;
+
 /**
  * ============================================================
  * Copyright：Google有限公司版权所有 (c) 2017
@@ -35,7 +36,7 @@ public class TypeException extends RuntimeException {
         super(cause);
     }
 
-    public TypeException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
+    public TypeException(String message, Throwable cause, boolean enableSuppression, boolean
+            writableStackTrace) {
     }
 }

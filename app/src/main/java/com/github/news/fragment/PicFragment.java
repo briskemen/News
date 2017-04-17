@@ -17,6 +17,7 @@ import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
+import com.github.news.R;
 import com.github.news.activity.ImageActivity;
 import com.github.news.adapter.recyclerview.CommonAdapter;
 import com.github.news.adapter.recyclerview.base.ViewHolder;
@@ -27,7 +28,6 @@ import com.github.news.http.HttpUtils;
 import com.github.news.utils.BitmapUtils;
 import com.github.news.utils.GsonUtil;
 import com.github.news.utils.UIUtils;
-import com.github.news.R;
 
 import java.util.ArrayList;
 

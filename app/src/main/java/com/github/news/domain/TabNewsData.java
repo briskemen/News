@@ -27,9 +27,9 @@ import java.util.ArrayList;
  */
 public class TabNewsData implements MultiItemEntity {
 
-    public static final int TYPE_NORMAL   = 1;
-    public static final int TYPE_PHOTOSET = 2;
-    public static final int TYPE_SPECIAL  = 3;
+    public static final int TYPE_NORMAL    = 1;
+    public static final int TYPE_PHOTO_SET = 2;
+    public static final int TYPE_SPECIAL   = 3;
 
     public ArrayList<AdsData>      ads;// 图片新闻
     public ArrayList<ImgextraData> imgextra;//	Array
@@ -81,7 +81,7 @@ public class TabNewsData implements MultiItemEntity {
     @Override
     public int getItemType(int position) {
         if (skipType != null && skipType.equals("photoset") && imgextra != null) {
-            return TYPE_PHOTOSET;
+            return TYPE_PHOTO_SET;
         } else if (skipType != null && skipType.equals("special")) {
             return TYPE_SPECIAL;
         } else {
