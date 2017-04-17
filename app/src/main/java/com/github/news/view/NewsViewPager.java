@@ -8,16 +8,16 @@ import android.view.MotionEvent;
 /**
  * 头条新闻的Viewpager
  */
-public class TopNewsViewPager extends ViewPager {
+public class NewsViewPager extends ViewPager {
 
     int startX;
     int startY;
 
-    public TopNewsViewPager(Context context, AttributeSet attrs) {
+    public NewsViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public TopNewsViewPager(Context context) {
+    public NewsViewPager(Context context) {
         super(context);
     }
 

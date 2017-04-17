@@ -118,17 +118,5 @@ public class NewsAdapter11<T> extends RecyclerView.Adapter<NewsAdapter11.ViewHol
             tvDate = (TextView) itemView.findViewById(R.id.tv_date);
             tvHeelStick = (TextView) itemView.findViewById(R.id.tv_heel_stick);
         }
-
-       /* public void setDataAndRefreshUI(int pos) {
-            T data = mData.get(pos);
-
-            NewsAdapter11.this.setDataAndRefreshUI(this,data,context);
-
-            tvTitle.setText(data.title);
-            tvDate.setText(data.source);
-            tvHeelStick.setText(data.replyCount + "跟贴");
-            BitmapUtils.display(context, ivPic, data.imgsrc);
-            String ids = PrefUtils.getString(context, "read_ids", "");
-        }*/
     }
 }

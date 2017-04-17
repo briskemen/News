@@ -69,7 +69,7 @@ public class TabLayoutActivity extends AppCompatActivity implements ViewPager.On
         // 将tabLayout与viewPager关联
         mTabLayout.setupWithViewPager(mViewPager);
         // 给Tab设置适配器
-        //mTabLayout.setTabsFromPagerAdapter(mAdapter);
+        mTabLayout.setTabsFromPagerAdapter(mAdapter);
     }
 
     @Override

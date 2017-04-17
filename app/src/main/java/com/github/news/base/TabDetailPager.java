@@ -36,7 +36,7 @@ import com.github.news.utils.BitmapUtils;
 import com.github.news.utils.CacheUtils;
 import com.github.news.utils.PrefUtils;
 import com.github.news.utils.ToastUtils;
-import com.github.news.view.TopNewsViewPager;
+import com.github.news.view.NewsViewPager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.viewpagerindicator.CirclePageIndicator;
@@ -53,7 +53,7 @@ import java.util.List;
 public class TabDetailPager extends BaseMenuDetailPager implements OnPageChangeListener {
     private static final String TAG = "TabDetailPager";
 
-    private TopNewsViewPager     mViewPager;
+    private NewsViewPager     mViewPager;
     private TextView             tvTitle;// 头条新闻的标题
     private LRecyclerView        mRecyclerView;
     private NewsAdapter          mAdapter;
@@ -80,10 +80,10 @@ public class TabDetailPager extends BaseMenuDetailPager implements OnPageChangeL
     @Override
     public View initViews() {
         View view = View.inflate(mActivity, R.layout.tab_detail_pager, null);// 加载头布局
-        View headerView = View.inflate(mActivity, R.layout.list_header_topnews, null);
+        View headerView = View.inflate(mActivity, R.layout.list_pic_news, null);
 
         mRecyclerView = (LRecyclerView) view.findViewById(R.id.rv);
-        mViewPager = (TopNewsViewPager) headerView.findViewById(R.id.vp_news);
+        mViewPager = (NewsViewPager) headerView.findViewById(R.id.vp_news);
         tvTitle = (TextView) headerView.findViewById(R.id.tv_title);
         mIndicator = (CirclePageIndicator) headerView.findViewById(R.id.indicator);
 

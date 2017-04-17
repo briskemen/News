@@ -25,37 +25,30 @@ import com.github.news.adapter.recyclerview.base.ViewHolder;
  * updateDes：${TODO}
  * ============================================================
  **/
-public abstract class CommonAdapter<T> extends MultiItemTypeAdapter<T>
-{
+public abstract class CommonAdapter<T> extends MultiItemTypeAdapter<T> {
     protected int mLayoutId;
 
-    public CommonAdapter(final Context context, final int layoutId)
-    {
+    public CommonAdapter(final Context context, final int layoutId) {
         super(context);
         mLayoutId = layoutId;
 
-        addItemViewDelegate(new ItemViewDelegate<T>()
-        {
+        addItemViewDelegate(new ItemViewDelegate<T>() {
             @Override
-            public int getItemViewLayoutId()
-            {
+            public int getItemViewLayoutId() {
                 return layoutId;
             }
 
             @Override
-            public boolean isForViewType( T item, int position)
-            {
+            public boolean isForViewType(T item, int position) {
                 return true;
             }
 
             @Override
-            public void convert(ViewHolder holder, T t, int position)
-            {
+            public void convert(ViewHolder holder, T t, int position) {
                 CommonAdapter.this.convert(holder, t, position);
             }
         });
     }
 
     protected abstract void convert(ViewHolder holder, T t, int position);
-
 }

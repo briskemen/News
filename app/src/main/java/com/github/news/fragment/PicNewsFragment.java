@@ -16,7 +16,8 @@ import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
-import com.github.news.activity.ImageActivity;
+import com.github.news.R;
+import com.github.news.activity.PhotoSetActivity;
 import com.github.news.adapter.MultipleItemAdapter;
 import com.github.news.domain.PictureNews;
 import com.github.news.http.Callback;
@@ -24,9 +25,7 @@ import com.github.news.http.HttpUtils;
 import com.github.news.http.RequestUrl;
 import com.github.news.utils.GsonUtil;
 import com.github.news.utils.ToastUtils;
-import com.github.news.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -56,9 +55,11 @@ public class PicNewsFragment extends Fragment {
     private LRecyclerView        mRecyclerView;
     private LRecyclerViewAdapter mRecyclerViewAdapter;
     private MultipleItemAdapter  mMultipleItemAdapter;
+
     private String url = RequestUrl.getPicUrl();
-    private int pagesize = 10;
-    private int index = -1;
+
+    private int pageSize = 10;
+    private int index    = -1;
 
     @Override
     public void onAttach(Context context) {
@@ -111,8 +112,9 @@ public class PicNewsFragment extends Fragment {
             @Override
             public void onLoadMore() {
                 index += 10;
-                int lastindex = mMultipleItemAdapter.getDataList().size() - 1;
-                url = RequestUrl.getMorePicUrl(mMultipleItemAdapter.getDataList().get(lastindex).setid);
+                int lastIndex = mMultipleItemAdapter.getDataList().size() - 1;
+                url = RequestUrl.getMorePicUrl(mMultipleItemAdapter.getDataList().get(lastIndex)
+                        .setid);
                 requestData();
             }
         });
@@ -127,16 +129,11 @@ public class PicNewsFragment extends Fragment {
 
     private void enterImageScaleActivity(int position) {
         try {
-            Intent intent = new Intent(mContext, ImageActivity.class);
-            intent.putExtra("position", position);
-            ArrayList<String> data = new ArrayList<>();
-            for (int i = 0; i < mMultipleItemAdapter.getDataList().size(); i++) {
-                data.add(mMultipleItemAdapter.getDataList().get(i).cover);
-            }
-            intent.putStringArrayListExtra("imageUrls", data);
+            Intent intent = new Intent(mContext, PhotoSetActivity.class);
+            intent.putExtra("photosetID", "00Aj0096|"+mMultipleItemAdapter.getDataList().get(position).setid);
             startActivity(intent);
-        }catch (Exception e){
-            ToastUtils.showToast(mContext,e.getMessage());
+        } catch (Exception e) {
+            ToastUtils.showToast(mContext, e.getMessage());
             e.printStackTrace();
         }
     }
@@ -160,9 +157,9 @@ public class PicNewsFragment extends Fragment {
         try {
             List<PictureNews> data = GsonUtil.changeGsonToList(response, PictureNews.class);
             mMultipleItemAdapter.addAll(data);
-            mRecyclerView.refreshComplete(pagesize);
-        }catch (Exception e){
-            ToastUtils.showToast(mContext,e.getMessage());
+            mRecyclerView.refreshComplete(pageSize);
+        } catch (Exception e) {
+            ToastUtils.showToast(mContext, e.getMessage());
             e.printStackTrace();
         }
     }

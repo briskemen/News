@@ -58,7 +58,8 @@ public class PicFragment extends Fragment {
     private LRecyclerView        mRecyclerView;
     private LRecyclerViewAdapter mRecyclerViewAdapter;
     private PicAdapter           mAdapter;
-    private int                  pn;
+
+    private int pn;
     private int rn = 20;
 
     @Override
@@ -122,8 +123,8 @@ public class PicFragment extends Fragment {
         Intent intent = new Intent(mContext, ImageActivity.class);
         intent.putExtra("position", position);
         ArrayList<String> data = new ArrayList<>();
-        for (int i = 0; i < mAdapter.getDatas().size(); i++) {
-            data.add(mAdapter.getDatas().get(i).obj_url);
+        for (int i = 0; i < mAdapter.getData().size(); i++) {
+            data.add(mAdapter.getData().get(i).obj_url);
         }
         intent.putStringArrayListExtra("imageUrls", data);
         startActivity(intent);
@@ -172,8 +173,8 @@ public class PicFragment extends Fragment {
                 iv.getLayoutParams().height = UIUtils.dip2px(mContext, 250);
             }*/
 
-            int randomheight = UIUtils.dip2px(mContext, (int) (Math.random() * 100));
-            int height = UIUtils.dip2px(mContext, 150) + randomheight;
+            int randomHeight = UIUtils.dip2px(mContext, (int) (Math.random() * 100));
+            int height = UIUtils.dip2px(mContext, 150) + randomHeight;
 
             iv.getLayoutParams().height = height;
             BitmapUtils.display(mContext, iv, beauty.image_url);

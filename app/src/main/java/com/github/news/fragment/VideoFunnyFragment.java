@@ -120,7 +120,7 @@ public class VideoFunnyFragment extends Fragment {
         mLRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                enterVideoActivity(mAdapter.getDatas().get(position));
+                enterVideoActivity(mAdapter.getData().get(position));
             }
         });
 

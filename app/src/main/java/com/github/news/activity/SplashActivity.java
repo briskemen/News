@@ -17,14 +17,12 @@ import com.github.news.R;
  * 闪屏页
  */
 public class SplashActivity extends Activity {
-
     RelativeLayout rlRoot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-
         rlRoot = (RelativeLayout) findViewById(R.id.rl_root);
 
         startAnim();
@@ -34,7 +32,6 @@ public class SplashActivity extends Activity {
      * 开启动画
      */
     private void startAnim() {
-
         // 动画集合
         AnimationSet set = new AnimationSet(false);
 
@@ -91,5 +88,4 @@ public class SplashActivity extends Activity {
         startActivity(new Intent(SplashActivity.this, MainActivity.class));
         finish();
     }
-
 }

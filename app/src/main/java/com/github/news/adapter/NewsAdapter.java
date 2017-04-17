@@ -66,7 +66,6 @@ public class NewsAdapter extends BaseMultiAdapter<TabNewsData> {
         holder.setText(tv_date, item.source);
         holder.setText(tv_heel_stick, item.replyCount + "跟贴");
         holder.setImage(iv_pic, item.imgsrc);
-        // String ids = PrefUtils.getString(mContext, "read_ids", "");
     }
 
     private void bindTypeImageItem(SuperViewHolder holder, TabNewsData item) {

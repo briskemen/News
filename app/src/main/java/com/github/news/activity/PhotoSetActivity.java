@@ -6,13 +6,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
-import com.github.chrisbanes.photoview.PhotoView;
 import com.github.news.R;
 import com.github.news.domain.PhotoSet;
 import com.github.news.http.Callback;
@@ -20,6 +20,7 @@ import com.github.news.http.HttpUtils;
 import com.github.news.http.RequestUrl;
 import com.github.news.utils.BitmapUtils;
 import com.github.news.utils.GsonUtil;
+import com.github.news.view.ResizablePhotoView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -69,7 +70,7 @@ public class PhotoSetActivity extends AppCompatActivity implements ViewPager.OnP
     }
 
     private void initViews() {
-        setContentView(R.layout.activity_image);
+        setContentView(R.layout.activity_photoset);
         ButterKnife.bind(this);
     }
 
@@ -126,16 +127,14 @@ public class PhotoSetActivity extends AppCompatActivity implements ViewPager.OnP
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-            /*View view = View.inflate(ImageActivity.this,R.layout.image,null);
-            ImageView iv = (ImageView) view.findViewById(R.id.iv);
-            BitmapUtils.display(ImageActivity.this,iv,mdata.get(position).image_url);
-            container.addView(view);*/
-            PhotoView photoView = new PhotoView(container.getContext());
-            // photoView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+            View itemView = LayoutInflater.from(PhotoSetActivity.this).inflate(R.layout.item_photoset,container,false);
+            ResizablePhotoView photoView = (ResizablePhotoView) itemView.findViewById(R.id.iv);
+
             BitmapUtils.display(PhotoSetActivity.this, photoView, photoSet.photos.get(position).imgurl);
-            container.addView(photoView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup
-                    .LayoutParams.WRAP_CONTENT);
-            return photoView;
+            container.addView(itemView);
+
+            return itemView;
         }
 
         @Override

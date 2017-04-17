@@ -7,10 +7,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.news.R;
 import com.github.news.domain.RecommendNewsData;
 import com.github.news.utils.BitmapUtils;
-import com.github.news.utils.PrefUtils;
-import com.github.news.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,7 +117,7 @@ public class RecommendNewsAdapter extends RecyclerView.Adapter<RecommendNewsAdap
             tvDate.setText(data.source);
             tvHeelStick.setText(data.replyCount + "跟贴");
             BitmapUtils.display(context, ivPic, data.imgsrc);
-            String ids = PrefUtils.getString(context, "read_ids", "");
+            // String ids = PrefUtils.getString(context, "read_ids", "");
         }
     }
 }

@@ -41,16 +41,16 @@ public class TabNewsData implements MultiItemEntity {
     public String  digest;//
     public String  docid;//9IG74V5H00963VRO_CG2APCCRbjwujingwenupdateDoc
     public String  ename;//androidnews
-    public String  hasAD;//1
-    public String  hasCover;//	false
-    public String  hasHead;//	1
+    public int     hasAD;//1
+    public boolean hasCover;//	false
+    public int     hasHead;//	1
     public boolean hasIcon;//	false
-    public String  hasImg;//	1
+    public int     hasImg;//	1
     public String  imgsrc;//http://cms-bucket.nosdn.127
     // .net/42c7a71190ef4118be7dc8864a2ea32920170321135414.jpeg
-    public String  imgsum;//	6
+    public int     imgsum;//	6
     public String  lmodify;//	2017-03-21 13:56:55
-    public String  order;//	1
+    public int     order;//	1
     public String  photosetID;//	00AP0001|2243902
     public String  postid;//	PHOT24F9U000100A
     public String  priority;//	356

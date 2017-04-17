@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -22,6 +21,7 @@ import com.github.news.R;
 
 import io.vov.vitamio.widget.MediaController;
 import io.vov.vitamio.widget.VideoView;
+
 /**
  * ============================================================
  * Copyright：Google有限公司版权所有 (c) 2017
@@ -43,32 +43,32 @@ import io.vov.vitamio.widget.VideoView;
  * ============================================================
  **/
 public class CustomMediaController extends MediaController {
-    private static final int HIDEFRAM = 0;//控制提示窗口的显示
+    private static final int HIDE_FROM = 0;//控制提示窗口的显示
 
-    private GestureDetector mGestureDetector;
-    private ImageButton     img_back;//返回按钮
-    private TextView        mFileName;//文件名
-    private VideoView       videoView;
-    private Activity        activity;
-    private Context         context;
-    private String          videoname;//视频名称
+    private ImageButton img_back;//返回按钮
+    private TextView    mFileName;//文件名
+    private VideoView   videoView;
+    private Activity    activity;
+    private Context     context;
+    private String      videoName;//视频名称
     private int controllerWidth = 0;//设置mediaController高度为了使横屏时top显示在屏幕顶端
+    private View mVolumeBrightnessLayout;//提示窗口
 
+    private ImageView    mOperationBg;//提示图片
+    private TextView     mOperationTv;//提示文字
+    private AudioManager mAudioManager;
 
-    private View               mVolumeBrightnessLayout;//提示窗口
-    private ImageView          mOperationBg;//提示图片
-    private TextView           mOperationTv;//提示文字
-    private AudioManager       mAudioManager;
     private SeekBar            progress;
     private boolean            mDragging;
     private MediaPlayerControl player;
+
     //最大声音
-    private int                mMaxVolume;
+    private int mMaxVolume;
     // 当前声音
     private int   mVolume     = -1;
     //当前亮度
     private float mBrightness = -1f;
-
+    private GestureDetector mGestureDetector;
 
     //返回监听
     private OnClickListener backListener = new OnClickListener() {
@@ -84,7 +84,7 @@ public class CustomMediaController extends MediaController {
         public void handleMessage(Message msg) {
             long pos;
             switch (msg.what) {
-                case HIDEFRAM://隐藏提示窗口
+                case HIDE_FROM://隐藏提示窗口
                     mVolumeBrightnessLayout.setVisibility(View.GONE);
                     mOperationTv.setVisibility(View.GONE);
                     break;
@@ -93,7 +93,7 @@ public class CustomMediaController extends MediaController {
     };
 
 
-    //videoview 用于对视频进行控制的等，activity为了退出
+    //videoView 用于对视频进行控制的等，activity为了退出
     public CustomMediaController(Context context, VideoView videoView, Activity activity) {
         super(context);
         this.context = context;
@@ -107,7 +107,7 @@ public class CustomMediaController extends MediaController {
 
     @Override
     protected View makeControllerView() {
-        //此处的   mymediacontroller  为我们自定义控制器的布局文件名称
+        //此处的 myMediaController  为我们自定义控制器的布局文件名称
         View v = ((LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)
         ).inflate(getResources().getIdentifier("layout_mediacontroller", "layout", getContext()
                 .getPackageName()), this);
@@ -119,10 +119,10 @@ public class CustomMediaController extends MediaController {
                 ("mediacontroller_filename", "id", context.getPackageName()));
 
         if (mFileName != null) {
-            mFileName.setText(videoname);
+            mFileName.setText(videoName);
         }
         //声音控制
-        mVolumeBrightnessLayout = (LinearLayout) v.findViewById(R.id.operation_volume_brightness);
+        mVolumeBrightnessLayout = v.findViewById(R.id.operation_volume_brightness);
         mOperationBg = (ImageView) v.findViewById(R.id.operation_bg);
         mOperationTv = (TextView) v.findViewById(R.id.operation_tv);
         mOperationTv.setVisibility(View.GONE);
@@ -137,7 +137,6 @@ public class CustomMediaController extends MediaController {
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
-        System.out.println("MYApp-MyMediaController-dispatchKeyEvent");
         return true;
     }
 
@@ -161,8 +160,8 @@ public class CustomMediaController extends MediaController {
         mVolume = -1;
         mBrightness = -1f;
         // 隐藏
-        myHandler.removeMessages(HIDEFRAM);
-        myHandler.sendEmptyMessageDelayed(HIDEFRAM, 1);
+        myHandler.removeMessages(HIDE_FROM);
+        myHandler.sendEmptyMessageDelayed(HIDE_FROM, 1);
     }
 
     private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
@@ -319,7 +318,7 @@ public class CustomMediaController extends MediaController {
      * @param name
      */
     public void setVideoName(String name) {
-        videoname = name;
+        videoName = name;
         if (mFileName != null) {
             mFileName.setText(name);
         }
