@@ -1,46 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <com.itheima.newsdemo.view.NoScrollViewPager
-        android:id="@+id/vp_content"
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_height="match_parent">
 
-    <RadioGroup
-        android:id="@+id/rg_group"
+        <!--解决Toolbar被覆盖的问题-->
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="#fc4b57"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+        </android.support.design.widget.AppBarLayout>
+
+
+        <com.github.news.view.NoScrollViewPager
+            android:id="@+id/vp_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            />
+
+        <RadioGroup
+            android:id="@+id/rg_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="#8f8c8c"
+            android:orientation="horizontal"
+            app:layout_behavior="com.github.news.behavior.MyBottomBarBehavior">
+
+            <RadioButton
+                android:id="@+id/rb_news"
+                style="@style/BottomTabStyle"
+                android:drawableTop="@drawable/btn_tab_home_selector"
+                android:text="新闻"/>
+
+            <RadioButton
+                android:id="@+id/rb_vr"
+                style="@style/BottomTabStyle"
+                android:drawableTop="@drawable/btn_tab_news_selector"
+                android:text="VR"/>
+
+            <RadioButton
+                android:id="@+id/rb_pic"
+                style="@style/BottomTabStyle"
+                android:drawableTop="@drawable/btn_tab_smart_selector"
+                android:text="图片"/>
+
+            <RadioButton
+                android:id="@+id/rb_video"
+                style="@style/BottomTabStyle"
+                android:drawableTop="@drawable/btn_tab_setting_selector"
+                android:text="视频"/>
+        </RadioGroup>
+
+    </android.support.design.widget.CoordinatorLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@mipmap/bottom_tab_bg"
-        android:orientation="horizontal">
-
-
-        <RadioButton
-            android:id="@+id/rb_news"
-            style="@style/BottomTabStyle"
-            android:drawableTop="@drawable/btn_tab_home_selector"
-            android:text="新闻中心"/>
-
-        <RadioButton
-            android:id="@+id/rb_zb"
-            style="@style/BottomTabStyle"
-            android:drawableTop="@drawable/btn_tab_news_selector"
-            android:text="直播"/>
-
-        <RadioButton
-            android:id="@+id/rb_smart"
-            style="@style/BottomTabStyle"
-            android:drawableTop="@drawable/btn_tab_smart_selector"
-            android:text="智慧服务"/>
-
-        <RadioButton
-            android:id="@+id/rb_setting"
-            style="@style/BottomTabStyle"
-            android:drawableTop="@drawable/btn_tab_setting_selector"
-            android:text="设置"/>
-    </RadioGroup>
-
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/nav_menu"/>
+</android.support.v4.widget.DrawerLayout>

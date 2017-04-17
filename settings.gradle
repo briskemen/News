@@ -1,1 +1,1 @@
-include ':app', ':slidingmenu', ':viewpagerindicator'
+include ':app', ':viewpagerindicator', ':LRecyclerview', ':vitamio'
