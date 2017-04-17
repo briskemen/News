@@ -3,12 +3,8 @@ package com.github.news.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.android.volley.VolleyError;
@@ -17,6 +13,7 @@ import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
+import com.github.news.R;
 import com.github.news.activity.VideoPlayActivity;
 import com.github.news.adapter.recyclerview.CommonAdapter;
 import com.github.news.adapter.recyclerview.base.ViewHolder;
@@ -26,7 +23,6 @@ import com.github.news.http.HttpUtils;
 import com.github.news.http.RequestUrl;
 import com.github.news.utils.BitmapUtils;
 import com.github.news.utils.GsonUtil;
-import com.github.news.R;
 
 import java.util.List;
 
@@ -51,95 +47,45 @@ import java.util.List;
  * ============================================================
  **/
 
-public class VideoSelectionFragment extends Fragment {
+public class VideoSelectionFragment extends BaseFragment {
 
     private LRecyclerView        mRecyclerView;
     private LRecyclerViewAdapter mRecyclerViewAdapter;
     private VideoAdapter         mAdapter;
     private int page = 1;
-    private Context mContext;
-    /**
-     * 视图是否已经初初始化
-     */
-    protected boolean isInit = false;
-    protected boolean isLoad = false;
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mContext = context;
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
-            Bundle savedInstanceState) {
-        isInit = true;
-        return initView(inflater, container);
-    }
-
-    /**
-     * 视图是否已经对用户可见，系统的方法
-     */
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        // isCanLoadData();
-    }
-
-    /**
-     * 是否可以加载数据
-     * 可以加载数据的条件：
-     * 1.视图已经初始化
-     * 2.视图对用户可见
-     */
-    private void isCanLoadData() {
-        if (!isInit) {
-            return;
-        }
-
-        if (getUserVisibleHint()) {
-            // lazyLoad();
-            isLoad = true;
-        } else {
-            if (isLoad) {
-                // stopLoad();
-            }
-        }
+    protected int setContentView() {
+        return R.layout.layout_video_hot;
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        initData();
+    protected void onInvisible() {
+
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        isInit = false;
-        isLoad = false;
+    protected void loadData() {
+        requestData(RequestUrl.getVideoSelectionUrl(page));
     }
 
-    public View initView(LayoutInflater inflater, ViewGroup container) {
-        View rootView = inflater.inflate(R.layout.layout_video_hot, container, false);
-        mRecyclerView = (LRecyclerView) rootView.findViewById(R.id.rv_funnyvideo);
+    @Override
+    protected void initViews() {
+        mRecyclerView = findViewById(R.id.rv_funnyvideo);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mAdapter = new VideoAdapter(mContext, R.layout.list_item_video_selection);
         mRecyclerViewAdapter = new LRecyclerViewAdapter(mAdapter);
         mRecyclerView.setAdapter(mRecyclerViewAdapter);
         mRecyclerView.refresh();
-        initListener();
-        return rootView;
     }
 
-    private void initListener() {
+     protected void setListener() {
         mRecyclerView.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh() {
                 mAdapter.clear();
                 page = 1;
-                initData();
+                requestData(RequestUrl.getVideoSelectionUrl(page));
             }
         });
 
@@ -147,7 +93,7 @@ public class VideoSelectionFragment extends Fragment {
             @Override
             public void onLoadMore() {
                 page++;
-                initData();
+                requestData(RequestUrl.getVideoSelectionUrl(page));
             }
         });
 
@@ -157,10 +103,6 @@ public class VideoSelectionFragment extends Fragment {
                 enterVideoActivity(mAdapter.getData().get(position));
             }
         });
-    }
-
-    private void initData() {
-        requestData(RequestUrl.getVideoSelectionUrl(page));
     }
 
     public void requestData(String url) {

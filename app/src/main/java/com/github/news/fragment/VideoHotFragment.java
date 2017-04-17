@@ -3,12 +3,8 @@ package com.github.news.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.android.volley.VolleyError;
@@ -17,6 +13,7 @@ import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
+import com.github.news.R;
 import com.github.news.activity.VideoPlayActivity;
 import com.github.news.adapter.recyclerview.CommonAdapter;
 import com.github.news.adapter.recyclerview.base.ViewHolder;
@@ -26,7 +23,6 @@ import com.github.news.http.HttpUtils;
 import com.github.news.http.RequestUrl;
 import com.github.news.utils.BitmapUtils;
 import com.github.news.utils.GsonUtil;
-import com.github.news.R;
 
 /**
  * ============================================================
@@ -49,73 +45,25 @@ import com.github.news.R;
  * ============================================================
  **/
 
-public class VideoHotFragment extends Fragment{
+public class VideoHotFragment extends BaseFragment {
 
-    private LRecyclerView mRecyclerView;
+    private LRecyclerView        mRecyclerView;
     private LRecyclerViewAdapter mRecyclerViewAdapter;
-    private VideoAdapter  mAdapter;
-    private int index        = 0;
-    private Context mContext;
+    private VideoAdapter         mAdapter;
+    private int index = 0;
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mContext = context;
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
-            Bundle savedInstanceState) {
-        return initView(inflater, container);
+    protected int setContentView() {
+        return R.layout.layout_video_hot;
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        initData();
+    protected void onInvisible() {
+
     }
 
-    public View initView(LayoutInflater inflater, ViewGroup container) {
-        View rootView = inflater.inflate(R.layout.layout_video_hot, container, false);
-        mRecyclerView = (LRecyclerView) rootView.findViewById(R.id.rv_funnyvideo);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new VideoAdapter(mContext,R.layout.list_item_video);
-        mRecyclerViewAdapter = new LRecyclerViewAdapter(mAdapter);
-        mRecyclerView.setAdapter(mRecyclerViewAdapter);
-        mRecyclerView.refresh();
-        setListener();
-        return rootView;
-    }
-
-    private void setListener() {
-        mRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                enterVideoActivity(mAdapter.getData().get(position));
-            }
-        });
-
-        mRecyclerView.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mAdapter.clear();
-                index = 0;
-                initData();
-            }
-        });
-
-        mRecyclerView.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                index += 20;
-                initData();
-            }
-        });
-    }
-
-    private void initData() {
-
+    @Override
+    protected void loadData() {
         HttpUtils.get(mContext, RequestUrl.getVideoUrl("Video_Scene", index), new Callback() {
             @Override
             public void onResponse(String response) {
@@ -129,8 +77,44 @@ public class VideoHotFragment extends Fragment{
         });
     }
 
+    @Override
+    protected void initViews() {
+        mRecyclerView = findViewById(R.id.rv_funnyvideo);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mAdapter = new VideoAdapter(mContext, R.layout.list_item_video);
+        mRecyclerViewAdapter = new LRecyclerViewAdapter(mAdapter);
+        mRecyclerView.setAdapter(mRecyclerViewAdapter);
+        mRecyclerView.refresh();
+    }
+
+    protected void setListener() {
+        mRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                enterVideoActivity(mAdapter.getData().get(position));
+            }
+        });
+
+        mRecyclerView.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mAdapter.clear();
+                index = 0;
+                loadData();
+            }
+        });
+
+        mRecyclerView.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                index += 20;
+                loadData();
+            }
+        });
+    }
+
     private void parseData(String result) {
-        VideoNews data = GsonUtil.changeGsonToBean(result,VideoNews.class);
+        VideoNews data = GsonUtil.changeGsonToBean(result, VideoNews.class);
         mAdapter.addAll(data.视频);
         mRecyclerView.refreshComplete(20);
     }
@@ -153,7 +137,7 @@ public class VideoHotFragment extends Fragment{
         @Override
         protected void convert(ViewHolder holder, VideoNews.VideoData videoData, int position) {
             ImageView iv = holder.getView(R.id.iv_video);
-            BitmapUtils.display(mContext,iv,videoData.cover);
+            BitmapUtils.display(mContext, iv, videoData.cover);
             holder.setText(R.id.tv_title, videoData.title);
         }
     }

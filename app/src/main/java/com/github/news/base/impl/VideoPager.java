@@ -6,10 +6,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 
 import com.github.news.R;
-import com.github.news.activity.MainActivity;
 import com.github.news.base.BasePager;
 import com.github.news.factory.VideoFragmentFactory;
 
@@ -30,21 +28,14 @@ public class VideoPager extends BasePager implements ViewPager.OnPageChangeListe
 
 	@Override
 	public void initViews() {
-		//super.initViews();
-		//mActivity.getWindow().setStatusBarColor(Color.parseColor("#ffffff"));
-		mRootView = LayoutInflater.from(mActivity).inflate(R.layout.layout_video, null, false);
+		mRootView = mInflater.inflate(R.layout.layout_video, null, false);
 		mTabLayout = (TabLayout) mRootView.findViewById(R.id.tab_video);
 		mViewPager = (ViewPager) mRootView.findViewById(R.id.vp_video);
 		mViewPager.addOnPageChangeListener(this);
-		MainActivity mainActivity = (MainActivity) mActivity;
-		// ContentFragment contentFragment = mainActivity.getContentFragment();
 		mAdapter = new FragmentAdapter(mActivity.getSupportFragmentManager());
-		mViewPager.setOffscreenPageLimit(4);
-
 		mTabText = getStringArr(R.array.video);
 		mViewPager.setAdapter(mAdapter);
 		mTabLayout.setupWithViewPager(mViewPager);
-		//flContent.addView(videoView);
 	}
 
 	public String[] getStringArr(int resId) {

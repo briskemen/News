@@ -2,9 +2,6 @@ package com.github.news.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,6 +18,7 @@ import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
+import com.github.news.R;
 import com.github.news.activity.PannoDetailActivity;
 import com.github.news.activity.VRVideoActivity;
 import com.github.news.base.App;
@@ -33,7 +31,6 @@ import com.github.news.utils.BitmapUtils;
 import com.github.news.utils.DateUtils;
 import com.github.news.utils.GsonUtil;
 import com.github.news.utils.UIUtils;
-import com.github.news.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,47 +56,52 @@ import java.util.List;
  * updateDes：${TODO}
  * ============================================================
  */
-public class VRMFragment extends Fragment {
+public class VRMFragment extends BaseFragment {
 
     private LRecyclerView        mLRecyclerView;
     private LRecyclerViewAdapter mAdapter;
     private VRAdapter            mVRAdapter;
     private int pageindex = 1;
-    private Context mContext;
-    private String  category;
-    private int     channelId;
-
-    // private boolean isLoadMore;
-    // private List<VRDetail> mVRDetails = new ArrayList<>();
+    private int channelId;
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mContext = context;
+    protected int setContentView() {
+        return R.layout.fragment_vr;
     }
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
-            Bundle savedInstanceState) {
-        return initViews(inflater, container);
+    protected void onInvisible() {
+
     }
 
-    private View initViews(LayoutInflater inflater, ViewGroup container) {
-        View view = inflater.inflate(R.layout.fragment_vr, container, false);
-        mLRecyclerView = (LRecyclerView) view.findViewById(R.id.rv_vr);
+    @Override
+    protected void loadData() {
+        HttpUtils.get(App.getContext(), RequestUrl.getVRMData(21, pageindex, channelId),
+                new Callback() {
+                    @Override
+                    public void onResponse(String response) {
+                        parseData(response);
+                    }
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(mContext, error.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
+    @Override
+    protected void initViews() {
+        mLRecyclerView = findViewById(R.id.rv_vr);
         mLRecyclerView.setHasFixedSize(true);
         mLRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 2));
         mVRAdapter = new VRAdapter(mContext);
         mAdapter = new LRecyclerViewAdapter(mVRAdapter);
         mLRecyclerView.setAdapter(mAdapter);
         mLRecyclerView.refresh();
-        setListener();
-        return view;
     }
 
     public void setCategory(String category) {
-        this.category = category;
         if (category.equals("精品推荐")) {
             channelId = 13;
         } else if (category.equals("舞台世界")) {
@@ -115,7 +117,7 @@ public class VRMFragment extends Fragment {
         }
     }
 
-    private void setListener() {
+    protected void setListener() {
         // 下拉刷新监听
         mLRecyclerView.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -123,7 +125,7 @@ public class VRMFragment extends Fragment {
                 // isLoadMore = false;
                 mVRAdapter.clear();
                 pageindex = 1;
-                initData();
+                loadData();
             }
         });
 
@@ -133,7 +135,7 @@ public class VRMFragment extends Fragment {
             public void onLoadMore() {
                 // isLoadMore = true;
                 pageindex++;
-                initData();
+                loadData();
             }
         });
 
@@ -156,7 +158,7 @@ public class VRMFragment extends Fragment {
 
         String videourl = mVRAdapter.getDataList().get(position).original_offline;
 
-        if (videourl !=null) {
+        if (videourl != null) {
             intent.putExtra("mp4url", videourl);
             intent.setClass(mContext, VRVideoActivity.class);
             mContext.startActivity(intent);
@@ -179,28 +181,6 @@ public class VRMFragment extends Fragment {
                 }
             });
         }
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        initData();
-    }
-
-    public void initData() {
-
-        HttpUtils.get(App.getContext(), RequestUrl.getVRMData(21,pageindex,channelId),
-                new Callback() {
-                    @Override
-                    public void onResponse(String response) {
-                        parseData(response);
-                    }
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(mContext,error.getMessage(),Toast.LENGTH_LONG).show();
-                    }
-                });
     }
 
     private void parseData(String response) {
@@ -319,7 +299,7 @@ public class VRMFragment extends Fragment {
                     iv_thumb.getLayoutParams().height = UIUtils.dip2px(mContext, 100);
                 }
                 BitmapUtils.display(context, iv_thumb, mData.get(pos).thumburl);
-                tv_date.setText(DateUtils.timeStampToDate(mData.get(pos).uploadtime*1000));
+                tv_date.setText(DateUtils.timeStampToDate(mData.get(pos).uploadtime * 1000));
                 tv_title.setText(mData.get(pos).name);
             }
         }

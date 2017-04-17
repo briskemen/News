@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 
 import com.github.news.R;
 import com.github.news.base.BasePager;
@@ -28,7 +27,7 @@ public class PicturePager extends BasePager {
 
     @Override
     public void initViews() {
-        mRootView = LayoutInflater.from(mActivity).inflate(R.layout.layout_pic, null, false);
+        mRootView = mInflater.inflate(R.layout.layout_pic, null, false);
         vp = (ViewPager) mRootView.findViewById(R.id.viewpager_pic);
         tabLayout = (TabLayout) mRootView.findViewById(R.id.tab_pic);
         mPicAdapter = new PicAdapter(mActivity.getSupportFragmentManager());

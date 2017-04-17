@@ -1,6 +1,7 @@
 package com.github.news.base;
 
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -11,13 +12,15 @@ import com.github.news.R;
  * 主页下4个子页面的基类
  */
 public class BasePager {
-    public AppCompatActivity mActivity;
-    public View              mRootView;// 布局对象
-    public FrameLayout       flContent;// 内容
-    public boolean isLoading = false; // 取消重复加载数据
+    protected AppCompatActivity mActivity;
+    protected View              mRootView;// 布局对象
+    protected FrameLayout       flContent;// 内容
+    protected LayoutInflater mInflater;
+    protected boolean isLoading = false; // 取消重复加载数据
 
     public BasePager(AppCompatActivity activity) {
         mActivity = activity;
+        mInflater = LayoutInflater.from(mActivity);
         initViews();
     }
 
@@ -25,7 +28,7 @@ public class BasePager {
      * 初始化布局
      */
     public void initViews() {
-        mRootView = View.inflate(mActivity, R.layout.base_pager, null);
+        mRootView = mInflater.inflate(R.layout.base_pager,null,false);
         flContent = (FrameLayout) mRootView.findViewById(R.id.fl_content);
     }
 
