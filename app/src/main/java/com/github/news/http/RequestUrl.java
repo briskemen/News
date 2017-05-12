@@ -401,7 +401,7 @@ public class RequestUrl {
 
     public static String getBeautifulGirl(int size, int offset) {
         return "http://c.m.163.com/recommend/getChanRecomNews?channel=T1456112189138&size=" +
-                size + "&offset=" + offset + "&fn=1";
+                size + "&offset=" + offset + "&fn=1" + "&passport=&devId=ujHjV7eaPdxs%2Bn3auGxVEw%3D%3D&lat=0KHJu0Wcy54e99ZrKmgdbA%3D%3D&lon=AbvWHQbMLIQIKGNFar%2FXgQ%3D%3D&version=23.1&net=wifi&ts=1494556602&sign=lhH6qtif5jvC53m%2Bg2PiPPzL6Igrp%2Fd3DfSOgqwPQyd48ErR02zJ6%2FKXOnxX046I&encryption=1&canal=meizu_store2014_news&mac=6K9Bh52MduyjsI60TBWf%2FMniKsPhqwUPmAMQf86XLBg%3D&open=&openpath=";
     }
 
     public static String getPicUrl() {

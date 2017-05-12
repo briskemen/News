@@ -12,11 +12,11 @@ import com.github.news.R;
  * 主页下4个子页面的基类
  */
 public class BasePager {
-    protected AppCompatActivity mActivity;
-    protected View              mRootView;// 布局对象
-    protected FrameLayout       flContent;// 内容
-    protected LayoutInflater mInflater;
-    protected boolean isLoading = false; // 取消重复加载数据
+    public AppCompatActivity mActivity;
+    public View              mRootView;// 布局对象
+    public FrameLayout       flContent;// 内容
+    public LayoutInflater mInflater;
+    public boolean isLoading = false; // 取消重复加载数据
 
     public BasePager(AppCompatActivity activity) {
         mActivity = activity;

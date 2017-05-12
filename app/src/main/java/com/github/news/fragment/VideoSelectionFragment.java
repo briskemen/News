@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import com.android.volley.VolleyError;
 import com.github.jdsjlzx.interfaces.OnItemClickListener;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
+import com.github.jdsjlzx.interfaces.OnNetWorkErrorListener;
 import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
@@ -67,16 +68,18 @@ public class VideoSelectionFragment extends BaseFragment {
     @Override
     protected void loadData() {
         requestData(RequestUrl.getVideoSelectionUrl(page));
+        // mRecyclerView.refresh();
     }
 
     @Override
     protected void initViews() {
         mRecyclerView = findViewById(R.id.rv_funnyvideo);
+        // mRecyclerView.setEmptyView(mEmptyView);//设置在setAdapter之前才能生效
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mAdapter = new VideoAdapter(mContext, R.layout.list_item_video_selection);
         mRecyclerViewAdapter = new LRecyclerViewAdapter(mAdapter);
         mRecyclerView.setAdapter(mRecyclerViewAdapter);
-        mRecyclerView.refresh();
+        // mRecyclerView.refresh();
     }
 
      protected void setListener() {
@@ -115,7 +118,14 @@ public class VideoSelectionFragment extends BaseFragment {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                mRecyclerView.refreshComplete(20);
+                mRecyclerViewAdapter.notifyDataSetChanged();
+                mRecyclerView.setOnNetWorkErrorListener(new OnNetWorkErrorListener() {
+                    @Override
+                    public void reload() {
+                        requestData(RequestUrl.getVideoSelectionUrl(page));
+                    }
+                });
             }
         });
     }
