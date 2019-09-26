@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.itheima.zhbj52"
         useLibrary'org.apache.http.legacy'
@@ -21,31 +20,13 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.3.0'
-    testCompile 'junit:junit:4.12'
-    compile files('libs/gson-2.3.1.jar')
-    compile project(':slidingmenu')
-    compile project(':viewpagerindicator')
-    compile files('libs/xUtils-2.6.14.jar')
-    compile files('libs/MobCommons-2016.1222.1756.jar')
-    compile files('libs/MobTools-2016.1222.1756.jar')
-    compile files('libs/ShareSDK-Core-2.8.0.jar')
-    compile files('libs/ShareSDK-Douban-2.8.0.jar')
-    compile files('libs/ShareSDK-Email-2.8.0.jar')
-    compile files('libs/ShareSDK-Evernote-2.8.0.jar')
-    compile files('libs/ShareSDK-Mingdao-2.8.0.jar')
-    compile files('libs/ShareSDK-QQ-2.8.0.jar')
-    compile files('libs/ShareSDK-QZone-2.8.0.jar')
-    compile files('libs/ShareSDK-ShortMessage-2.8.0.jar')
-    compile files('libs/ShareSDK-SinaWeibo-2.8.0.jar')
-    compile files('libs/ShareSDK-Wechat-2.8.0.jar')
-    compile files('libs/ShareSDK-Wechat-Core-2.8.0.jar')
-    compile files('libs/ShareSDK-Wechat-Favorite-2.8.0.jar')
-    compile files('libs/ShareSDK-Wechat-Moments-2.8.0.jar')
-    compile files('libs/ShareSDK-YouDao-2.8.0.jar')
-    compile files('libs/mframework.jar')
+    implementation 'com.android.support:appcompat-v7:25.3.0'
+    testImplementation 'junit:junit:4.12'
+    implementation files('libs/gson-2.3.1.jar')
+    implementation project(':slidingmenu')
+    implementation project(':viewpagerindicator')
 }
